@@ -1,0 +1,131 @@
+---
+title: "Batch Simulation and Correction"
+author: "Miao Yu"
+date: '2018-04-12'
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+library(shiny)
+library(DT)
+library(mzrtsim)
+```
+
+```{r input}
+inputPanel(
+        h5('Data Simulation'),
+        sliderInput(
+        "npeaks",
+        "Numbers of the peaks",
+        min = 100,
+        max = 10000,
+        value = 1000
+        ),
+        sliderInput(
+        "ncomp",
+        "Percentage of the compounds",
+        min = 0,
+        max = 1,
+        value = 0.8
+        ),
+        sliderInput(
+        "ncpeaks",
+        "Percentage of the peaks influnced by condition",
+        min = 0,
+        max = 1,
+        value = 0.1
+        ),
+        sliderInput(
+        "nbpeaks",
+        "Percentage of the peaks influnced by batch",
+        min = 0,
+        max = 1,
+        value = 0.3
+        )
+        )
+sim <- reactive({
+                return(mzrtsim(npeaks = input$npeaks, ncomp = input$ncomp, ncpeaks = input$ncpeaks, nbpeaks = input$nbpeaks))
+        })
+
+renderPlot({
+                sim <- sim()
+                simroc(sim)
+        })
+
+renderPlot({
+                sim <- sim()
+                ridgesplot(sim$data, as.factor(sim$con))
+        })
+```
+```{r ROC}
+renderPlot({
+                sim <- sim()
+                sim2 <- svacor(log(sim$data), as.factor(sim$con))
+                par(mfrow = c(1,2))
+                hist(sim2$`p-valuesCorrected`,main = 'p value corrected',xlab = "")
+                hist(sim2$`p-values`,main = 'p value',xlab = '')
+        })
+
+renderPlot({
+                sim <- sim()
+                sim2 <- isvacor(log(sim$data), as.factor(sim$con))
+                par(mfrow = c(1,2))
+                hist(sim2$`p-valuesCorrected`,main = 'p value corrected',xlab = "")
+                hist(sim2$`p-values`,main = 'p value',xlab = "")
+        })
+DT::renderDataTable({
+                sim <- sim()
+                rbind.data.frame(sim$con,sim$data)
+        })
+downloadHandler('simdata.csv', content = function(file) {
+                sim <- sim()
+                data <- rbind.data.frame(sim$con,sim$data)
+                write.csv(data, file)
+        })
+renderPlot({
+                sim <- sim()
+                simplot(log(sim$data),lv = factor(sim$con))
+        })
+DT::renderDataTable({
+                sim <- sim()
+                rbind.data.frame(sim$con,sim$matrix)
+        })
+downloadHandler('batchmatrix.csv', content = function(file) {
+                sim <- sim()
+                data <- rbind.data.frame(sim$con,sim$matrix)
+                write.csv(data, file)
+})
+renderPlot({
+                sim <- sim()
+                simplot(log(sim$matrix),lv = factor(sim$batch))
+        })
+DT::renderDataTable({
+                sim <- sim()
+                rbind.data.frame(sim$con,sim$batch,sim$bmatrix)
+        })
+downloadHandler('batch.csv', content = function(file) {
+                sim <- sim()
+                data <- rbind.data.frame(sim$batch,sim$bmatrix)
+                write.csv(data, file)
+        })
+renderPlot({
+                sim <- sim()
+                simplot(log(sim$bmatrix),lv = factor(sim$batch))
+        })
+DT::renderDataTable({
+                sim <- sim()
+                rbind.data.frame(sim$con,sim$cmatrix)
+        })
+downloadHandler('con.csv', content = function(file) {
+                sim <- sim()
+                data <- rbind.data.frame(sim$con,sim$cmatrix)
+                write.csv(data, file)
+        })
+renderPlot({
+                sim <- sim()
+                simplot(log(sim$cmatrix),lv = factor(sim$con))
+        })
+```
+

@@ -1,0 +1,30 @@
+Package: mzrtsim
+Type: Package
+Title: Batch effects simulation and correction for LC/GC-MS based peaks list data
+Version: 0.1.0
+Date: 2018-04-12
+Authors@R: person(given = "Miao", family = "YU",
+        role = c("aut", "cre"), 
+        email = "yufreecas@gmail.com",
+        comment = c(ORCID = "0000-0002-2804-6014"))
+Maintainer: Miao YU <yufreecas@gmail.com>
+Description: Batch effects simulation and correction for LC/GC-MS based peaks list data. The simulation could be based on real data or generated from predefined distribution. Batch correction methods are mainly for data without batch information. Some visulization methods such as rlaplot and ridgesplot were also included. Besides, a shiny application could be used to analysis GC/LC-MS based data interactively.
+URL: https://github.com/yufree/mzrtsim
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+Suggests: knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr
+biocViews:
+Depends: R (>= 2.10)
+Imports: RColorBrewer,
+        ggplot2,
+        ggridges,
+        isva,
+        sva,
+        limma,
+        reshape2,
+        shiny
+RoxygenNote: 6.0.1
