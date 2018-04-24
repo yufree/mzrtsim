@@ -1,4 +1,4 @@
-#' Shiny application for batch simulation and correction
+#' Shiny application for batch simulation and correction based on real data
 #' @export
 runmzrtsim <- function() {
         file <- system.file("shinyapp", "sim.Rmd",

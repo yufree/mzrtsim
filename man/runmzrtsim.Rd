@@ -2,10 +2,10 @@
 % Please edit documentation in R/shiny.R
 \name{runmzrtsim}
 \alias{runmzrtsim}
-\title{Shiny application for batch simulation and correction}
+\title{Shiny application for batch simulation and correction based on real data}
 \usage{
 runmzrtsim()
 }
 \description{
-Shiny application for batch simulation and correction
+Shiny application for batch simulation and correction based on real data
 }

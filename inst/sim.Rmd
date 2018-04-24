@@ -1,7 +1,7 @@
 ---
 title: "Batch Simulation and Correction"
 author: "Miao Yu"
-date: '2018-04-12'
+date: "`r Sys.Date()`"
 output: html_document
 runtime: shiny
 ---
@@ -13,9 +13,11 @@ library(DT)
 library(mzrtsim)
 ```
 
+## Input data
+
 ```{r input}
 inputPanel(
-        h5('Data Simulation'),
+        fileInput('file',label = "Upload csv file with row peaks and column samples' intensities",accept = c('.csv')),
         sliderInput(
         "npeaks",
         "Numbers of the peaks",
@@ -46,20 +48,32 @@ inputPanel(
         )
         )
 sim <- reactive({
-                return(mzrtsim(npeaks = input$npeaks, ncomp = input$ncomp, ncpeaks = input$ncpeaks, nbpeaks = input$nbpeaks))
+        req(input$file)
+        return(simmzrt(data = input$file, npeaks = input$npeaks, ncomp = input$ncomp, ncpeaks = input$ncpeaks, nbpeaks = input$nbpeaks))
         })
+```
 
+## ROC curve
+
+```{r ROC}
 renderPlot({
                 sim <- sim()
                 simroc(sim)
         })
+```
 
+## Ridge plot
+
+```{r ridgeplot}
 renderPlot({
                 sim <- sim()
                 ridgesplot(sim$data, as.factor(sim$con))
         })
 ```
-```{r ROC}
+
+## Surrogate variable analysis
+
+```{r sva}
 renderPlot({
                 sim <- sim()
                 sim2 <- svacor(log(sim$data), as.factor(sim$con))
@@ -128,4 +142,3 @@ renderPlot({
                 simplot(log(sim$cmatrix),lv = factor(sim$con))
         })
 ```
-
