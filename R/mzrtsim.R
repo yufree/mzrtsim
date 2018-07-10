@@ -19,7 +19,7 @@
 #' @export
 #' @examples
 #' sim <- mzrtsim()
-mzrtsim <- function(npeaks = 1000, ncomp = 0.8, ncond = 2,
+mzrtsim <- function(npeaks = 1000, ncomp = 0.2, ncond = 2,
     ncpeaks = 0.05, nbatch = 3, nbpeaks = 0.1, npercond = 10,
     nperbatch = c(8, 5, 7), shape = 2, scale = 3, shapersd = 1,
     scalersd = 0.18, seed = 42) {
@@ -129,11 +129,12 @@ mzrtsim <- function(npeaks = 1000, ncomp = 0.8, ncond = 2,
 #' @examples
 #' \dontrun{
 #' library(faahKO)
+#' library(enviGCMS)
 #' cdfpath <- system.file('cdf', package = 'faahKO')
 #' list <- getmr(cdfpath, pmethod = ' ')
 #' sim <- simmzrt(list$data)
 #' }
-simmzrt <- function(data, type = "e", npeaks = 1000, ncomp = 0.8,
+simmzrt <- function(data, type = "e", npeaks = 1000, ncomp = 0.2,
     ncond = 2, ncpeaks = 0.05, nbatch = 3, nbpeaks = 0.1,
     npercond = 10, nperbatch = c(8, 5, 7), seed = 42) {
     set.seed(seed)
@@ -258,7 +259,7 @@ simdata <- function(sim, name = "sim") {
     utils::write.csv(data4, file = filename4)
     # for batch matrix
     filename5 <- paste0(name, "batchmatrix.csv")
-    data5 <- rbind.data.frame(sim$con, sim$matrix)
+    data5 <- rbind.data.frame(sim$con,sim$batch, sim$matrix)
     utils::write.csv(data5, file = filename5)
     # for compounds
     filename6 <- paste0(name, "comp.csv")
@@ -270,82 +271,4 @@ simdata <- function(sim, name = "sim") {
     # for batch folds change
     filename8 <- paste0(name, "batchange.csv")
     utils::write.csv(sim$changeb, file = filename8)
-}
-#' Plot ROC curve for simulation data
-#' @param sim list from `mzrtsim` or `simmzrt`
-#' @param points numbers of points for ROC curve
-#' @export
-simroc <- function(sim,points = 100){
-        sim2 <- svacor(log(sim$data), as.factor(sim$con))
-        sim3 <- isvacor(log(sim$data), as.factor(sim$con))
-        indexc <- sim$conp
-        TPR <- FPR <- TPRsva <- FPRsva <- TPRisva <- FPRisva<- c(1:points)
-        for(i in 1:points){
-                indexi <- which(sim2$`p-valuesCorrected`< i/points,arr.ind = T)
-                indexoi <- which(sim2$`p-values`< i/points, arr.ind = T)
-                indexii <- which(sim3$`p-valuesCorrected`< i/points,arr.ind = T)
-
-                TPR[i] <- length(intersect(indexoi,indexc))/length(indexc)
-                FPR[i] <- (length(indexoi)-length(intersect(indexoi,indexc)))/(nrow(sim$data) - length(indexc))
-                TPRsva[i] <- length(intersect(indexi,indexc))/length(indexc)
-                FPRsva[i] <- (length(indexi)-length(intersect(indexi,indexc)))/(nrow(sim$data) - length(indexc))
-                TPRisva[i] <- length(intersect(indexii,indexc))/length(indexc)
-                FPRisva[i] <- (length(indexii)-length(intersect(indexii,indexc)))/(nrow(sim$data) - length(indexc))
-
-        }
-        graphics::plot(TPR~FPR,col = 'red',pch = 19,type = 'l',xlim = c(0,1),ylim =c(0,1))
-        graphics::lines(TPRsva~FPRsva,col = 'blue',pch = 19)
-        graphics::lines(TPRisva~FPRisva,col = 'green',pch = 19)
-        graphics::legend('bottomright',legend = c('raw','sva', 'isva'),pch = 19, col = c('red','blue','green'))
-}
-#' Plot the heatmap for the data
-#' @param data matrix for heatmap
-#' @param lv factor vector for the group infomation
-#' @param index row index for the data matrix to be ploted
-#' @export
-simplot <- function(data,lv,index = NULL){
-        icolors <- (grDevices::colorRampPalette(rev(RColorBrewer::brewer.pal(11,"RdYlBu"))))(100)
-        zlim <- range(data)
-        if (!is.null(index)) {
-                data <- data[index, order(lv)]
-        }else{
-                data <- data[, order(lv)]
-        }
-        plotchange <- function(zlim) {
-                breaks <- seq(zlim[1], zlim[2], round((zlim[2] -
-                                                               zlim[1])/10))
-                poly <- vector(mode = "list", length(icolors))
-                graphics::plot(1, 1, t = "n", xlim = c(0, 1), ylim = zlim,
-                               xaxt = "n", yaxt = "n", xaxs = "i", yaxs = "i",
-                               ylab = "", xlab = "", frame.plot = F)
-                graphics::axis(4, at = breaks, labels = round(breaks),
-                               las = 1, pos = 0.4, cex.axis = 0.8)
-                p <- graphics::par("usr")
-                graphics::text(p[2] + 2, mean(p[3:4]), labels = "intensity",
-                               xpd = NA, srt = -90)
-                bks <- seq(zlim[1], zlim[2], length.out = (length(icolors) +
-                                                                   1))
-                for (i in seq(poly)) {
-                        graphics::polygon(c(0.1, 0.1, 0.3, 0.3), c(bks[i],
-                                                                   bks[i + 1], bks[i + 1], bks[i]), col = icolors[i],
-                                          border = NA)
-                }
-        }
-        pos <- cumsum(as.numeric(table(lv)/sum(table(lv)))) -
-                as.numeric(table(lv)/sum(table(lv)))/2
-        posv <- cumsum(as.numeric(table(lv)/sum(table(lv))))[1:(nlevels(lv) -
-                                                                        1)]
-
-
-        graphics::layout(matrix(rep(c(1, 1, 1, 2), 10), 10, 4, byrow = TRUE))
-        graphics::par(mar = c(3, 6, 2, 1))
-        graphics::image(t(data), col = icolors, xlab = "samples",
-                        main = "peaks intensities on log scale", xaxt = "n", yaxt = "n", zlim = zlim)
-        graphics::axis(1, at = pos, labels = levels(lv),
-                       cex.axis = 0.8)
-        graphics::axis(2, at = seq(0, 1, 1/(nrow(data) -
-                                                    1)), labels = rownames(data), cex.axis = 1, las = 2)
-        graphics::abline(v = posv)
-        graphics::par(mar = c(3, 1, 2, 6))
-        plotchange(zlim)
 }

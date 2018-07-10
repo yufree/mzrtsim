@@ -12,13 +12,13 @@ svacor(data, lv)
 \item{lv}{factor vector for the group infomation}
 }
 \value{
-list object with various components such raw data, corrected data, signal part, random errors part, batch part, p-values, q-values, mass, rt, Posterior Probabilities of Surrogate variables and Posterior Probabilities of Mod. If no surrogate variable found, corresponding part would miss.
+list object with raw data, corrected data, signal part, batch part, random errors part,  p-values, q-values. If no surrogate variables were found, corresponding part would miss.
 }
 \description{
 Use Surrogate Variable Analysis(SVA) to correct the unknown batch effects
 }
 \details{
-this is used for SVA to correct the unknown batch effects
+Use Surrogate Variable Analysis(SVA) to correct the unknown batch effects
 }
 \examples{
 \dontrun{
@@ -30,5 +30,5 @@ li <- svacor(list$data,list$group$class)
 }
 }
 \seealso{
-\code{\link{svapca}}, \code{\link{svaplot}}, \code{\link{svabatch}}
+\code{\link{isvacor}}, \code{\link{pcacor}},\code{\link{limmafit}},\code{\link{famtcor}}
 }

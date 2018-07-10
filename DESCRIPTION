@@ -17,14 +17,17 @@ Suggests: knitr,
     rmarkdown,
     testthat
 VignetteBuilder: knitr
-biocViews:
+biocViews: 
 Depends: R (>= 2.10)
 Imports: RColorBrewer,
         ggplot2,
         ggridges,
         isva,
         sva,
+        FAMT,
         limma,
         reshape2,
-        shiny
+        shiny,
+        RRmix
+Remotes: salernos/RRmix
 RoxygenNote: 6.0.1

@@ -4,7 +4,7 @@
 \alias{simmzrt}
 \title{Simulation from data by sample mean and rsd from Empirical Cumulative Distribution or Bootstrap sampling}
 \usage{
-simmzrt(data, type = "e", npeaks = 1000, ncomp = 0.8, ncond = 2,
+simmzrt(data, type = "e", npeaks = 1000, ncomp = 0.2, ncond = 2,
   ncpeaks = 0.05, nbatch = 3, nbpeaks = 0.1, npercond = 10,
   nperbatch = c(8, 5, 7), seed = 42)
 }
@@ -43,6 +43,7 @@ the numbers of batch columns should be the same with the condition columns.
 \examples{
 \dontrun{
 library(faahKO)
+library(enviGCMS)
 cdfpath <- system.file('cdf', package = 'faahKO')
 list <- getmr(cdfpath, pmethod = ' ')
 sim <- simmzrt(list$data)
