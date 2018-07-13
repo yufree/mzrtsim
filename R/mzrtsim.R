@@ -244,11 +244,11 @@ simdata <- function(sim, name = "sim") {
     # for metaboanalyst
     data <- rbind.data.frame(sim$con, sim$data)
     filename1 <- paste0(name, "raw.csv")
-    utils::write.csv(data, file = filename1)
+    utils::write.csv(t(data), file = filename1)
     # for all
     filename2 <- paste0(name, "raw2.csv")
     data2 <- rbind.data.frame(sim$con, sim$batch, sim$data)
-    utils::write.csv(data2, file = filename2)
+    utils::write.csv(t(data2), file = filename2)
     # for biological influnced peaks
     filename3 <- paste0(name, "con.csv")
     data3 <- rbind.data.frame(sim$con, sim$batch, sim$cmatrix)
