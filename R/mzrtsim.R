@@ -248,7 +248,7 @@ simdata <- function(sim, name = "sim") {
     # for all
     filename2 <- paste0(name, "raw2.csv")
     data2 <- rbind.data.frame(Label = sim$con, sim$data)
-    rownames(data2) <- c(1:nrow(data2))
+    colnames(data2) <- c(1:ncol(data2))
 
     utils::write.csv(t(data2), file = filename2)
     # for biological influnced peaks
