@@ -6,7 +6,7 @@
 \usage{
 simmzrt(data, type = "e", npeaks = 1000, ncomp = 0.2, ncond = 2,
   ncpeaks = 0.05, nbatch = 3, nbpeaks = 0.1, npercond = 10,
-  nperbatch = c(8, 5, 7), seed = 42)
+  nperbatch = c(8, 5, 7), batchtype = "mb", seed = 42)
 }
 \arguments{
 \item{data}{matrix with row peaks and column samples}
@@ -28,6 +28,8 @@ simmzrt(data, type = "e", npeaks = 1000, ncomp = 0.2, ncond = 2,
 \item{npercond}{Number of samples per condition to simulate}
 
 \item{nperbatch}{Number of samples per batch to simulate}
+
+\item{batchtype}{type of batch. 'm' means monotonic, 'b' means block, 'r' means random error, 'mb' means mixed mode of monotonic and block, default 'mb'}
 
 \item{seed}{Random seed for reproducibility}
 }

@@ -6,7 +6,8 @@
 \usage{
 mzrtsim(npeaks = 1000, ncomp = 0.2, ncond = 2, ncpeaks = 0.05,
   nbatch = 3, nbpeaks = 0.1, npercond = 10, nperbatch = c(8, 5, 7),
-  shape = 2, scale = 3, shapersd = 1, scalersd = 0.18, seed = 42)
+  shape = 2, scale = 3, shapersd = 1, scalersd = 0.18,
+  batchtype = "mb", seed = 42)
 }
 \arguments{
 \item{npeaks}{Number of peaks to simulate}
@@ -32,6 +33,8 @@ mzrtsim(npeaks = 1000, ncomp = 0.2, ncond = 2, ncpeaks = 0.05,
 \item{shapersd}{shape for Weibull distribution of sample rsd}
 
 \item{scalersd}{scale for Weibull distribution of sample rsd}
+
+\item{batchtype}{type of batch. 'm' means monotonic, 'b' means block, 'r' means random error, 'mb' means mixed mode of monotonic and block, default 'mb'}
 
 \item{seed}{Random seed for reproducibility}
 }

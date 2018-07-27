@@ -12,6 +12,7 @@
 #' @param scale scale for Weibull distribution of sample mean
 #' @param shapersd shape for Weibull distribution of sample rsd
 #' @param scalersd scale for Weibull distribution of sample rsd
+#' @param batchtype type of batch. 'm' means monotonic, 'b' means block, 'r' means random error, 'mb' means mixed mode of monotonic and block, default 'mb'
 #' @param seed Random seed for reproducibility
 #' @details the numbers of batch columns should be the same with the condition columns.
 #' @return list with rtmz data matrix, row index of peaks influenced by conditions, row index of peaks influenced by batchs, column index of conditions, column of batchs, raw condition matrix, raw batch matrix, peak mean across the samples, peak rsd across the samples
@@ -22,7 +23,7 @@
 mzrtsim <- function(npeaks = 1000, ncomp = 0.2, ncond = 2,
     ncpeaks = 0.05, nbatch = 3, nbpeaks = 0.1, npercond = 10,
     nperbatch = c(8, 5, 7), shape = 2, scale = 3, shapersd = 1,
-    scalersd = 0.18, seed = 42) {
+    scalersd = 0.18, batchtype = 'mb', seed = 42) {
     set.seed(seed)
     batch <- rep(1:nbatch, nperbatch)
     condition <- rep(1:ncond, npercond)
@@ -82,15 +83,42 @@ mzrtsim <- function(npeaks = 1000, ncomp = 0.2, ncond = 2,
     indexb <- sample(1:npeaks, nbpeaks)
     matrixb <- matrix[indexb, ]
     matrixb0 <- matrix0[indexb, ]
-    changeb <- NULL
+    changeb <- changem <- changer <-  NULL
+    # check batch mode
+    if(!grepl('m|b|r',batchtype)){
+            stop("Batch type should be 'm', 'r' and/or 'b'")
+    }
+    # generate random batch effect
+    if(grepl('r',batchtype)){
+            for (i in 1:nrow(matrixb)){
+                    change <- rnorm(ncol(matrixb))
+                    matrixb[i,] <- matrixb[i,]*change
+                    matrixb0[i,] <- matrixb0[i,]*change
+                    changer <- change
+            }
+    }
+    # generate increasing/decreasing batch effect
+    if(grepl('m',batchtype)){
+            for (i in 1:nrow(matrixb)){
+                    change <- seq(1,ncol(matrixb),length.out = ncol(matrixb)) * rnorm(1)
+                    matrixb[i,] <- matrixb[i,]*change
+                    matrixb0[i,] <- matrixb0[i,]*change
+                    changem <- rbind(changem,change)
+            }
+    }
+    # generate block batch effect
+    if(grepl('b',batchtype)){
     for (i in 1:nbatch) {
         colindex <- batch == i
         change <- exp(stats::rnorm(nbpeaks))
         matrixb[, colindex] <- matrixb[, colindex] * change
         matrixb0[, colindex] <- matrixb0[, colindex] *
-            change
+                        change
         changeb <- cbind(changeb, change)
+        }
     }
+
+
     matrix[indexb, ] <- matrixb
     # get peaks mean across the samples
     means <- apply(matrix, 1, mean)
@@ -104,7 +132,7 @@ mzrtsim <- function(npeaks = 1000, ncomp = 0.2, ncond = 2,
 
     return(list(data = matrix, conp = index, batchp = indexb,
         con = condition, batch = batch, cmatrix = matrixc,
-        changec = changec, bmatrix = matrixb0, changeb = changeb,
+        changec = changec, bmatrix = matrixb0, changeb = changeb, changer = changer, changem = changem,
         matrix = matrix0, compmatrix = matrix[1:ncomp,
             ], mean = means, rsd = rsds))
 }
@@ -121,6 +149,7 @@ mzrtsim <- function(npeaks = 1000, ncomp = 0.2, ncond = 2,
 #' @param nbpeaks percentage of peaks influenced by batchs
 #' @param npercond Number of samples per condition to simulate
 #' @param nperbatch Number of samples per batch to simulate
+#' @param batchtype type of batch. 'm' means monotonic, 'b' means block, 'r' means random error, 'mb' means mixed mode of monotonic and block, default 'mb'
 #' @param seed Random seed for reproducibility
 #' @details the numbers of batch columns should be the same with the condition columns.
 #' @return list with rtmz data matrix, row index of peaks influenced by conditions, row index of peaks influenced by batchs, column index of conditions, column of batchs, raw condition matrix, raw batch matrix, peak mean across the samples, peak rsd across the samples
@@ -136,7 +165,7 @@ mzrtsim <- function(npeaks = 1000, ncomp = 0.2, ncond = 2,
 #' }
 simmzrt <- function(data, type = "e", npeaks = 1000, ncomp = 0.2,
     ncond = 2, ncpeaks = 0.05, nbatch = 3, nbpeaks = 0.1,
-    npercond = 10, nperbatch = c(8, 5, 7), seed = 42) {
+    npercond = 10, nperbatch = c(8, 5, 7), batchtype = 'mb', seed = 42) {
     set.seed(seed)
     batch <- rep(1:nbatch, nperbatch)
     condition <- rep(1:ncond, npercond)
@@ -210,14 +239,39 @@ simmzrt <- function(data, type = "e", npeaks = 1000, ncomp = 0.2,
     indexb <- sample(1:npeaks, nbpeaks)
     matrixb <- matrix[indexb, ]
     matrixb0 <- matrix0[indexb, ]
-    changeb <- NULL
-    for (i in 1:nbatch) {
-        colindex <- batch == i
-        change <- exp(stats::rnorm(nbpeaks))
-        matrixb[, colindex] <- matrixb[, colindex] * change
-        matrixb0[, colindex] <- matrixb0[, colindex] *
-            change
-        changeb <- cbind(changeb, change)
+    changeb <- changem <- changer <-  NULL
+    # check batch mode
+    if(!grepl('m|b|r',batchtype)){
+            stop("Batch type should be 'm', 'r' and/or 'b'")
+    }
+    # generate random batch effect
+    if(grepl('r',batchtype)){
+            for (i in 1:nrow(matrixb)){
+                    change <- rnorm(ncol(matrixb))
+                    matrixb[i,] <- matrixb[i,]*change
+                    matrixb0[i,] <- matrixb0[i,]*change
+                    changer <- change
+            }
+    }
+    # generate increasing/decreasing batch effect
+    if(grepl('m',batchtype)){
+            for (i in 1:nrow(matrixb)){
+                    change <- seq(1,ncol(matrixb),length.out = ncol(matrixb)) * rnorm(1)
+                    matrixb[i,] <- matrixb[i,]*change
+                    matrixb0[i,] <- matrixb0[i,]*change
+                    changem <- rbind(changem,change)
+            }
+    }
+    # generate block batch effect
+    if(grepl('b',batchtype)){
+            for (i in 1:nbatch) {
+                    colindex <- batch == i
+                    change <- exp(stats::rnorm(nbpeaks))
+                    matrixb[, colindex] <- matrixb[, colindex] * change
+                    matrixb0[, colindex] <- matrixb0[, colindex] *
+                            change
+                    changeb <- cbind(changeb, change)
+            }
     }
     matrix[indexb, ] <- matrixb
     # get peaks mean across the samples
