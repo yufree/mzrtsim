@@ -146,8 +146,7 @@ limmaroc(simdata4,pvalue = datacor4$`p-values`,points = 500)
 
 ### Combat
 
-For Combat methods, you need to use a batch variable to make empirical Bayesian
-framework based batch correction. However, you could also include such variable in LIMMA model and use empirical Bayesian method. If certain methods could estimate either known or unknown batch effects. Both Combat and LIMMA model could be used. Here we only use LIMMA model and regular F-test to avoid conflict of different evaluation method.
+For Combat methods, you need to use a batch variable to make empirical Bayesian framework based batch correction. However, you could also include such variable in LIMMA model and use empirical Bayesian method. If certain methods could estimate either known or unknown batch effects. Both Combat and LIMMA model could be used. Here we only use LIMMA model and regular F-test to avoid conflict of different evaluation method.
 
 ```{r limma}
 datacor <- limmafit(simdata$data,simdata$con,simdata$batch)

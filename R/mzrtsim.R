@@ -91,7 +91,7 @@ mzrtsim <- function(npeaks = 1000, ncomp = 0.2, ncond = 2,
     # generate random batch effect
     if(grepl('r',batchtype)){
             for (i in 1:nrow(matrixb)){
-                    change <- rnorm(ncol(matrixb))
+                    change <- abs(stats::rnorm(ncol(matrixb)))
                     matrixb[i,] <- matrixb[i,]*change
                     matrixb0[i,] <- matrixb0[i,]*change
                     changer <- change
@@ -100,7 +100,8 @@ mzrtsim <- function(npeaks = 1000, ncomp = 0.2, ncond = 2,
     # generate increasing/decreasing batch effect
     if(grepl('m',batchtype)){
             for (i in 1:nrow(matrixb)){
-                    change <- seq(1,ncol(matrixb),length.out = ncol(matrixb)) * rnorm(1)
+                    change <- seq(1,ncol(matrixb),length.out = ncol(matrixb)) * abs(stats::rnorm(1))
+                    change <- ifelse(sample(c(T,F),1),change,rev(change))
                     matrixb[i,] <- matrixb[i,]*change
                     matrixb0[i,] <- matrixb0[i,]*change
                     changem <- rbind(changem,change)
@@ -247,7 +248,7 @@ simmzrt <- function(data, type = "e", npeaks = 1000, ncomp = 0.2,
     # generate random batch effect
     if(grepl('r',batchtype)){
             for (i in 1:nrow(matrixb)){
-                    change <- rnorm(ncol(matrixb))
+                    change <- abs(stats::rnorm(ncol(matrixb)))
                     matrixb[i,] <- matrixb[i,]*change
                     matrixb0[i,] <- matrixb0[i,]*change
                     changer <- change
@@ -256,7 +257,8 @@ simmzrt <- function(data, type = "e", npeaks = 1000, ncomp = 0.2,
     # generate increasing/decreasing batch effect
     if(grepl('m',batchtype)){
             for (i in 1:nrow(matrixb)){
-                    change <- seq(1,ncol(matrixb),length.out = ncol(matrixb)) * rnorm(1)
+                    change <- seq(1,ncol(matrixb),length.out = ncol(matrixb)) / ncol(matrixb) * abs(stats::rnorm(1))
+                    change <- ifelse(sample(c(T,F),1),change,rev(change))
                     matrixb[i,] <- matrixb[i,]*change
                     matrixb0[i,] <- matrixb0[i,]*change
                     changem <- rbind(changem,change)
