@@ -100,8 +100,8 @@ mzrtsim <- function(npeaks = 1000, ncomp = 0.2, ncond = 2,
     # generate increasing/decreasing batch effect
     if(grepl('m',batchtype)){
             for (i in 1:nrow(matrixb)){
-                    change <- seq(1,ncol(matrixb),length.out = ncol(matrixb)) * abs(stats::rnorm(1))
-                    change <- ifelse(sample(c(T,F),1),change,rev(change))
+                    changet <- seq(1,ncol(matrixb),length.out = ncol(matrixb)) * exp(stats::rnorm(1))
+                    change <- if (sample(c(T,F),1)) changet else rev(changet)
                     matrixb[i,] <- matrixb[i,]*change
                     matrixb0[i,] <- matrixb0[i,]*change
                     changem <- rbind(changem,change)
@@ -257,8 +257,8 @@ simmzrt <- function(data, type = "e", npeaks = 1000, ncomp = 0.2,
     # generate increasing/decreasing batch effect
     if(grepl('m',batchtype)){
             for (i in 1:nrow(matrixb)){
-                    change <- seq(1,ncol(matrixb),length.out = ncol(matrixb)) / ncol(matrixb) * abs(stats::rnorm(1))
-                    change <- ifelse(sample(c(T,F),1),change,rev(change))
+                    changet <- seq(1,ncol(matrixb),length.out = ncol(matrixb)) * exp(stats::rnorm(1))
+                    change <- if (sample(c(T,F),1)) changet else rev(changet)
                     matrixb[i,] <- matrixb[i,]*change
                     matrixb0[i,] <- matrixb0[i,]*change
                     changem <- rbind(changem,change)
@@ -327,6 +327,9 @@ simdata <- function(sim, name = "sim") {
     filename7 <- paste0(name, "compchange.csv")
     utils::write.csv(sim$changec, file = filename7)
     # for batch folds change
-    filename8 <- paste0(name, "batchange.csv")
+    filename8 <- paste0(name, "blockbatchange.csv")
     utils::write.csv(sim$changeb, file = filename8)
+    # for monotonic change
+    filename9 <- paste0(name, "monobatchange.csv")
+    utils::write.csv(sim$changem, file = filename9)
 }
