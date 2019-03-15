@@ -10,6 +10,7 @@ runtime: shiny
 knitr::opts_chunk$set(echo = F)
 library(shiny)
 library(DT)
+library(enviGCMS)
 library(mzrtsim)
 ```
 
@@ -67,7 +68,7 @@ renderPlot({
 ```{r ridgeplot}
 renderPlot({
                 sim <- sim()
-                ridgesplot(sim$data, as.factor(sim$con))
+                plotridges(sim$data, as.factor(sim$con))
         })
 ```
 

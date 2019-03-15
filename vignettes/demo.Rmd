@@ -15,9 +15,6 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 library(mzrtsim)
-library(FAMT)
-library(isva)
-library(RRmix)
 ```
 
 ## Batch simulation
@@ -73,30 +70,30 @@ simdata(sim,name = "sim")
 This is the peaks without condiation and batch effect:
 
 ```{r vissim,eval=F}
-heatplot(log(simdata$matrix),lv = as.factor(simdata$con))
+plothm(log(simdata$matrix),lv = as.factor(simdata$con))
 ```
 
 This is the peaks changed by condition:
 
 ```{r vissim1, eval=F}
-heatplot(log(simdata$cmatrix),lv = as.factor(simdata$con))
+plothm(log(simdata$cmatrix),lv = as.factor(simdata$con))
 ```
 
 This is the peaks changed by batch:
 
 ```{r vissim2,eval=F}
-heatplot(log(simdata$bmatrix),lv = as.factor(simdata$batch))
-heatplot(log(simdata6$bmatrix),lv = as.factor(rep(1,ncol(simdata6$bmatrix))))
+plothm(log(simdata$bmatrix),lv = as.factor(simdata$batch))
+plothm(log(simdata6$bmatrix),lv = as.factor(rep(1,ncol(simdata6$bmatrix))))
 ```
 
 This is the peaks at the compounds level:
 ```{r vissim3,eval=F}
-heatplot(log(simdata$compmatrix),lv = as.factor(simdata$con))
+plothm(log(simdata$compmatrix),lv = as.factor(simdata$con))
 ```
 
 This is the simulated peaks:
 ```{r vissim4,eval=F}
-heatplot(log(simdata$data),lv = as.factor(simdata$con))
+plothm(log(simdata$data),lv = as.factor(simdata$con))
 ```
 
 `r sum(simdata$conp %in% simdata$batchp)` peaks are influnced by both condiation and batch effects.
@@ -130,196 +127,3 @@ Linear Models for MicroArray Data(LIMMA) model could also be used for high-dimen
 ### Bayesian mixture model
 
 Another way to make difference analysis is based on Bayesian mixture model without p value. Such model would not use hypothesis testing and directly generate the posterior estimation of parameters. A posterior probability could be used to check whether certain peaks could be related to different condition. If we want to make comparison between classical model like LIMMA and Bayesian mixture model. We need to use simulation to find the cutoff.
-
-## Batch correction methods
-
-### Baseline
-
-```{r limmabaseline}
-datacor <- limmafit(simdata$data,simdata$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata,pvalue = datacor$`p-values`,points = 500)
-
-datacor2 <- limmafit(simdata2$data,simdata2$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata2,pvalue = datacor2$`p-values`,points = 500)
-
-datacor3 <- limmafit(simdata3$data,simdata3$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata3,pvalue = datacor3$`p-values`,points = 500)
-
-datacor4 <- limmafit(simdata4$data,simdata4$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata4,pvalue = datacor4$`p-values`,points = 500)
-
-datacor5 <- limmafit(simdata5$data,simdata5$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata5,pvalue = datacor5$`p-values`,points = 500)
-
-datacor6 <- limmafit(simdata6$data,simdata6$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata6,pvalue = datacor6$`p-values`,points = 500)
-```
-
-### Combat
-
-For Combat methods, you need to use a batch variable to make empirical Bayesian framework based batch correction. However, you could also include such variable in LIMMA model and use empirical Bayesian method. If certain methods could estimate either known or unknown batch effects. Both Combat and LIMMA model could be used. Here we only use LIMMA model and regular F-test to avoid conflict of different evaluation method.
-
-```{r limma}
-datacor <- limmafit(simdata$data,simdata$con,simdata$batch)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata,pvalue = datacor$`p-values`,points = 500)
-
-datacor2 <- limmafit(simdata2$data,simdata2$con,simdata2$batch)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata2,pvalue = datacor2$`p-values`,points = 500)
-
-datacor3 <- limmafit(simdata3$data,simdata3$con,simdata3$batch)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata3,pvalue = datacor3$`p-values`,points = 500)
-
-datacor4 <- limmafit(simdata4$data,simdata4$con,simdata4$batch)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata4,pvalue = datacor4$`p-values`,points = 500)
-
-datacor5 <- limmafit(simdata5$data,simdata5$con,simdata5$batch)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata5,pvalue = datacor5$`p-values`,points = 500)
-
-datacor6 <- limmafit(simdata6$data,simdata6$con,simdata6$batch)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata6,pvalue = datacor6$`p-values`,points = 500)
-```
-
-### Principal Component Analysis (PCA)
-
-For PCA, the first right singular vectors from singular value decomposition(SVD) are used to stand for the batch variables. The major issue is that such method would not be suitable for the situation with most of the peaks are related to conditions. However, in untargeted analysis, most of the peaks are not related to conditions. We have `pcacor` function to perform such correction.
-
-```{r pcacor}
-datacor <- pcacor(simdata$data,simdata$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata,pvalue = datacor$`p-values`,points = 500)
-
-datacor2 <- pcacor(simdata2$data,simdata2$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata2,pvalue = datacor2$`p-values`,points = 500)
-
-datacor3 <- pcacor(simdata3$data,simdata3$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata3,pvalue = datacor3$`p-values`,points = 500)
-
-datacor4 <- pcacor(simdata4$data,simdata4$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata4,pvalue = datacor4$`p-values`,points = 500)
-
-datacor5 <- pcacor(simdata5$data,simdata5$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata5,pvalue = datacor5$`p-values`,points = 500)
-
-datacor6 <- pcacor(simdata6$data,simdata6$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata6,pvalue = datacor6$`p-values`,points = 500)
-```
-
-### Surrogate Variable Analysis(SVA)
-
-Surrogate variable analysis use an iteratively singular value decomposition(SVD) on the residuals from conditions to find the surrogate variables as batch variables. We have `svacor` function to perform such correction.
-
-```{r sva}
-datacor <- svacor(log(simdata$data), simdata$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata,pvalue = datacor$`p-values`,points = 500)
-
-datacor2 <- svacor(simdata2$data,simdata2$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata2,pvalue = datacor2$`p-values`,points = 500)
-
-datacor3 <- svacor(log(simdata3$data), simdata3$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata3,pvalue = datacor3$`p-values`,points = 500)
-
-datacor4 <- svacor(simdata4$data,simdata4$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata4,pvalue = datacor4$`p-values`,points = 500)
-
-datacor5 <- svacor(simdata5$data,simdata5$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata5,pvalue = datacor5$`p-values`,points = 500)
-
-datacor6 <- svacor(simdata6$data,simdata6$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata6,pvalue = datacor6$`p-values`,points = 500)
-```
-
-### Independent Surrogate variable analysis(ISVA)
-
-```{r isva}
-datacor <- isvacor(log(simdata$data), simdata$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata,pvalue = datacor$`p-values`,points = 500)
-
-# datacor2 <- isvacor(simdata2$data,simdata2$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-# limmaroc(simdata2,pvalue = datacor2$`p-values`,points = 500)
-
-datacor3 <- isvacor(log(simdata3$data), simdata3$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-limmaroc(simdata3,pvalue = datacor$`p-values`,points = 500)
-
-# datacor4 <- isvacor(simdata4$data,simdata4$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-# limmaroc(simdata4,pvalue = datacor4$`p-values`,points = 500)
-
-# datacor5 <- isvacor(simdata5$data,simdata5$con)
-# re <- limmaplot(datacor,as.factor(simdata$con))
-# limmaroc(simdata5,pvalue = datacor5$`p-values`,points = 500)
-```
-
-### FMAT
-
-FMAT is different from above methods since it used factor analysis instead of PCA to find the latent factor. In this case, the EM algorithm would be the solution for this model to either find the best numbers of factor or fit the model. We could still use ANOVA and F-test to find the peaks show influnces on the condiation as well as FDR control.
-
-```{r FMAT}
-datacor <- famtcor(log(simdata$data), simdata$con)
-limmaroc(simdata,pvalue = datacor$`p-values`,points = 500)
-
-datacor2 <- famtcor(log(simdata2$data), simdata2$con)
-limmaroc(simdata2,pvalue = datacor2$`p-values`,points = 500)
-
-datacor3 <- famtcor(log(simdata3$data), simdata3$con)
-limmaroc(simdata3,pvalue = datacor3$`p-values`,points = 500)
-
-datacor4 <- famtcor(log(simdata4$data), simdata4$con)
-limmaroc(simdata4,pvalue = datacor4$`p-values`,points = 500)
-
-datacor5 <- famtcor(log(simdata5$data), simdata5$con)
-limmaroc(simdata5,pvalue = datacor5$`p-values`,points = 500)
-
-datacor6 <- famtcor(log(simdata6$data), simdata6$con)
-limmaroc(simdata6,pvalue = datacor6$`p-values`,points = 500)
-```
-
-### RRmix
-
-RRmix extend FMAT to include the estimation of the compound-specific variances and assumptions on the regression coefficients. However, RRmix use a Bayesian mixture model where p-values are hard to get and make comparisions.
-
-```{r RRmix,eval=F}
-datacor <- rrmixcor(log(simdata$data), simdata$con)
-limmaroc(simdata,pvalue = 1-datacor$posterior,points = 500)
-
-datacor2 <- rrmixcor(log(simdata2$data), simdata2$con)
-limmaroc(simdata2,pvalue = 1-datacor2$posterior,points = 500)
-
-datacor3 <- rrmixcor(log(simdata3$data), simdata3$con)
-limmaroc(simdata3,pvalue = 1-datacor3$posterior,points = 500)
-
-# datacor4 <- rrmixcor(log(simdata4$data), simdata4$con)
-# limmaroc(simdata4,pvalue = 1-datacor4$posterior,points = 500)
-
-datacor5 <- rrmixcor(log(simdata5$data), simdata5$con)
-limmaroc(simdata5,pvalue = 1-datacor5$posterior,points = 500)
-
-# datacor6 <- rrmixcor(log(simdata6$data), simdata6$con)
-# limmaroc(simdata6,pvalue = 1-datacor6$posterior,points = 500)
-```
-
