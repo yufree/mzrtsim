@@ -20,8 +20,8 @@
 #' @export
 #' @examples
 #' sim <- mzrtsim()
-mzrtsim <- function(npeaks = 1000, ncomp = 0.2, ncond = 2,
-    ncpeaks = 0.05, nbatch = 3, nbpeaks = 0.1, npercond = 10,
+mzrtsim <- function(npeaks = 1000, ncomp = 0.1, ncond = 2,
+    ncpeaks = 0.1, nbatch = 3, nbpeaks = 0.1, npercond = 10,
     nperbatch = c(8, 5, 7), shape = 2, scale = 3, shapersd = 1,
     scalersd = 0.18, batchtype = 'mb', seed = 42) {
     set.seed(seed)
@@ -164,8 +164,8 @@ mzrtsim <- function(npeaks = 1000, ncomp = 0.2, ncond = 2,
 #' list <- getmr(cdfpath, pmethod = ' ')
 #' sim <- simmzrt(list$data)
 #' }
-simmzrt <- function(data, type = "e", npeaks = 1000, ncomp = 0.2,
-    ncond = 2, ncpeaks = 0.05, nbatch = 3, nbpeaks = 0.1,
+simmzrt <- function(data, type = "e", npeaks = 1000, ncomp = 0.1,
+    ncond = 2, ncpeaks = 0.1, nbatch = 3, nbpeaks = 0.1,
     npercond = 10, nperbatch = c(8, 5, 7), batchtype = 'mb', seed = 42) {
     set.seed(seed)
     batch <- rep(1:nbatch, nperbatch)
