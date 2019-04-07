@@ -4,7 +4,7 @@
 \alias{mzrtsim}
 \title{Generate simulated count data with batch effects for npeaks}
 \usage{
-mzrtsim(npeaks = 1000, ncomp = 0.2, ncond = 2, ncpeaks = 0.05,
+mzrtsim(npeaks = 1000, ncomp = 0.1, ncond = 2, ncpeaks = 0.1,
   nbatch = 3, nbpeaks = 0.1, npercond = 10, nperbatch = c(8, 5, 7),
   shape = 2, scale = 3, shapersd = 1, scalersd = 0.18,
   batchtype = "mb", seed = 42)

@@ -4,8 +4,8 @@
 \alias{simmzrt}
 \title{Simulation from data by sample mean and rsd from Empirical Cumulative Distribution or Bootstrap sampling}
 \usage{
-simmzrt(data, type = "e", npeaks = 1000, ncomp = 0.2, ncond = 2,
-  ncpeaks = 0.05, nbatch = 3, nbpeaks = 0.1, npercond = 10,
+simmzrt(data, type = "e", npeaks = 1000, ncomp = 0.1, ncond = 2,
+  ncpeaks = 0.1, nbatch = 3, nbpeaks = 0.1, npercond = 10,
   nperbatch = c(8, 5, 7), batchtype = "mb", seed = 42)
 }
 \arguments{
