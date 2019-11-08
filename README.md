@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Actions
+Status](https://github.com/yufree/mzrtsim/workflows/Render%20and%20Deploy%20RMarkdown%20Website/badge.svg)](https://github.com/yufree/mzrtsim/actions)
 <!-- badges: end -->
 
 The goal of mzrtsim is to make batch effects simulation for LC/GC-MS
@@ -54,7 +56,8 @@ You could also use `simmzrt` to make simulation from real data. Two type
 could be used: `e` means simulation from data by sample mean and rsd
 from Empirical Cumulative Distribution and `f` means simulation from
 data by sample mean and rsd from Bootstrap sampling. The input data
-should be matrix with row peaks and column samples.
+should be matrix with row peaks and column
+samples.
 
 ``` r
 simrealdata <- simmzrt(data, type = "e", npeaks = 1000, ncomp = 0.5, ncond = 2,
