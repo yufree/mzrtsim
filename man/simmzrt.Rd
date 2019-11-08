@@ -44,10 +44,8 @@ the numbers of batch columns should be the same with the condition columns.
 }
 \examples{
 \dontrun{
-library(faahKO)
 library(enviGCMS)
-cdfpath <- system.file('cdf', package = 'faahKO')
-list <- getmr(cdfpath, pmethod = ' ')
+data(list)
 sim <- simmzrt(list$data)
 }
 }

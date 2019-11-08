@@ -158,10 +158,8 @@ mzrtsim <- function(npeaks = 1000, ncomp = 0.1, ncond = 2,
 #' @export
 #' @examples
 #' \dontrun{
-#' library(faahKO)
 #' library(enviGCMS)
-#' cdfpath <- system.file('cdf', package = 'faahKO')
-#' list <- getmr(cdfpath, pmethod = ' ')
+#' data(list)
 #' sim <- simmzrt(list$data)
 #' }
 simmzrt <- function(data, type = "e", npeaks = 1000, ncomp = 0.1,
@@ -287,7 +285,7 @@ simmzrt <- function(data, type = "e", npeaks = 1000, ncomp = 0.1,
     rownames(matrixb0) <- paste0("P", indexb)
     return(list(data = matrix, conp = index, batchp = indexb,
         con = condition, batch = batch, cmatrix = matrixc,
-        changec = changec, bmatrix = matrixb0, changeb = changeb,
+        changec = changec, bmatrix = matrixb0, changeb = changeb,changer = changer, changem = changem,
         matrix = matrix0, compmatrix = matrix[1:ncomp,
             ], mean = means, rsd = rsds))
 }

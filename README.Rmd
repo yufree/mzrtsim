@@ -1,27 +1,46 @@
 ---
-title: "Batch simulation and correction"
-author: "Miao Yu"
-date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output: github_document
 ---
 
-```{r setup, include = FALSE}
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
 )
-library(mzrtsim)
 ```
 
-## Batch simulation
+# mzrtsim
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of mzrtsim is to make batch effects simulation for LC/GC-MS based peaks list data
+
+## Installation
+
+You can install the released version of mzrtsim from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("mzrtsim")
+```
+
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("yufree/mzrtsim")
+```
+
+## Batch effect simulation
 
 You could use `mzrtsim` to make simulation.
 
 ```{r mzrtsim}
+library(mzrtsim)
 simdata <- mzrtsim(npeaks = 1000, ncomp = 0.9, ncond = 2, ncpeaks = 0.05,
   nbatch = 3, nbpeaks = 0.1, npercond = 10, nperbatch = c(8, 5, 7),
   shape = 2, scale = 3, shapersd = 1, scalersd = 0.18, seed = 42)
@@ -45,7 +64,7 @@ You could save the simulated data into multiple csv files by `simdata` function.
 simdata(sim,name = "sim")
 ```
 
-## Basic models of batch effects
+## Basic models of batch effects correction
 
 Batch effects are the variances caused by factor other than the experimental design. We could simply make a linear model for the intensity of one peak:
 
@@ -61,16 +80,5 @@ Intensity collects from LC/GC-MS always showed a right-skewed distribution. Log 
 
 ## Evaluation of batch correction
 
-Various methods have been used for batch correction and evaluation. For our simulation, we need some methods to check the performances of correction. Difference analysis would be a common method for evaluation. Then we could check whether this peak is true positive or false positive by settings of the simulation. We will introduce T-test or ANOVA, LIMMA and Bayesian mixture model to find such peaks.
+Various methods have been used for batch correction and evaluation. For our simulation, we need some methods to check the performances of correction. Difference analysis would be a common method for evaluation. Then we could check whether this peak is true positive or false positive by settings of the simulation. 
 
-### T-test or ANOVA
-
-If one peak show significant differences among two groups or multiple groups, T-test or ANOVA could be used to find such peaks. However, when multiple hypothesis testings are performed, the probability of false positive would increase. In this case, false discovery rate(FDR) control is required. Q value or adjusted p value could be used in this situation. At certain confidence interval, we could find peaks with significant differences after FDR control.
-
-### LIMMA
-
-Linear Models for MicroArray Data(LIMMA) model could also be used for high-dimensional data like metabolomics. They use a moderated t-statistic to make estimation of the effects called Empirical Bayes Statistics for Differential Expression. It is a hierarchical model to shrink the t-statistic for each peak to all the peaks. Such estimation is more robust. In LIMMA, we could add the known batch effect variable as a covariance in the model. LIMMA is different from t-test or ANOVA while we could still use p value and FDR control on LIMMA results.
-
-### Bayesian mixture model
-
-Another way to make difference analysis is based on Bayesian mixture model without p value. Such model would not use hypothesis testing and directly generate the posterior estimation of parameters. A posterior probability could be used to check whether certain peaks could be related to different condition. If we want to make comparison between classical model like LIMMA and Bayesian mixture model. We need to use simulation to find the cutoff.

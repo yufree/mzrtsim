@@ -8,7 +8,7 @@ Authors@R: person(given = "Miao", family = "YU",
         email = "yufreecas@gmail.com",
         comment = c(ORCID = "0000-0002-2804-6014"))
 Maintainer: Miao YU <yufreecas@gmail.com>
-Description: Batch effects simulation for LC/GC-MS based peaks list data. The simulation could be based on real data or generated from predefined distribution. Besides, a shiny application could be used to analysis GC/LC-MS based data interactively.
+Description: Batch effects simulation for LC/GC-MS based peaks list data. The simulation could be based on real data or generated from predefined distribution. Besides, a shiny application could be used to simulate GC/LC-MS based data interactively.
 URL: https://github.com/yufree/mzrtsim
 License: GPL-2
 Encoding: UTF-8

@@ -46,76 +46,49 @@ inputPanel(
         min = 0,
         max = 1,
         value = 0.3
-        )
+        ),
+        radioButtons('batchtype', 'batch type', c('m','b','mb'),
+'mb')
         )
 sim <- reactive({
         req(input$file)
-        return(simmzrt(data = input$file, npeaks = input$npeaks, ncomp = input$ncomp, ncpeaks = input$ncpeaks, nbpeaks = input$nbpeaks))
+        return(simmzrt(data = input$file, npeaks = input$npeaks, ncomp = input$ncomp, ncpeaks = input$ncpeaks, nbpeaks = input$nbpeaks),batchtype=input$batchtype)
         })
 ```
 
-## ROC curve
+## Simulated data
 
-```{r ROC}
-renderPlot({
-                sim <- sim()
-                simroc(sim)
-        })
-```
+### Simulated data
 
-## Ridge plot
-
-```{r ridgeplot}
-renderPlot({
-                sim <- sim()
-                plotridges(sim$data, as.factor(sim$con))
-        })
-```
-
-## Surrogate variable analysis
-
-```{r sva}
-renderPlot({
-                sim <- sim()
-                sim2 <- svacor(log(sim$data), as.factor(sim$con))
-                par(mfrow = c(1,2))
-                hist(sim2$`p-valuesCorrected`,main = 'p value corrected',xlab = "")
-                hist(sim2$`p-values`,main = 'p value',xlab = '')
-        })
-
-renderPlot({
-                sim <- sim()
-                sim2 <- isvacor(log(sim$data), as.factor(sim$con))
-                par(mfrow = c(1,2))
-                hist(sim2$`p-valuesCorrected`,main = 'p value corrected',xlab = "")
-                hist(sim2$`p-values`,main = 'p value',xlab = "")
-        })
+```{r}
 DT::renderDataTable({
                 sim <- sim()
-                rbind.data.frame(sim$con,sim$data)
+                rbind.data.frame(Label = sim$con, sim$data)
         })
 downloadHandler('simdata.csv', content = function(file) {
                 sim <- sim()
-                data <- rbind.data.frame(sim$con,sim$data)
+                data <- rbind.data.frame(Label = sim$con, sim$data)
                 write.csv(data, file)
         })
-renderPlot({
-                sim <- sim()
-                simplot(log(sim$data),lv = factor(sim$con))
-        })
+```
+
+### Baseline matrix
+
+```{r}
 DT::renderDataTable({
                 sim <- sim()
                 rbind.data.frame(sim$con,sim$matrix)
         })
-downloadHandler('batchmatrix.csv', content = function(file) {
+downloadHandler('matrix.csv', content = function(file) {
                 sim <- sim()
                 data <- rbind.data.frame(sim$con,sim$matrix)
                 write.csv(data, file)
 })
-renderPlot({
-                sim <- sim()
-                simplot(log(sim$matrix),lv = factor(sim$batch))
-        })
+```
+
+### Batch effect matrix
+
+```{r}
 DT::renderDataTable({
                 sim <- sim()
                 rbind.data.frame(sim$con,sim$batch,sim$bmatrix)
@@ -125,21 +98,76 @@ downloadHandler('batch.csv', content = function(file) {
                 data <- rbind.data.frame(sim$batch,sim$bmatrix)
                 write.csv(data, file)
         })
-renderPlot({
-                sim <- sim()
-                simplot(log(sim$bmatrix),lv = factor(sim$batch))
-        })
+```
+
+### Biological effect matrix
+
+```{r}
 DT::renderDataTable({
                 sim <- sim()
-                rbind.data.frame(sim$con,sim$cmatrix)
+                rbind.data.frame(sim$con, sim$batch, sim$cmatrix)
         })
 downloadHandler('con.csv', content = function(file) {
                 sim <- sim()
-                data <- rbind.data.frame(sim$con,sim$cmatrix)
+                data <- rbind.data.frame(sim$con, sim$batch, sim$cmatrix)
                 write.csv(data, file)
         })
-renderPlot({
+```
+
+### Biological effect matrix with baseline
+
+```{r}
+DT::renderDataTable({
                 sim <- sim()
-                simplot(log(sim$cmatrix),lv = factor(sim$con))
+                rbind.data.frame(sim$con, sim$batch, sim$compmatrix)
+        })
+downloadHandler('cb.csv', content = function(file) {
+                sim <- sim()
+                data <- rbind.data.frame(sim$con, sim$batch, sim$compmatrix)
+                write.csv(data, file)
         })
 ```
+
+
+### Biological folds change
+
+```{r}
+DT::renderDataTable({
+                sim <- sim()
+                sim$changec
+        })
+downloadHandler('conc.csv', content = function(file) {
+                sim <- sim()
+                data <- sim$changec
+                write.csv(data, file)
+        })
+```
+
+### Batch effect folds change
+
+```{r}
+DT::renderDataTable({
+                sim <- sim()
+                sim$changeb
+        })
+downloadHandler('batc.csv', content = function(file) {
+                sim <- sim()
+                data <- sim$changeb
+                write.csv(data, file)
+        })
+```
+
+### monotonic change
+
+```{r}
+DT::renderDataTable({
+                sim <- sim()
+                sim$changem
+        })
+downloadHandler('batmc.csv', content = function(file) {
+                sim <- sim()
+                data <- sim$changem
+                write.csv(data, file)
+        })
+```
+
