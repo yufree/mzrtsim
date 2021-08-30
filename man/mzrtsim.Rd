@@ -4,19 +4,29 @@
 \alias{mzrtsim}
 \title{Generate simulated count data with batch effects for npeaks}
 \usage{
-mzrtsim(npeaks = 1000, ncomp = 0.1, ncond = 2, ncpeaks = 0.1,
-  nbatch = 3, nbpeaks = 0.1, npercond = 10, nperbatch = c(8, 5, 7),
-  shape = 2, scale = 3, shapersd = 1, scalersd = 0.18,
-  batchtype = "mb", seed = 42)
+mzrtsim(
+  ncomp = 100,
+  fc = NULL,
+  ncond = 2,
+  ncpeaks = 0.1,
+  nbatch = 3,
+  nbpeaks = 0.1,
+  npercond = 10,
+  nperbatch = c(8, 5, 7),
+  batchtype = "mb",
+  rtsim = TRUE,
+  db = NULL,
+  seed = 42
+)
 }
 \arguments{
-\item{npeaks}{Number of peaks to simulate}
+\item{ncomp}{compound numbers to be selected, default 100}
 
-\item{ncomp}{percentage of compounds}
+\item{fc}{fold change of compounds with the same length of compounds numbers, default NULL}
 
 \item{ncond}{Number of conditions to simulate}
 
-\item{ncpeaks}{percentage of peaks influenced by conditions}
+\item{ncpeaks}{percentage of compounds influenced by conditions}
 
 \item{nbatch}{Number of batches to simulate}
 
@@ -26,15 +36,11 @@ mzrtsim(npeaks = 1000, ncomp = 0.1, ncond = 2, ncpeaks = 0.1,
 
 \item{nperbatch}{Number of samples per batch to simulate}
 
-\item{shape}{shape for Weibull distribution of sample mean}
-
-\item{scale}{scale for Weibull distribution of sample mean}
-
-\item{shapersd}{shape for Weibull distribution of sample rsd}
-
-\item{scalersd}{scale for Weibull distribution of sample rsd}
-
 \item{batchtype}{type of batch. 'm' means monotonic, 'b' means block, 'r' means random error, 'mb' means mixed mode of monotonic and block, default 'mb'}
+
+\item{rtsim}{logical, simulate retention time or not}
+
+\item{db}{compound database with MS1 data. e.g. hmdbcms or monams1}
 
 \item{seed}{Random seed for reproducibility}
 }
@@ -48,8 +54,9 @@ Generate simulated count data with batch effects for npeaks
 the numbers of batch columns should be the same with the condition columns.
 }
 \examples{
-sim <- mzrtsim()
+data(hmdbcms)
+sim <- mzrtsim(db=hmdbcms)
 }
 \seealso{
-\code{\link{simmzrt}}
+\code{\link{simdata}}
 }

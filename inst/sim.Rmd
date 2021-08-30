@@ -10,32 +10,25 @@ runtime: shiny
 knitr::opts_chunk$set(echo = F)
 library(shiny)
 library(DT)
-library(enviGCMS)
 library(mzrtsim)
+data("hmdbcms")
+data("monams1")
 ```
 
 ## Input data
 
 ```{r input}
 inputPanel(
-        fileInput('file',label = "Upload csv file with row peaks and column samples' intensities",accept = c('.csv')),
-        sliderInput(
-        "npeaks",
-        "Numbers of the peaks",
-        min = 100,
-        max = 10000,
-        value = 1000
-        ),
         sliderInput(
         "ncomp",
-        "Percentage of the compounds",
-        min = 0,
-        max = 1,
-        value = 0.8
+        "Numbers of the compounds",
+        min = 10,
+        max = 2000,
+        value = 100
         ),
         sliderInput(
         "ncpeaks",
-        "Percentage of the peaks influnced by condition",
+        "Percentage of the compounds influnced by condition",
         min = 0,
         max = 1,
         value = 0.1
@@ -48,12 +41,18 @@ inputPanel(
         value = 0.3
         ),
         radioButtons('batchtype', 'batch type', c('m','b','mb'),
-'mb')
+'mb'),
+        radioButtons(inputId = 'db', label='database', choices = c('HMDB','MoNA'), selected = 'HMDB')
         )
 sim <- reactive({
-        req(input$file)
-        return(simmzrt(data = input$file, npeaks = input$npeaks, ncomp = input$ncomp, ncpeaks = input$ncpeaks, nbpeaks = input$nbpeaks),batchtype=input$batchtype)
-        })
+        if(input$db == 'HMDB'){
+                data("hmdbcms")
+                return(mzrtsim(ncomp = input$ncomp, ncpeaks = input$ncpeaks, nbpeaks = input$nbpeaks,db=hmdbcms,batchtype=input$batchtype))
+        } else if(input$db == 'MoNA'){
+                data("monams1")
+                return(mzrtsim(ncomp = input$ncomp, ncpeaks = input$ncpeaks, nbpeaks = input$nbpeaks,db=monams1,batchtype=input$batchtype))
+        }
+})
 ```
 
 ## Simulated data
@@ -63,11 +62,11 @@ sim <- reactive({
 ```{r}
 DT::renderDataTable({
                 sim <- sim()
-                rbind.data.frame(Label = sim$con, sim$data)
+                rbind.data.frame(Label = sim$group$sample_group, sim$data)
         })
 downloadHandler('simdata.csv', content = function(file) {
                 sim <- sim()
-                data <- rbind.data.frame(Label = sim$con, sim$data)
+                data <- rbind.data.frame(Label = sim$group$sample_group, sim$data)
                 write.csv(data, file)
         })
 ```
@@ -77,11 +76,11 @@ downloadHandler('simdata.csv', content = function(file) {
 ```{r}
 DT::renderDataTable({
                 sim <- sim()
-                rbind.data.frame(sim$con,sim$matrix)
+                rbind.data.frame(sim$group$sample_group,sim$matrix)
         })
 downloadHandler('matrix.csv', content = function(file) {
                 sim <- sim()
-                data <- rbind.data.frame(sim$con,sim$matrix)
+                data <- rbind.data.frame(sim$group$sample_group,sim$matrix)
                 write.csv(data, file)
 })
 ```
@@ -91,11 +90,11 @@ downloadHandler('matrix.csv', content = function(file) {
 ```{r}
 DT::renderDataTable({
                 sim <- sim()
-                rbind.data.frame(sim$con,sim$batch,sim$bmatrix)
+                rbind.data.frame(sim$group$sample_group,sim$batch,sim$bmatrix)
         })
 downloadHandler('batch.csv', content = function(file) {
                 sim <- sim()
-                data <- rbind.data.frame(sim$batch,sim$bmatrix)
+                data <- rbind.data.frame(sim$group$sample_group,sim$bmatrix)
                 write.csv(data, file)
         })
 ```
@@ -105,11 +104,11 @@ downloadHandler('batch.csv', content = function(file) {
 ```{r}
 DT::renderDataTable({
                 sim <- sim()
-                rbind.data.frame(sim$con, sim$batch, sim$cmatrix)
+                rbind.data.frame(sim$group$sample_group, sim$batch, sim$cmatrix)
         })
 downloadHandler('con.csv', content = function(file) {
                 sim <- sim()
-                data <- rbind.data.frame(sim$con, sim$batch, sim$cmatrix)
+                data <- rbind.data.frame(sim$group$sample_group, sim$batch, sim$cmatrix)
                 write.csv(data, file)
         })
 ```
@@ -119,11 +118,11 @@ downloadHandler('con.csv', content = function(file) {
 ```{r}
 DT::renderDataTable({
                 sim <- sim()
-                rbind.data.frame(sim$con, sim$batch, sim$compmatrix)
+                rbind.data.frame(sim$group$sample_group, sim$batch, sim$compmatrix)
         })
 downloadHandler('cb.csv', content = function(file) {
                 sim <- sim()
-                data <- rbind.data.frame(sim$con, sim$batch, sim$compmatrix)
+                data <- rbind.data.frame(sim$group$sample_group, sim$batch, sim$compmatrix)
                 write.csv(data, file)
         })
 ```

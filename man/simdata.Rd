@@ -7,7 +7,7 @@
 simdata(sim, name = "sim")
 }
 \arguments{
-\item{sim}{list from `mzrtsim` or `simmzrt`}
+\item{sim}{list from `mzrtsim`}
 
 \item{name}{file name}
 }
@@ -15,5 +15,5 @@ simdata(sim, name = "sim")
 Save the simulated data as csv files
 }
 \seealso{
-\code{\link{mzrtsim}},\code{\link{simmzrt}}
+\code{\link{mzrtsim}}
 }

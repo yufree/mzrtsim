@@ -1,24 +1,24 @@
 Package: mzrtsim
 Type: Package
 Title: Batch effects simulation for LC/GC-MS based peaks list data
-Version: 0.1.0
-Date: 2018-04-12
+Version: 0.9.9
+Date: 2021-08-30
 Authors@R: person(given = "Miao", family = "YU",
         role = c("aut", "cre"), 
         email = "yufreecas@gmail.com",
         comment = c(ORCID = "0000-0002-2804-6014"))
 Maintainer: Miao YU <yufreecas@gmail.com>
-Description: Batch effects simulation for LC/GC-MS based peaks list data. The simulation could be based on real data or generated from predefined distribution. Besides, a shiny application could be used to simulate GC/LC-MS based data interactively.
+Description: Batch effects simulation for LC/GC-MS based peaks list data. The simulation could be based on real data. Besides, a shiny application could be used to simulate GC/LC-MS based data interactively.
 URL: https://github.com/yufree/mzrtsim
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
 Suggests: knitr,
     rmarkdown,
-    testthat
+    testthat,
+    shiny
 VignetteBuilder: knitr
 biocViews: 
-Depends: R (>= 2.10)
-Imports: stats,
-        shiny
-RoxygenNote: 6.1.1
+Depends: R (>= 3.5.0)
+Imports: stats
+RoxygenNote: 7.1.1
