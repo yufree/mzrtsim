@@ -114,13 +114,11 @@ simmzml <-
 
                 mzl <- intensityl <- list()
                 for(i in 1:length(rtime0)){
-                        mz <- alld$Group.1
+                        mz <- as.numeric(alld$Group.1)
                         ins <- alld[,i+1]
-                        intensityl[[i]] <- ins[ins>0&mz>=mzrange[1]&mz<=mzrange[2]]
-                        mzl[[i]] <- mz[ins>0&mz>=mzrange[1]&mz<=mzrange[2]]
+                        intensityl[[i]] <- ins[ins>0&mz>mzrange[1]&mz<mzrange[2]]
+                        mzl[[i]] <- mz[ins>0&mz>mzrange[1]&mz<mzrange[2]]
                 }
-                mzl[[1]] <- c(mzrange[1],mzl[[1]],mzrange[2])
-                intensityl[[1]] <- c(1000,intensityl[[1]],1000)
 
                 spd$mz <- mzl
                 spd$intensity <- intensityl
