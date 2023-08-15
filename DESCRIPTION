@@ -23,5 +23,7 @@ Depends: R (>= 3.5.0)
 Imports: stats,
         utils,
         S4Vectors,
-        Spectra
+        Spectra,
+        mzR,
+        grDevices
 RoxygenNote: 7.2.3

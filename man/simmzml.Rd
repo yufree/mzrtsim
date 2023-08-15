@@ -60,6 +60,6 @@ one mzML file for simulated data and one csv file the simulated compounds with r
 Generate simulated mzml data and compounds list
 }
 \examples{
-data(hmdbcms)
-simmzml(db=hmdbcms, name = 'test')
+data(monams1)
+simmzml(db=monams1, name = 'test')
 }

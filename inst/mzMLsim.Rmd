@@ -1,0 +1,168 @@
+---
+title: "Raw Data Simulation"
+author: "Miao Yu"
+date: "`r Sys.Date()`"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+library(shiny)
+library(DT)
+library(mzrtsim)
+data("hmdbcms")
+data("monams1")
+```
+
+## Input data
+
+```{r input}
+inputPanel(
+        sliderInput(
+        "n",
+        "Numbers of the compounds",
+        min = 10,
+        max = 500,
+        value = 100
+        ),
+        sliderInput(
+        "mzrange",
+        "mass to charge ratio range",
+        min = 50,
+        max = 1500,
+        value = c(100,1000)
+        ),
+        sliderInput(
+        "rtrange",
+        "retention time range",
+        min = 0,
+        max = 1000,
+        value = c(0,600)
+        ),
+        sliderInput(
+        "scanrate",
+        "scan rate per secound",
+        min = 0,
+        max = 1,
+        value = 0.2
+        ),
+        sliderInput(
+        "pwidth",
+        "peak width lambda for poisson distrution",
+        min = 0,
+        max = 30,
+        value = 10
+        ),
+        sliderInput(
+        "baseline",
+        "noise baseline",
+        min = 50,
+        max = 1000,
+        value = 100
+        ),
+        sliderInput(
+        "baselinesd",
+        "standard deviation for noise",
+        min = 0,
+        max = 100,
+        value = 30
+        ),
+        sliderInput(
+        "sn",
+        "signal to noise ratio of all compound",
+        min = 3,
+        max = 1000,
+        value = 100
+        ),
+        sliderInput(
+        "tailingfactor",
+        "tailing factor for peaks",
+        min = 0.5,
+        max = 2,
+        value = 1.2
+        ),
+        textInput("name", "Enter File Name:", value = "test"),
+        radioButtons(inputId = 'db', label='database', choices = c('HMDB','MoNA'), selected = 'MoNA')
+        )
+sim <- reactive({
+        if(input$db == 'HMDB'){
+                data("hmdbcms")
+                simmzml(
+                        name=input$name,
+                        db=hmdbcms,
+                        n = input$n,
+                        mzrange = input$mzrange,
+                        rtrange = input$rtrange,
+                        scanrate = input$scanrate,
+                        pwidth = input$pwidth,
+                        baseline = input$baseline,
+                        baselinesd = input$baselinesd,
+                        sn = input$sn,
+                        tailingfactor = input$tailingfactor,
+                 )
+                file1 <- paste0(input$name,'.mzML')
+                file2 <- paste0(input$name,'.csv')
+                return(list(file1 = file1, file2 = file2))
+        } else if(input$db == 'MoNA'){
+                data("monams1")
+                simmzml(
+                        name=input$name,
+                        db=monams1,
+                        n = input$n,
+                        mzrange = input$mzrange,
+                        rtrange = input$rtrange,
+                        scanrate = input$scanrate,
+                        pwidth = input$pwidth,
+                        baseline = input$baseline,
+                        baselinesd = input$baselinesd,
+                        sn = input$sn,
+                        tailingfactor = input$tailingfactor,
+                 )
+                file1 <- paste0(input$name,'.mzML')
+                file2 <- paste0(input$name,'.csv')
+                return(list(file1 = file1, file2 = file2))
+        }
+})
+```
+
+## Simulated data
+
+### Simulated data
+
+```{r}
+shiny::renderPlot({
+        sim <- sim()
+        x <- mzmlviz(sim$file1)
+})
+```
+
+
+### Simulated data table
+
+```{r}
+DT::renderDataTable({
+                sim <- sim()
+                read.csv(sim$file2)
+        })
+```
+
+## Download data
+
+```{r}
+downloadHandler(
+        filename = paste0(input$name,'.mzML'),
+        content = function(file) {
+      files <- sim()
+      file.copy(files$file1, file)
+    }
+)
+downloadHandler(
+        filename = paste0(input$name,'.csv'),
+        content = function(file) {
+      files <- sim()
+      file.copy(files$file2, file)
+    }
+)
+```
+

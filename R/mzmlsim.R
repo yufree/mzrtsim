@@ -17,8 +17,8 @@
 #' @return one mzML file for simulated data and one csv file the simulated compounds with retention time, m/z and name
 #' @export
 #' @examples
-#' data(hmdbcms)
-#' simmzml(db=hmdbcms, name = 'test')
+#' data(monams1)
+#' simmzml(db=monams1, name = 'test')
 simmzml <-
         function(db,
                  name,
@@ -126,5 +126,42 @@ simmzml <-
                 sp0 <- Spectra::Spectra(spd)
                 sp0$scanIndex <- seq_along(rtime0)
                 Spectra::export(sp0, Spectra::MsBackendMzR(), file = paste0(name, '.mzML'))
-                utils::write.csv(df2,file = paste0(name, '.csv'))
+                utils::write.csv(df2,file = paste0(name, '.csv'),row.names = F)
+        }
+
+#' Generate figure for mzml raw data
+#' @param mzml mzML file path
+#' @param mzrange m/z range for simulation, peaks out of the range will be removed, default c(100,1000)
+#' @param rtrange retention time range for simulation, default c(0,600)
+#' @return figure for raw data and dataframe with mz, rt, and intensity
+#' @export
+mzmlviz <-
+        function(mzml,
+                 mzrange = c(0, 600),
+                 rtrange = c(100, 1000)) {
+                dt <- Spectra::Spectra(mzml)
+                mz <- Spectra::mz(dt)
+                rt <- Spectra::rtime(dt)
+                ins <- Spectra::intensity(dt)
+                mzv <- unlist(mz)
+                rtimev <- rep(rt, times = sapply(mz, length))
+                intensityv <- unlist(ins)
+                norm <-
+                        (intensityv - min(intensityv)) / (max(intensityv) - min(intensityv))
+                # png('test.png',width = diff(xlim),height = diff(ylim))
+                # par(mar = c(0, 0, 0, 0))
+                # plot(rtimev,mzv,xlim=xlim,ylim=ylim,pch=19,cex=0.01,col=gray(1-norm), axes = FALSE,xaxs = "i", yaxs = "i")
+                # dev.off()
+                plot(
+                        rtimev,
+                        mzv,
+                        xlim = mzrange,
+                        ylim = rtrange,
+                        pch = 19,
+                        cex = 0.01,
+                        col = grDevices::gray(1 - norm),
+                        xlab = 'retention time(s)',
+                        ylab = 'm/z'
+                )
+                return(rbind.data.frame(mz=mzv,rt=rtimev,intensity=intensityv))
         }
