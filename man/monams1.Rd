@@ -5,7 +5,7 @@
 \alias{monams1}
 \title{A list containing MoNA LC-MS spectra database}
 \format{
-A list with compounds from MoNA LC-MS spectra database for GC-MS simulation
+A list with compounds from MoNA LC-MS spectra database for LC-MS simulation
 }
 \usage{
 data(monams1)

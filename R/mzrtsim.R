@@ -7,8 +7,14 @@
 #' A list containing MoNA LC-MS spectra database
 #' @docType data
 #' @usage data(monams1)
-#' @format A list with compounds from MoNA LC-MS spectra database for GC-MS simulation
+#' @format A list with compounds from MoNA LC-MS spectra database for LC-MS simulation
 "monams1"
+
+#' A list containing MoNA LC-HRMS spectra database
+#' @docType data
+#' @usage data(monahrms1)
+#' @format A list with compounds from MoNA LC-HRMS spectra database for LC-HRMS simulation
+"monahrms1"
 
 #' Generate simulated count data with batch effects for npeaks
 #'
