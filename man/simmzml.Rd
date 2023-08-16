@@ -8,6 +8,7 @@ simmzml(
   db,
   name,
   n = 100,
+  inscutoff = 0.05,
   mzrange = c(100, 1000),
   rtrange = c(0, 600),
   scanrate = 0.2,
@@ -28,6 +29,8 @@ simmzml(
 \item{name}{file name of mzml}
 
 \item{n}{compound numbers from database, if compound is not NULL, n will be compund number, default 100}
+
+\item{inscutoff}{intensity cutoff for MS1 spectra, default 0.05}
 
 \item{mzrange}{m/z range for simulation, peaks out of the range will be removed, default c(100,1000)}
 

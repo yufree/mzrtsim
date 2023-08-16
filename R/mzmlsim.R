@@ -2,6 +2,7 @@
 #' @param db compound database with MS1 data. e.g. hmdbcms or monams1
 #' @param name file name of mzml
 #' @param n compound numbers from database, if compound is not NULL, n will be compund number, default 100
+#' @param inscutoff intensity cutoff for MS1 spectra, default 0.05
 #' @param mzrange m/z range for simulation, peaks out of the range will be removed, default c(100,1000)
 #' @param rtrange retention time range for simulation, default c(0,600)
 #' @param scanrate time for each full scan, defulat 0.2 secound or 5 spectra per secound
@@ -23,6 +24,7 @@ simmzml <-
         function(db,
                  name,
                  n = 100,
+                 inscutoff = 0.05,
                  mzrange = c(100,1000),
                  rtrange = c(0, 600),
                  scanrate = 0.2,
@@ -89,6 +91,12 @@ simmzml <-
                         x$spectra$mz)
                 intensity <- lapply(sub, function(x)
                         x$spectra$ins)
+                if(!is.null(inscutoff)){
+                        insidx <- lapply(intensity,function(x) (x/max(x))>inscutoff)
+                        mz <- lapply(seq_along(mz),function(i) mz[[i]][insidx[[i]]])
+                        intensity <- lapply(seq_along(intensity), function(i)
+                                intensity[[i]][insidx[[i]]])
+                }
                 subname <- sapply(sub, function(x) x$name)
                 df <- cbind.data.frame(subname,rtime)
                 mzv <- unlist(mz)
@@ -140,9 +148,9 @@ mzmlviz <-
                  mzrange = c(0, 600),
                  rtrange = c(100, 1000)) {
                 dt <- Spectra::Spectra(mzml)
-                mz <- Spectra::mz(dt)
                 rt <- Spectra::rtime(dt)
                 ins <- Spectra::intensity(dt)
+                mz <- Spectra::mz(dt)
                 mzv <- unlist(mz)
                 rtimev <- rep(rt, times = sapply(mz, length))
                 intensityv <- unlist(ins)
@@ -163,5 +171,5 @@ mzmlviz <-
                         xlab = 'retention time(s)',
                         ylab = 'm/z'
                 )
-                return(rbind.data.frame(mz=mzv,rt=rtimev,intensity=intensityv))
+                return(cbind.data.frame(mz=mzv,rt=rtimev,intensity=intensityv))
         }
