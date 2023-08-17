@@ -20,7 +20,8 @@ simmzml(
   compound = NULL,
   rtime = NULL,
   tailingindex = NULL,
-  seed = 42
+  seed = 42,
+  unique = FALSE
 )
 }
 \arguments{
@@ -55,6 +56,8 @@ simmzml(
 \item{tailingindex}{numeric index for tailing compounds, if NULL, all peaks will tailing. Default NULL}
 
 \item{seed}{Random seed for reproducibility}
+
+\item{unique}{if unique, one compound will have one spectra}
 }
 \value{
 one mzML file for simulated data and one csv file the simulated compounds with retention time, m/z and name

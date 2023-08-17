@@ -15,6 +15,7 @@
 #' @param rtime retention time for the compounds, if NULL, retention time will be simulated, default NULL
 #' @param tailingindex numeric index for tailing compounds, if NULL, all peaks will tailing. Default NULL
 #' @param seed Random seed for reproducibility
+#' @param unique if unique, one compound will have one spectra
 #' @return one mzML file for simulated data and one csv file the simulated compounds with retention time, m/z and name
 #' @export
 #' @examples
@@ -36,7 +37,13 @@ simmzml <-
                  compound=NULL,
                  rtime=NULL,
                  tailingindex = NULL,
-                 seed=42) {
+                 seed=42,
+                 unique=FALSE) {
+                if(unique){
+                        uniquecpidx <- sapply(db, function(x) x$name)
+                        db <- db[!duplicated(uniquecpidx)]
+                }
+
                 if(is.null(compound)){
                         set.seed(seed)
                         sub <- db[sample(length(db), n)]

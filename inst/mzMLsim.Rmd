@@ -94,7 +94,8 @@ inputPanel(
         ),
         textInput("name", "Enter File Name:", value = "test"),
         numericInput("seed", "Enter Seed:", value = 1),
-        radioButtons(inputId = 'db', label='database', choices = c('HMDB','MoNA','MoNAhr'), selected = 'MoNA')
+        radioButtons(inputId = 'db', label='database', choices = c('HMDB','MoNA','MoNAhr'), selected = 'MoNA'),
+        checkboxInput('unique','Unique compound name',value = FALSE)
         )
 sim <- reactive({
         if(input$db == 'HMDB'){
@@ -112,7 +113,8 @@ sim <- reactive({
                         baselinesd = input$baselinesd,
                         sn = input$sn,
                         tailingfactor = input$tailingfactor,
-                        seed=input$seed
+                        seed=input$seed,
+                        unique=input$unique
                  )
                 file1 <- paste0(input$name,'.mzML')
                 file2 <- paste0(input$name,'.csv')
@@ -132,7 +134,8 @@ sim <- reactive({
                         baselinesd = input$baselinesd,
                         sn = input$sn,
                         tailingfactor = input$tailingfactor,
-                        seed=input$seed
+                        seed=input$seed,
+                        unique=input$unique
                  )
                 file1 <- paste0(input$name,'.mzML')
                 file2 <- paste0(input$name,'.csv')
@@ -152,7 +155,8 @@ sim <- reactive({
                         baselinesd = input$baselinesd,
                         sn = input$sn,
                         tailingfactor = input$tailingfactor,
-                        seed=input$seed
+                        seed=input$seed,
+                        unique=input$unique
                  )
                 file1 <- paste0(input$name,'.mzML')
                 file2 <- paste0(input$name,'.csv')
