@@ -11,6 +11,8 @@ simmzml(
   inscutoff = 0.05,
   mzrange = c(100, 1000),
   rtrange = c(0, 600),
+  ppm = 5,
+  mzdigit = 5,
   scanrate = 0.2,
   pwidth = 10,
   baseline = 100,
@@ -21,7 +23,9 @@ simmzml(
   rtime = NULL,
   tailingindex = NULL,
   seed = 42,
-  unique = FALSE
+  unique = FALSE,
+  matrix = FALSE,
+  matrixmz = NULL
 )
 }
 \arguments{
@@ -37,6 +41,10 @@ simmzml(
 
 \item{rtrange}{retention time range for simulation, default c(0,600)}
 
+\item{ppm}{m/z shift in ppm}
+
+\item{mzdigit}{m/z digits, default 5}
+
 \item{scanrate}{time for each full scan, defulat 0.2 secound or 5 spectra per secound}
 
 \item{pwidth}{peak width for the compound. If it's a single value, simulated peaks' width will use this number as the lambda of Poisson distribution. If it's a numeric vector, it will be used as the peak width for each compounds.}
@@ -51,13 +59,17 @@ simmzml(
 
 \item{compound}{numeric compound index in the database for targeted analysis, default NULL}
 
-\item{rtime}{retention time for the compounds, if NULL, retention time will be simulated, default NULL}
+\item{rtime}{retention time for the compounds, if NULL, retention time will be simulated. Default NULL}
 
 \item{tailingindex}{numeric index for tailing compounds, if NULL, all peaks will tailing. Default NULL}
 
 \item{seed}{Random seed for reproducibility}
 
-\item{unique}{if unique, one compound will have one spectra}
+\item{unique}{if TRUE, one compound will have one spectra. Default FALSE}
+
+\item{matrix}{if TRUE, m/z from experimental data will be used for background m/z simulation.Default FALSE}
+
+\item{matrimz}{custom matrix m/z vector, default NULL and predefined list will be used.}
 }
 \value{
 one mzML file for simulated data and one csv file the simulated compounds with retention time, m/z and name

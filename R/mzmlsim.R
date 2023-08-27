@@ -1,3 +1,9 @@
+#' A vector containing m/z from matrix blank
+#' @docType data
+#' @usage data(mzm)
+#' @format A vector containing m/z from matrix blank for LC-HRMS simulation
+"mzm"
+
 #' Generate simulated mzml data and compounds list
 #' @param db compound database with MS1 data. e.g. hmdbcms or monams1
 #' @param name file name of mzml
@@ -5,6 +11,8 @@
 #' @param inscutoff intensity cutoff for MS1 spectra, default 0.05
 #' @param mzrange m/z range for simulation, peaks out of the range will be removed, default c(100,1000)
 #' @param rtrange retention time range for simulation, default c(0,600)
+#' @param ppm m/z shift in ppm
+#' @param mzdigit m/z digits, default 5
 #' @param scanrate time for each full scan, defulat 0.2 secound or 5 spectra per secound
 #' @param pwidth peak width for the compound. If it's a single value, simulated peaks' width will use this number as the lambda of Poisson distribution. If it's a numeric vector, it will be used as the peak width for each compounds.
 #' @param baseline noise baseline, default 100
@@ -12,10 +20,12 @@
 #' @param sn signal to noise ratio of each compound, default 100 for all compounds when baseline is 100
 #' @param tailingfactor tailing factor for peaks, larger means larger tailing, default 1.2
 #' @param compound numeric compound index in the database for targeted analysis, default NULL
-#' @param rtime retention time for the compounds, if NULL, retention time will be simulated, default NULL
+#' @param rtime retention time for the compounds, if NULL, retention time will be simulated. Default NULL
 #' @param tailingindex numeric index for tailing compounds, if NULL, all peaks will tailing. Default NULL
 #' @param seed Random seed for reproducibility
-#' @param unique if unique, one compound will have one spectra
+#' @param unique if TRUE, one compound will have one spectra. Default FALSE
+#' @param matrix if TRUE, m/z from experimental data will be used for background m/z simulation.Default FALSE
+#' @param matrimz custom matrix m/z vector, default NULL and predefined list will be used.
 #' @return one mzML file for simulated data and one csv file the simulated compounds with retention time, m/z and name
 #' @export
 #' @examples
@@ -28,6 +38,8 @@ simmzml <-
                  inscutoff = 0.05,
                  mzrange = c(100,1000),
                  rtrange = c(0, 600),
+                 ppm = 5,
+                 mzdigit = 5,
                  scanrate = 0.2,
                  pwidth = 10,
                  baseline = 100,
@@ -38,7 +50,9 @@ simmzml <-
                  rtime=NULL,
                  tailingindex = NULL,
                  seed=42,
-                 unique=FALSE) {
+                 unique=FALSE,
+                 matrix=FALSE,
+                 matrixmz=NULL) {
                 if(unique){
                         uniquecpidx <- sapply(db, function(x) x$name)
                         db <- db[!duplicated(uniquecpidx)]
@@ -112,6 +126,7 @@ simmzml <-
                 df2$name <- df$subname[match(df2$rt,df$rtime)]
 
                 mzc <- rem <- c()
+
                 for (i in 1:nrow(re)) {
                         if(length(mz[[i]])==1){
 
@@ -120,17 +135,35 @@ simmzml <-
                         }else{
                                 nret <- matrix(intensity[[i]])%*%re[i,]
                         }
-                        mzc <- c(mzc,mz[[i]])
+                        mzc <- c(mzc,round(mz[[i]],digits = mzdigit))
                         rem <- rbind(rem,nret)
                 }
                 alld <- stats::aggregate(rem,by=list(mzc),FUN=sum)
-                noise <- matrix(stats::rnorm(length(rtime0)*nrow(alld), mean = baseline, sd= baselinesd),nrow = nrow(alld),ncol = length(rtime0))
-                alld[,-1] <- alld[,-1]+noise
+                mzpeak <- as.numeric(alld$Group.1)
+                mzpeak <- mzpeak+rnorm(length(mzpeak),sd=0.5)*mzpeak*1e-6*ppm
+
+                if(matrix){
+                        data(mzm)
+                        mzm <- ifelse(is.null(matrixmz),mzm,matrixmz)
+                        mzm <- round(mzm,digits = mzdigit)
+                        mzmatrix <- mzm[!mzm%in%mzpeak]
+                        insmatrix <- matrix(stats::rnorm(length(rtime0)*length(mzmatrix), mean = baseline, sd= baselinesd),nrow = length(mzmatrix),ncol = length(rtime0))
+                        noisepeak <- matrix(stats::rnorm(length(rtime0)*length(mzpeak), mean = baseline, sd= baselinesd),nrow = length(mzpeak),ncol = length(rtime0))
+                        inspeak <- alld[,-1]+noisepeak
+                        allins <- rbind(inspeak,insmatrix)
+                        # order mz
+                        mz <- c(mzpeak,mzmatrix)
+                        mz <- mz[order(mz)]
+                        allins <- allins[order(mz),]
+                }else{
+                        mz <- mzpeak
+                        noise <- matrix(stats::rnorm(length(rtime0)*length(mz), mean = baseline, sd= baselinesd),nrow = length(mz),ncol = length(rtime0))
+                        allins <- alld[,-1]+noise
+                }
 
                 mzl <- intensityl <- list()
                 for(i in 1:length(rtime0)){
-                        mz <- as.numeric(alld$Group.1)
-                        ins <- alld[,i+1]
+                        ins <- allins[,i]
                         intensityl[[i]] <- ins[ins>0&mz>mzrange[1]&mz<mzrange[2]]
                         mzl[[i]] <- mz[ins>0&mz>mzrange[1]&mz<mzrange[2]]
                 }
