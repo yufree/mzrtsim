@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mzrtsim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
@@ -60,8 +60,11 @@
 <span>  <span class="va">db</span>,</span>
 <span>  <span class="va">name</span>,</span>
 <span>  n <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  inscutoff <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>  mzrange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1000</span><span class="op">)</span>,</span>
 <span>  rtrange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">600</span><span class="op">)</span>,</span>
+<span>  ppm <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  mzdigit <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  scanrate <span class="op">=</span> <span class="fl">0.2</span>,</span>
 <span>  pwidth <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  baseline <span class="op">=</span> <span class="fl">100</span>,</span>
@@ -71,7 +74,10 @@
 <span>  compound <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  rtime <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  tailingindex <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  seed <span class="op">=</span> <span class="fl">42</span></span>
+<span>  seed <span class="op">=</span> <span class="fl">42</span>,</span>
+<span>  unique <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  matrix <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  matrixmz <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -89,12 +95,24 @@
 <dd><p>compound numbers from database, if compound is not NULL, n will be compund number, default 100</p></dd>
 
 
+<dt>inscutoff</dt>
+<dd><p>intensity cutoff for MS1 spectra, default 0.05</p></dd>
+
+
 <dt>mzrange</dt>
 <dd><p>m/z range for simulation, peaks out of the range will be removed, default c(100,1000)</p></dd>
 
 
 <dt>rtrange</dt>
 <dd><p>retention time range for simulation, default c(0,600)</p></dd>
+
+
+<dt>ppm</dt>
+<dd><p>m/z shift in ppm</p></dd>
+
+
+<dt>mzdigit</dt>
+<dd><p>m/z digits, default 5</p></dd>
 
 
 <dt>scanrate</dt>
@@ -126,7 +144,7 @@
 
 
 <dt>rtime</dt>
-<dd><p>retention time for the compounds, if NULL, retention time will be simulated, default NULL</p></dd>
+<dd><p>retention time for the compounds, if NULL, retention time will be simulated. Default NULL</p></dd>
 
 
 <dt>tailingindex</dt>
@@ -135,6 +153,18 @@
 
 <dt>seed</dt>
 <dd><p>Random seed for reproducibility</p></dd>
+
+
+<dt>unique</dt>
+<dd><p>if TRUE, one compound will have one spectra. Default FALSE</p></dd>
+
+
+<dt>matrix</dt>
+<dd><p>if TRUE, m/z from experimental data will be used for background m/z simulation.Default FALSE</p></dd>
+
+
+<dt>matrixmz</dt>
+<dd><p>custom matrix m/z vector, default NULL and predefined list will be used.</p></dd>
 
 </dl></div>
     <div id="value">

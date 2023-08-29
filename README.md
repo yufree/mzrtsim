@@ -7,10 +7,11 @@
 
 [![Actions
 Status](https://github.com/yufree/mzrtsim/workflows/Render%20and%20Deploy%20RMarkdown%20Website/badge.svg)](https://github.com/yufree/mzrtsim/actions)
+[![R-CMD-check](https://github.com/yufree/mzrtsim/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/yufree/mzrtsim/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of mzrtsim is to make batch effects simulation for LC/GC-MS
-based peaks list data
+The goal of mzrtsim is to make raw data and features table simulation
+for LC/GC-MS based data
 
 ## Installation
 
@@ -20,11 +21,98 @@ You can install the development version from
 ``` r
 # install.packages("remotes")
 remotes::install_github("yufree/mzrtsim")
+#> Downloading GitHub repo yufree/mzrtsim@HEAD
+#> 
+#> ── R CMD build ─────────────────────────────────────────────────────────────────
+#>      checking for file ‘/private/var/folders/ty/cgcsflhd5ll569t1kkhzwf2nbsjxl5/T/RtmpXcuMEs/remotes14aff57c2d151/yufree-mzrtsim-ffe1a76/DESCRIPTION’ ...  ✔  checking for file ‘/private/var/folders/ty/cgcsflhd5ll569t1kkhzwf2nbsjxl5/T/RtmpXcuMEs/remotes14aff57c2d151/yufree-mzrtsim-ffe1a76/DESCRIPTION’
+#>   ─  preparing ‘mzrtsim’:
+#>      checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
+#>   ─  checking for LF line-endings in source and make files and shell scripts
+#>   ─  checking for empty or unneeded directories
+#>   ─  building ‘mzrtsim_1.0.0.tar.gz’
+#>      Warning: invalid uid value replaced by that for user 'nobody'
+#>    Warning: invalid gid value replaced by that for user 'nobody'
+#>      
+#> 
+#> Installing package into '/opt/homebrew/lib/R/4.3/site-library'
+#> (as 'lib' is unspecified)
+```
+
+## Raw Data simulation
+
+You could use `simmzml` to generate one mzML file.
+
+``` r
+library(mzrtsim)
+data("monams1")
+simmzml(db=monams1, name = 'test')
+```
+
+You will find `test.mzML` and corresponding `test.csv` with m/z,
+retention time and compound name of the peaks. Here the `monams1` and
+`monahrms1` is from the MS1 data of MassBank of North America (MoNA) and
+could be downloaded from their
+[website](https://mona.fiehnlab.ucdavis.edu/downloads). Here we only use
+the MS1 full scan data for simulation.
+
+### Multiple files with experiment design
+
+You could stimulate two groups of raw data with different peak width.
+Retention time could follow a uniform distribution. 100 compounds could
+be selected randomly and base peaks’ signal to noise ratio could be
+sample from 100 to 1000. Each group contain 10 samples.
+
+``` r
+dir.create('case')
+dir.create('control')
+# 30% compounds changed between case and control
+pw1 <- c(rep(5,30),rep(10,40),rep(15,30))
+pw2 <- c(rep(5,20),rep(10,30),rep(15,50))
+rt <- seq(10,590,length.out=100)
+set.seed(1)
+compound <- sample(c(1:4000),100)
+set.seed(2)
+sn <- sample(c(100:10000),100)
+for(i in c(1:10)){
+  simmzml(name=paste0('case/case',i),db=monahrms1,pwidth = pw1,compound=compound,rtime = rt, sn=sn)
+}
+
+for(i in c(1:10)){
+  simmzml(name=paste0('control/control',i),db=monahrms1,pwidth = pw2,compound=compound,rtime = rt, sn=sn)
+}
+```
+
+Then you could find 10 mzML files in case subfolder and another 10 mzML
+files in control subfolder.
+
+### Chromatography peaks
+
+You could also use `simmzml` to stimulate tailing/leading peaks by
+defining the tailing factor of the peaks. When the tailing factor is
+lower than 1, the peaks are leading peaks. When the tailing factor is
+larger than 1, the peaks are tailing peaks.
+
+``` r
+# leading peaks
+simmzml(name='test',db=monahrms1,pwidth = 10,compound=1,rtime = 100, sn=10,tailingfactor = 0.8)
+# tailing peaks
+simmzml(name='test',db=monahrms1,pwidth = 10,compound=1,rtime = 100, sn=10,tailingfactor = 1.5)
+```
+
+### matrix stimulation
+
+You could also input a m/z vector as matrix mass. Those masses will
+generate background baseline signals. By default, the mass vector is
+from a previous matrix samples.
+
+``` r
+data(mzm)
+simmzml(name='test',db=monahrms1,pwidth = 10,compound=1,rtime = 100, sn=10,matrixmz = mzm,matrix = T)
 ```
 
 ## Batch effect simulation
 
-You could use `mzrtsim` to make simulation.
+You could use `mzrtsim` to make simulation of peak list.
 
 ``` r
 library(mzrtsim)
@@ -63,7 +151,7 @@ Batch effects are the variances caused by factor other than the
 experimental design. We could simply make a linear model for the
 intensity of one peak:
 
-\[Intensity =  Average + Condition + Batch + Error\]
+$$Intensity =  Average + Condition + Batch + Error$$
 
 Research is focused on condition contribution part and overall average
 or random error could be estimated. However, we know little about the

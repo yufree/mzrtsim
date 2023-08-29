@@ -40,13 +40,22 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/monahrms1.html</loc>
+  </url>
+  <url>
     <loc>/reference/monams1.html</loc>
+  </url>
+  <url>
+    <loc>/reference/mzm.html</loc>
   </url>
   <url>
     <loc>/reference/mzmlviz.html</loc>
   </url>
   <url>
     <loc>/reference/mzrtsim.html</loc>
+  </url>
+  <url>
+    <loc>/reference/runmzMLsim.html</loc>
   </url>
   <url>
     <loc>/reference/runmzrtsim.html</loc>
