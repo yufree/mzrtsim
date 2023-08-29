@@ -69,7 +69,7 @@ simmzml(
 
 \item{matrix}{if TRUE, m/z from experimental data will be used for background m/z simulation.Default FALSE}
 
-\item{matrimz}{custom matrix m/z vector, default NULL and predefined list will be used.}
+\item{matrixmz}{custom matrix m/z vector, default NULL and predefined list will be used.}
 }
 \value{
 one mzML file for simulated data and one csv file the simulated compounds with retention time, m/z and name
