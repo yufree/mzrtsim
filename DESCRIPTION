@@ -1,6 +1,6 @@
 Package: mzrtsim
 Type: Package
-Title: Raw data(mzML) and batch effects simulation for LC/GC-MS based metabolomics data
+Title: Raw data (mzML) and peaks list simulation for LC/GC-MS based metabolomics data
 Version: 1.0.0
 Date: 2023-08-30
 Authors@R: person(given = "Miao", family = "YU",
@@ -8,7 +8,7 @@ Authors@R: person(given = "Miao", family = "YU",
         email = "yufreecas@gmail.com",
         comment = c(ORCID = "0000-0002-2804-6014"))
 Maintainer: Miao YU <yufreecas@gmail.com>
-Description: Raw data(mzML) and peaks list simulation for LC/GC-MS based metabolomics data. Besides, shiny applications could be used to simulate GC/LC-MS based data and batch correction interactively.
+Description: Raw data(mzML) and peaks list simulation for LC/GC-MS based metabolomics data. Besides, shiny applications could be used to simulate GC/LC-MS based raw data and peaks list.
 URL: https://github.com/yufree/mzrtsim
 License: GPL-2
 Encoding: UTF-8
