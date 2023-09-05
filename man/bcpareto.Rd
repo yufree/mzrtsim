@@ -4,7 +4,7 @@
 \alias{bcpareto}
 \title{Pareto scaling batch correction}
 \usage{
-bcpareto(peak, qc = NULL, log = T)
+bcpareto(peak, qc = NULL, log = TRUE)
 }
 \arguments{
 \item{peak}{peaks intensity across samples}

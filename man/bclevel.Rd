@@ -4,7 +4,7 @@
 \alias{bclevel}
 \title{Level scaling batch correction}
 \usage{
-bclevel(peak, qc = NULL, log = T)
+bclevel(peak, qc = NULL, log = TRUE)
 }
 \arguments{
 \item{peak}{peaks intensity across samples}

@@ -33,7 +33,7 @@ simmzml(
 
 \item{name}{file name of mzml}
 
-\item{n}{compound numbers from database, if compound is not NULL, n will be compund number, default 100}
+\item{n}{compound numbers from database, if compound is not NULL, n will be compound number, default 100}
 
 \item{inscutoff}{intensity cutoff for MS1 spectra, default 0.05}
 
@@ -45,7 +45,7 @@ simmzml(
 
 \item{mzdigit}{m/z digits, default 5}
 
-\item{scanrate}{time for each full scan, defulat 0.2 secound or 5 spectra per secound}
+\item{scanrate}{time for each full scan, default 0.2 second or 5 spectra per secound}
 
 \item{pwidth}{peak width for the compound. If it's a single value, simulated peaks' width will use this number as the lambda of Poisson distribution. If it's a numeric vector, it will be used as the peak width for each compounds.}
 

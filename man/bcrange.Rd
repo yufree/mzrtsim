@@ -4,7 +4,7 @@
 \alias{bcrange}
 \title{Range scaling batch correction}
 \usage{
-bcrange(peak, qc = NULL, log = T)
+bcrange(peak, qc = NULL, log = TRUE)
 }
 \arguments{
 \item{peak}{peaks intensity across samples}

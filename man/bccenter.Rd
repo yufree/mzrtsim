@@ -4,7 +4,7 @@
 \alias{bccenter}
 \title{Centering batch correction}
 \usage{
-bccenter(peak, qc = NULL, log = T)
+bccenter(peak, qc = NULL, log = TRUE)
 }
 \arguments{
 \item{peak}{peaks intensity across samples}

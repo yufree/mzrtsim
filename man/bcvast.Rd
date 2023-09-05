@@ -4,7 +4,7 @@
 \alias{bcvast}
 \title{Vast scaling batch correction}
 \usage{
-bcvast(peak, qc = NULL, log = T)
+bcvast(peak, qc = NULL, log = TRUE)
 }
 \arguments{
 \item{peak}{peaks intensity across samples}

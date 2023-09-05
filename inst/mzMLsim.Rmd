@@ -37,6 +37,13 @@ inputPanel(
         value = 0.05
         ),
         sliderInput(
+        "ppm",
+        "mass to charge ratio shift in ppm",
+        min = 0,
+        max = 50,
+        value = 5
+        ),
+        sliderInput(
         "mzrange",
         "mass to charge ratio range",
         min = 50,
@@ -94,8 +101,8 @@ inputPanel(
         ),
         textInput("name", "Enter File Name:", value = "test"),
         numericInput("seed", "Enter Seed:", value = 1),
-        radioButtons(inputId = 'db', label='database', choices = c('HMDB','MoNA','MoNAhr'), selected = 'MoNA'),
-        checkboxInput('unique','Unique compound name',value = FALSE)
+        radioButtons(inputId = 'db', label='database', choices = c('HMDB','MoNA','MoNAhr'), selected = 'MoNAhr'),
+        checkboxInput('unique','Unique compound name',value = TRUE)
         )
 sim <- reactive({
         if(input$db == 'HMDB'){
@@ -128,6 +135,7 @@ sim <- reactive({
                         inscutoff = input$inscutoff,
                         mzrange = input$mzrange,
                         rtrange = input$rtrange,
+                        ppm = input$ppm,
                         scanrate = input$scanrate,
                         pwidth = input$pwidth,
                         baseline = input$baseline,
@@ -188,6 +196,8 @@ DT::renderDataTable({
 
 ## Download data
 
+### Raw data
+
 ```{r}
 downloadHandler(
         filename = paste0(input$name,'.mzML'),
@@ -196,6 +206,11 @@ downloadHandler(
       file.copy(files$file1, file)
     }
 )
+```
+
+### Pekas list csv data
+
+```{r}
 downloadHandler(
         filename = paste0(input$name,'.csv'),
         content = function(file) {

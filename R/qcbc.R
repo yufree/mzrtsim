@@ -4,7 +4,7 @@
 #' @param log log transformation
 #' @return corrected peaks intensity
 #' @export
-bccenter <- function(peak, qc = NULL, log = T){
+bccenter <- function(peak, qc = NULL, log = TRUE){
         if(log){
                 peak <- log(peak+1)
                 if(!is.null(qc)){
@@ -34,7 +34,7 @@ bccenter <- function(peak, qc = NULL, log = T){
 #' @param log log transformation
 #' @return corrected peaks intensity
 #' @export
-bcscaling <- function(peak, qc = NULL, log = T){
+bcscaling <- function(peak, qc = NULL, log = TRUE){
         if(log){
                 peak <- log(peak+1)
                 if(!is.null(qc)){
@@ -70,7 +70,7 @@ bcscaling <- function(peak, qc = NULL, log = T){
 #' @param log log transformation
 #' @return corrected peaks intensity
 #' @export
-bcpareto <- function(peak, qc = NULL, log = T){
+bcpareto <- function(peak, qc = NULL, log = TRUE){
         if(log){
                 peak <- log(peak+1)
                 if(!is.null(qc)){
@@ -106,7 +106,7 @@ bcpareto <- function(peak, qc = NULL, log = T){
 #' @param log log transformation
 #' @return corrected peaks intensity
 #' @export
-bcrange <- function(peak, qc = NULL, log = T){
+bcrange <- function(peak, qc = NULL, log = TRUE){
         if(log){
                 peak <- log(peak+1)
                 if(!is.null(qc)){
@@ -137,7 +137,7 @@ bcrange <- function(peak, qc = NULL, log = T){
 #' @param log log transformation
 #' @return corrected peaks intensity
 #' @export
-bcvast <- function(peak, qc = NULL, log = T){
+bcvast <- function(peak, qc = NULL, log = TRUE){
         if(log){
                 peak <- log(peak+1)
                 if(!is.null(qc)){
@@ -174,7 +174,7 @@ bcvast <- function(peak, qc = NULL, log = T){
 #' @param log log transformation
 #' @return corrected peaks intensity
 #' @export
-bclevel <- function(peak, qc = NULL, log = T){
+bclevel <- function(peak, qc = NULL, log = TRUE){
         if(log){
                 peak <- log(peak+1)
                 if(!is.null(qc)){

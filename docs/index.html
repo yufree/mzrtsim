@@ -80,22 +80,7 @@
 <p>You can install the development version from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"yufree/mzrtsim"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Downloading GitHub repo yufree/mzrtsim@HEAD</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── R CMD build ─────────────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt;      checking for file ‘/private/var/folders/ty/cgcsflhd5ll569t1kkhzwf2nbsjxl5/T/RtmpXcuMEs/remotes14aff57c2d151/yufree-mzrtsim-ffe1a76/DESCRIPTION’ ...  ✔  checking for file ‘/private/var/folders/ty/cgcsflhd5ll569t1kkhzwf2nbsjxl5/T/RtmpXcuMEs/remotes14aff57c2d151/yufree-mzrtsim-ffe1a76/DESCRIPTION’</span></span>
-<span><span class="co">#&gt;   ─  preparing ‘mzrtsim’:</span></span>
-<span><span class="co">#&gt;      checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information</span></span>
-<span><span class="co">#&gt;   ─  checking for LF line-endings in source and make files and shell scripts</span></span>
-<span><span class="co">#&gt;   ─  checking for empty or unneeded directories</span></span>
-<span><span class="co">#&gt;   ─  building ‘mzrtsim_1.0.0.tar.gz’</span></span>
-<span><span class="co">#&gt;      Warning: invalid uid value replaced by that for user 'nobody'</span></span>
-<span><span class="co">#&gt;    Warning: invalid gid value replaced by that for user 'nobody'</span></span>
-<span><span class="co">#&gt;      </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Installing package into '/opt/homebrew/lib/R/4.3/site-library'</span></span>
-<span><span class="co">#&gt; (as 'lib' is unspecified)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"yufree/mzrtsim"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="raw-data-simulation">Raw Data simulation<a class="anchor" aria-label="anchor" href="#raw-data-simulation"></a>
@@ -105,15 +90,14 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yufree/mzrtsim" class="external-link">mzrtsim</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"monams1"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/simmzml.html">simmzml</a></span><span class="op">(</span>db<span class="op">=</span><span class="va">monams1</span>, name <span class="op">=</span> <span class="st">'test'</span><span class="op">)</span></span></code></pre></div>
-<p>You will find <code>test.mzML</code> and corresponding <code>test.csv</code> with m/z, retention time and compound name of the peaks. Here the <code>monams1</code> and <code>monahrms1</code> is from the MS1 data of MassBank of North America (MoNA) and could be downloaded from their <a href="https://mona.fiehnlab.ucdavis.edu/downloads" class="external-link">website</a>. Here we only use the MS1 full scan data for simulation.</p>
+<p>You will find <code>test.mzML</code> and corresponding <code>test.csv</code> with m/z, retention time and compound name of the peaks. Here the <code>monams1</code> and <code>monahrms1</code> is from the MS1 data of MassBank of North America (MoNA) and could be downloaded from their <a href="https://mona.fiehnlab.ucdavis.edu/downloads" class="external-link">website</a>. You could also use <code>hmdbcms</code> to simulate EI source data extracted from <a href="https://hmdb.ca/downloads" class="external-link">HMDB</a>. Here we only use the MS1 full scan data for simulation.</p>
 <div class="section level3">
 <h3 id="multiple-files-with-experiment-design">Multiple files with experiment design<a class="anchor" aria-label="anchor" href="#multiple-files-with-experiment-design"></a>
 </h3>
-<p>You could stimulate two groups of raw data with different peak width. Retention time could follow a uniform distribution. 100 compounds could be selected randomly and base peaks’ signal to noise ratio could be sample from 100 to 1000. Each group contain 10 samples.</p>
+<p>You could stimulate two groups of raw data with different peak widths for the same compounds. Retention time could follow a uniform distribution. 100 compounds could be selected randomly and base peaks’ signal to noise ratio could be sample from 100 to 1000. Each group contain 10 samples and 30% compounds are changed between case and control groups.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">'case'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">'control'</span><span class="op">)</span></span>
-<span><span class="co"># 30% compounds changed between case and control</span></span>
 <span><span class="va">pw1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">30</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">40</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">30</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">pw2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">20</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">30</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">590</span>,length.out<span class="op">=</span><span class="fl">100</span><span class="op">)</span></span>
@@ -128,7 +112,7 @@
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="fu"><a href="reference/simmzml.html">simmzml</a></span><span class="op">(</span>name<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'control/control'</span>,<span class="va">i</span><span class="op">)</span>,db<span class="op">=</span><span class="va">monahrms1</span>,pwidth <span class="op">=</span> <span class="va">pw2</span>,compound<span class="op">=</span><span class="va">compound</span>,rtime <span class="op">=</span> <span class="va">rt</span>, sn<span class="op">=</span><span class="va">sn</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>Then you could find 10 mzML files in case subfolder and another 10 mzML files in control subfolder.</p>
+<p>Then you could find 10 mzML files in case sub folder and another 10 mzML files in control sub folder, as well as corresponding <code>test.csv</code> files with m/z, retention time and compound name of the peaks.</p>
 </div>
 <div class="section level3">
 <h3 id="chromatography-peaks">Chromatography peaks<a class="anchor" aria-label="anchor" href="#chromatography-peaks"></a>
@@ -143,43 +127,36 @@
 <div class="section level3">
 <h3 id="matrix-stimulation">matrix stimulation<a class="anchor" aria-label="anchor" href="#matrix-stimulation"></a>
 </h3>
-<p>You could also input a m/z vector as matrix mass. Those masses will generate background baseline signals. By default, the mass vector is from a previous matrix samples.</p>
+<p>You could also input a m/z vector as matrix masses. Those masses will generate background baseline signals. By default, the mass vector is from matrix samples previous <a href="https://jcheminf.biomedcentral.com/articles/10.1186/s13321-022-00586-8" class="external-link">published</a>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mzm</span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/simmzml.html">simmzml</a></span><span class="op">(</span>name<span class="op">=</span><span class="st">'test'</span>,db<span class="op">=</span><span class="va">monahrms1</span>,pwidth <span class="op">=</span> <span class="fl">10</span>,compound<span class="op">=</span><span class="fl">1</span>,rtime <span class="op">=</span> <span class="fl">100</span>, sn<span class="op">=</span><span class="fl">10</span>,matrixmz <span class="op">=</span> <span class="va">mzm</span>,matrix <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/simmzml.html">simmzml</a></span><span class="op">(</span>name<span class="op">=</span><span class="st">'test'</span>,db<span class="op">=</span><span class="va">monahrms1</span>,pwidth <span class="op">=</span> <span class="fl">10</span>,compound<span class="op">=</span><span class="fl">1</span>,rtime <span class="op">=</span> <span class="fl">100</span>, sn<span class="op">=</span><span class="fl">10</span>,matrixmz <span class="op">=</span> <span class="va">mzm</span>,matrix <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
-<h2 id="batch-effect-simulation">Batch effect simulation<a class="anchor" aria-label="anchor" href="#batch-effect-simulation"></a>
+<h2 id="peaks-list-simulation">Peaks list simulation<a class="anchor" aria-label="anchor" href="#peaks-list-simulation"></a>
 </h2>
 <p>You could use <code>mzrtsim</code> to make simulation of peak list.</p>
+<p>Here we make a simulation of 100 compounds from selected database with two conditions and three batches. 5 percentage of the peaks were influenced by conditions and 10 percentage of the peaks were influenced by batch effects. Three different type could be simulated: monotonic, random and block. You could also bind batch type, for example, ‘mb’ means the simulation would contain both monotonic and block batch effects. ‘db’ means the spectra database to be used for simulation as metioned in raw data simulation section.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yufree/mzrtsim" class="external-link">mzrtsim</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"monams1"</span><span class="op">)</span></span>
 <span><span class="va">simdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mzrtsim.html">mzrtsim</a></span><span class="op">(</span>ncomp <span class="op">=</span> <span class="fl">100</span>, ncond <span class="op">=</span> <span class="fl">2</span>, ncpeaks <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>  nbatch <span class="op">=</span> <span class="fl">3</span>, nbpeaks <span class="op">=</span> <span class="fl">0.1</span>, npercond <span class="op">=</span> <span class="fl">10</span>, nperbatch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8</span>, <span class="fl">5</span>, <span class="fl">7</span><span class="op">)</span>, seed <span class="op">=</span> <span class="fl">42</span>, batchtype <span class="op">=</span> <span class="st">'mb'</span>, db<span class="op">=</span><span class="va">monams1</span><span class="op">)</span></span></code></pre></div>
-<p>Here we make a simulation of 100 compounds from selected database with two conditions and three batches. 5 percentage of the peaks were influnced by conditions and 10 percentage of the peaks were influnced by batch effects. Three different type could be simulated: monotonic, random and block. You could also bind batchtype, for example, ‘mb’ means the simulation would contain both monotonic and block batch effects. ‘db’ means the spectra database to be used for simulation. ‘monams1’ means LC-MS spectra from MoNA amd ‘hmdbcms’ means GC-EI-MS spectra from HMDB.</p>
-<p>You could save the simulated data into multiple csv files by <code>simdata</code> function. <code>simraw.csv</code> could be used for metaboanalyst. <code>simraw2.csv</code> show the raw peaks list. <code>simcon.csv</code> show peaks influnced by conditions only.<code>simbatchmatrix.csv</code> show peaks influnced by batch effects only. <code>simbat.csv</code> show peaks influnced by batch effects and conditions. <code>simcomp.csv</code> show independent peaks influnced by conditions and batch effects. <code>simcompchange.csv</code> show the conditions changes of each groups. <code>simblockbatchange.csv</code> show the block batch changes of each groups. <code>simmonobatchange.csv</code> show the monotonic batch changes of each groups.</p>
+<p>You could save the simulated data into multiple csv files by <code>simdata</code> function. <code>simraw.csv</code> could be used for metaboanalyst. <code>simraw2.csv</code> show the raw peaks list. <code>simcon.csv</code> show peaks influenced by conditions only.<code>simbatchmatrix.csv</code> show peaks influnced by batch effects only. <code>simbat.csv</code> show peaks influenced by batch effects and conditions. <code>simcomp.csv</code> show independent peaks influenced by conditions and batch effects. <code>simcompchange.csv</code> show the conditions changes of each groups. <code>simblockbatchange.csv</code> show the block batch changes of each groups. <code>simmonobatchange.csv</code> show the monotonic batch changes of each group.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/simdata.html">simdata</a></span><span class="op">(</span><span class="va">sim</span>,name <span class="op">=</span> <span class="st">"sim"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="basic-models-of-batch-effects-correction">Basic models of batch effects correction<a class="anchor" aria-label="anchor" href="#basic-models-of-batch-effects-correction"></a>
+<h2 id="shiny-apps">Shiny Apps<a class="anchor" aria-label="anchor" href="#shiny-apps"></a>
 </h2>
-<p>Batch effects are the variances caused by factor other than the experimental design. We could simply make a linear model for the intensity of one peak:</p>
-<p><span class="math display"><em>I</em><em>n</em><em>t</em><em>e</em><em>n</em><em>s</em><em>i</em><em>t</em><em>y</em> = <em>A</em><em>v</em><em>e</em><em>r</em><em>a</em><em>g</em><em>e</em> + <em>C</em><em>o</em><em>n</em><em>d</em><em>i</em><em>t</em><em>i</em><em>o</em><em>n</em> + <em>B</em><em>a</em><em>t</em><em>c</em><em>h</em> + <em>E</em><em>r</em><em>r</em><em>o</em><em>r</em></span></p>
-<p>Research is focused on condition contribution part and overall average or random error could be estimated. However, we know little about the batch contribution. Sometimes we could use known variables such as injection order or operators as the batch part. However, in most cases we such variable is unknown. Almost all the batch correction methods are trying to use some estimations to balance or remove the batch effect.</p>
-<p>For analytical chemistry, internal standards or pool quality control samples are actually standing for the batch contribution part in the model. However, it’s impractical to get all the internal standards when the data is collected untargeted. For methods using internal standards or pool quality control samples, the variations among those samples are usually removed as median, quantile, mean or the ratios. Other ways like quantile regression, centering and scaling based on distribution within samples could be treated as using the stable distribution of peaks intensity to remove batch effects. However, here we would turn to the experiments without pooled quality control samples and correction methods which make estimation of batch effects. Some combination methods using pooled quality control samples or control samples to estimate the batch effect like Remove Unwanted Variation(RUV) would not be covered here.</p>
-<div class="section level3">
-<h3 id="distribution-of-intensity">Distribution of intensity<a class="anchor" aria-label="anchor" href="#distribution-of-intensity"></a>
-</h3>
-<p>Intensity collects from LC/GC-MS always showed a right-skewed distribution. Log transformation is often necessary for further statistical analysis. In some case, a Log-transformed intensity could be visualized easily.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="evaluation-of-batch-correction">Evaluation of batch correction<a class="anchor" aria-label="anchor" href="#evaluation-of-batch-correction"></a>
-</h2>
-<p>Various methods have been used for batch correction and evaluation. For our simulation, we need some methods to check the performances of correction. Difference analysis would be a common method for evaluation. Then we could check whether this peak is true positive or false positive by settings of the simulation.</p>
+<p>Two shiny apps are provided within the package for raw data/peaks list simulation.</p>
+<p>For raw data stimulation, run the following code:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/runmzMLsim.html">runmzMLsim</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>For peaks list stimulation, run the following code:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/runmzrtsim.html">runmzrtsim</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </div>
@@ -217,8 +194,8 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/yufree/mzrtsim/actions" class="external-link"><img src="https://github.com/yufree/mzrtsim/workflows/Render%20and%20Deploy%20RMarkdown%20Website/badge.svg" alt="Actions Status"></a></li>
 <li><a href="https://github.com/yufree/mzrtsim/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/yufree/mzrtsim/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
 </ul>
 </div>
 

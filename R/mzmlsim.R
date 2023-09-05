@@ -7,13 +7,13 @@
 #' Generate simulated mzml data and compounds list
 #' @param db compound database with MS1 data. e.g. hmdbcms or monams1
 #' @param name file name of mzml
-#' @param n compound numbers from database, if compound is not NULL, n will be compund number, default 100
+#' @param n compound numbers from database, if compound is not NULL, n will be compound number, default 100
 #' @param inscutoff intensity cutoff for MS1 spectra, default 0.05
 #' @param mzrange m/z range for simulation, peaks out of the range will be removed, default c(100,1000)
 #' @param rtrange retention time range for simulation, default c(0,600)
-#' @param ppm m/z shift in ppm
+#' @param ppm m/z shift in ppm, default 5
 #' @param mzdigit m/z digits, default 5
-#' @param scanrate time for each full scan, defulat 0.2 secound or 5 spectra per secound
+#' @param scanrate time for each full scan, default 0.2 second or 5 spectra per secound
 #' @param pwidth peak width for the compound. If it's a single value, simulated peaks' width will use this number as the lambda of Poisson distribution. If it's a numeric vector, it will be used as the peak width for each compounds.
 #' @param baseline noise baseline, default 100
 #' @param baselinesd standard deviation for noise, default 30
