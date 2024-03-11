@@ -41,7 +41,7 @@ simmzml(
 
 \item{rtrange}{retention time range for simulation, default c(0,600)}
 
-\item{ppm}{m/z shift in ppm}
+\item{ppm}{m/z shift in ppm, default 5}
 
 \item{mzdigit}{m/z digits, default 5}
 

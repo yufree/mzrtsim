@@ -1,8 +1,8 @@
 Package: mzrtsim
 Type: Package
 Title: Raw data (mzML) and peaks list simulation for LC/GC-MS based metabolomics data
-Version: 1.0.0
-Date: 2023-08-30
+Version: 1.0.1
+Date: 2024-03-11
 Authors@R: person(given = "Miao", family = "YU",
         role = c("aut", "cre"), 
         email = "yufreecas@gmail.com",

@@ -119,11 +119,12 @@ simmzml <-
                                 intensity[[i]][insidx[[i]]])
                 }
                 subname <- sapply(sub, function(x) x$name)
-                df <- cbind.data.frame(subname,rtime)
                 mzv <- unlist(mz)
+                intensityv <- unlist(intensity)
                 rtimev <- rep(rtime,sapply(mz,length))
-                df2 <- cbind.data.frame(mz=mzv,rt=rtimev)
-                df2$name <- df$subname[match(df2$rt,df$rtime)]
+                namev <- rep(subname,sapply(mz,length))
+                df2 <- cbind.data.frame(mz=mzv,rt=rtimev,ins=intensityv,name=namev)
+
 
                 mzc <- rem <- c()
 

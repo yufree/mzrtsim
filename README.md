@@ -54,12 +54,16 @@ control groups.
 ``` r
 dir.create('case')
 dir.create('control')
+# set different peak width for 100 compounds
 pw1 <- c(rep(5,30),rep(10,40),rep(15,30))
 pw2 <- c(rep(5,20),rep(10,30),rep(15,50))
+# set retention time for 100 compounds
 rt <- seq(10,590,length.out=100)
 set.seed(1)
+# select compounds from database
 compound <- sample(c(1:4000),100)
 set.seed(2)
+# select signal to noise ration
 sn <- sample(c(100:10000),100)
 for(i in c(1:10)){
   simmzml(name=paste0('case/case',i),db=monahrms1,pwidth = pw1,compound=compound,rtime = rt, sn=sn)
@@ -71,8 +75,8 @@ for(i in c(1:10)){
 ```
 
 Then you could find 10 mzML files in case sub folder and another 10 mzML
-files in control sub folder, as well as corresponding `test.csv` files
-with m/z, retention time and compound name of the peaks.
+files in control sub folder, as well as corresponding csv files with
+m/z, retention time and compound name of the peaks.
 
 ### Chromatography peaks
 
@@ -102,7 +106,7 @@ simmzml(name='test',db=monahrms1,pwidth = 10,compound=1,rtime = 100, sn=10,matri
 
 ## Peaks list simulation
 
-You could use `mzrtsim` to make simulation of peak list.
+You could also use `mzrtsim` to make simulation of peak list.
 
 Here we make a simulation of 100 compounds from selected database with
 two conditions and three batches. 5 percentage of the peaks were
@@ -133,21 +137,4 @@ changes of each group.
 
 ``` r
 simdata(sim,name = "sim")
-```
-
-## Shiny Apps
-
-Two shiny apps are provided within the package for raw data/peaks list
-simulation.
-
-For raw data stimulation, run the following code:
-
-``` r
-runmzMLsim()
-```
-
-For peaks list stimulation, run the following code:
-
-``` r
-runmzrtsim()
 ```
