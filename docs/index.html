@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">mzrtsim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.1</span>
       </span>
     </div>
 
@@ -98,12 +98,16 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">'case'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">'control'</span><span class="op">)</span></span>
+<span><span class="co"># set different peak width for 100 compounds</span></span>
 <span><span class="va">pw1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">30</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">40</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">30</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">pw2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">20</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">30</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># set retention time for 100 compounds</span></span>
 <span><span class="va">rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">590</span>,length.out<span class="op">=</span><span class="fl">100</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co"># select compounds from database</span></span>
 <span><span class="va">compound</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4000</span><span class="op">)</span>,<span class="fl">100</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co"># select signal to noise ration</span></span>
 <span><span class="va">sn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span><span class="op">:</span><span class="fl">10000</span><span class="op">)</span>,<span class="fl">100</span><span class="op">)</span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="fu"><a href="reference/simmzml.html">simmzml</a></span><span class="op">(</span>name<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'case/case'</span>,<span class="va">i</span><span class="op">)</span>,db<span class="op">=</span><span class="va">monahrms1</span>,pwidth <span class="op">=</span> <span class="va">pw1</span>,compound<span class="op">=</span><span class="va">compound</span>,rtime <span class="op">=</span> <span class="va">rt</span>, sn<span class="op">=</span><span class="va">sn</span><span class="op">)</span></span>
@@ -112,7 +116,7 @@
 <span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="fu"><a href="reference/simmzml.html">simmzml</a></span><span class="op">(</span>name<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">'control/control'</span>,<span class="va">i</span><span class="op">)</span>,db<span class="op">=</span><span class="va">monahrms1</span>,pwidth <span class="op">=</span> <span class="va">pw2</span>,compound<span class="op">=</span><span class="va">compound</span>,rtime <span class="op">=</span> <span class="va">rt</span>, sn<span class="op">=</span><span class="va">sn</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p>Then you could find 10 mzML files in case sub folder and another 10 mzML files in control sub folder, as well as corresponding <code>test.csv</code> files with m/z, retention time and compound name of the peaks.</p>
+<p>Then you could find 10 mzML files in case sub folder and another 10 mzML files in control sub folder, as well as corresponding csv files with m/z, retention time and compound name of the peaks.</p>
 </div>
 <div class="section level3">
 <h3 id="chromatography-peaks">Chromatography peaks<a class="anchor" aria-label="anchor" href="#chromatography-peaks"></a>
@@ -136,7 +140,7 @@
 <div class="section level2">
 <h2 id="peaks-list-simulation">Peaks list simulation<a class="anchor" aria-label="anchor" href="#peaks-list-simulation"></a>
 </h2>
-<p>You could use <code>mzrtsim</code> to make simulation of peak list.</p>
+<p>You could also use <code>mzrtsim</code> to make simulation of peak list.</p>
 <p>Here we make a simulation of 100 compounds from selected database with two conditions and three batches. 5 percentage of the peaks were influenced by conditions and 10 percentage of the peaks were influenced by batch effects. Three different type could be simulated: monotonic, random and block. You could also bind batch type, for example, ‘mb’ means the simulation would contain both monotonic and block batch effects. ‘db’ means the spectra database to be used for simulation as metioned in raw data simulation section.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yufree/mzrtsim" class="external-link">mzrtsim</a></span><span class="op">)</span></span>
@@ -146,17 +150,6 @@
 <p>You could save the simulated data into multiple csv files by <code>simdata</code> function. <code>simraw.csv</code> could be used for metaboanalyst. <code>simraw2.csv</code> show the raw peaks list. <code>simcon.csv</code> show peaks influenced by conditions only.<code>simbatchmatrix.csv</code> show peaks influnced by batch effects only. <code>simbat.csv</code> show peaks influenced by batch effects and conditions. <code>simcomp.csv</code> show independent peaks influenced by conditions and batch effects. <code>simcompchange.csv</code> show the conditions changes of each groups. <code>simblockbatchange.csv</code> show the block batch changes of each groups. <code>simmonobatchange.csv</code> show the monotonic batch changes of each group.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/simdata.html">simdata</a></span><span class="op">(</span><span class="va">sim</span>,name <span class="op">=</span> <span class="st">"sim"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="shiny-apps">Shiny Apps<a class="anchor" aria-label="anchor" href="#shiny-apps"></a>
-</h2>
-<p>Two shiny apps are provided within the package for raw data/peaks list simulation.</p>
-<p>For raw data stimulation, run the following code:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/runmzMLsim.html">runmzMLsim</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>For peaks list stimulation, run the following code:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/runmzrtsim.html">runmzrtsim</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </div>
