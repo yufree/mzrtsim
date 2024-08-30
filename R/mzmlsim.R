@@ -154,7 +154,6 @@ simmzml <-
                                 mzm <- matrixmz
                         }
                         mzm <- round(mzm,digits = mzdigit)
-                        mzm <- mzm+stats::rnorm(length(mzm),sd=noisesd)*mzm*1e-6*ppm
                         mzmatrix <- mzm[!mzm%in%mzpeak]
                         insmatrix <- matrix(stats::rnorm(length(rtime0)*length(mzmatrix), mean = baseline, sd= baselinesd),nrow = length(mzmatrix),ncol = length(rtime0))
                         noisepeak <- matrix(stats::rnorm(length(rtime0)*length(mzpeak), mean = baseline, sd= baselinesd),nrow = length(mzpeak),ncol = length(rtime0))
@@ -196,8 +195,8 @@ simmzml <-
 #' @export
 mzmlviz <-
         function(mzml,
-                 mzrange = c(0, 600),
-                 rtrange = c(100, 1000)) {
+                 mzrange = c(100, 1000),
+                 rtrange = c(0, 600)) {
                 dt <- Spectra::Spectra(mzml)
                 rt <- Spectra::rtime(dt)
                 ins <- Spectra::intensity(dt)
@@ -214,8 +213,8 @@ mzmlviz <-
                 plot(
                         rtimev,
                         mzv,
-                        xlim = mzrange,
-                        ylim = rtrange,
+                        xlim = rtrange,
+                        ylim = mzrange,
                         pch = 19,
                         cex = 0.01,
                         col = grDevices::gray(1 - norm),
