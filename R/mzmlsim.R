@@ -148,7 +148,11 @@ simmzml <-
                 mzpeak <- mzpeak+stats::rnorm(length(mzpeak),sd=noisesd)*mzpeak*1e-6*ppm
 
                 if(matrix){
-                        mzm <- ifelse(is.null(matrixmz),mzm,matrixmz)
+                        if(is.null(matrixmz)){
+                                mzm <- mzm
+                        }else{
+                                mzm <- matrixmz
+                        }
                         mzm <- round(mzm,digits = mzdigit)
                         mzm <- mzm+stats::rnorm(length(mzm),sd=noisesd)*mzm*1e-6*ppm
                         mzmatrix <- mzm[!mzm%in%mzpeak]
