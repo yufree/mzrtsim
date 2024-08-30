@@ -45,7 +45,7 @@ simmzml(
 
 \item{ppm}{m/z shift in ppm for input compounds, default 5}
 
-\item{sampleppm}{2, default 5}
+\item{sampleppm}{m/z shift in ppm within one sample, default 5}
 
 \item{mzdigit}{m/z digits, default 5}
 

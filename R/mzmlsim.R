@@ -12,7 +12,7 @@
 #' @param mzrange m/z range for simulation, peaks out of the range will be removed, default c(100,1000)
 #' @param rtrange retention time range for simulation, default c(0,600)
 #' @param ppm m/z shift in ppm for input compounds, default 5
-#' @param sampleppm 2, default 5
+#' @param sampleppm m/z shift in ppm within one sample, default 5
 #' @param mzdigit m/z digits, default 5
 #' @param noisesd standard deviation for normal distribution of m/z shift, default 0.5
 #' @param scanrate time for each full scan, default 0.2 second or 5 spectra per second
