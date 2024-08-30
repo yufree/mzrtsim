@@ -44,6 +44,13 @@ inputPanel(
         value = 5
         ),
         sliderInput(
+        "sampleppm",
+        "m/z shift in ppm within one sample",
+        min = 0,
+        max = 50,
+        value = 5
+        ),
+        sliderInput(
         "mzrange",
         "mass to charge ratio range",
         min = 50,
@@ -114,6 +121,8 @@ sim <- reactive({
                         inscutoff = input$inscutoff,
                         mzrange = input$mzrange,
                         rtrange = input$rtrange,
+                        ppm = input$ppm,
+                        sampleppm = input$sampleppm,
                         scanrate = input$scanrate,
                         pwidth = input$pwidth,
                         baseline = input$baseline,
@@ -136,6 +145,7 @@ sim <- reactive({
                         mzrange = input$mzrange,
                         rtrange = input$rtrange,
                         ppm = input$ppm,
+                        sampleppm = input$sampleppm,
                         scanrate = input$scanrate,
                         pwidth = input$pwidth,
                         baseline = input$baseline,
@@ -157,6 +167,8 @@ sim <- reactive({
                         inscutoff = input$inscutoff,
                         mzrange = input$mzrange,
                         rtrange = input$rtrange,
+                        ppm = input$ppm,
+                        sampleppm = input$sampleppm,
                         scanrate = input$scanrate,
                         pwidth = input$pwidth,
                         baseline = input$baseline,
