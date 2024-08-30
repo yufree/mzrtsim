@@ -12,7 +12,9 @@ simmzml(
   mzrange = c(100, 1000),
   rtrange = c(0, 600),
   ppm = 5,
+  sampleppm = 5,
   mzdigit = 5,
+  noisesd = 0.5,
   scanrate = 0.2,
   pwidth = 10,
   baseline = 100,
@@ -41,11 +43,15 @@ simmzml(
 
 \item{rtrange}{retention time range for simulation, default c(0,600)}
 
-\item{ppm}{m/z shift in ppm, default 5}
+\item{ppm}{m/z shift in ppm for input compounds, default 5}
+
+\item{sampleppm}{m/z shift in ppm within one sample, default 5}
 
 \item{mzdigit}{m/z digits, default 5}
 
-\item{scanrate}{time for each full scan, default 0.2 second or 5 spectra per secound}
+\item{noisesd}{standard deviation for normal distribution of m/z shift, default 0.5}
+
+\item{scanrate}{time for each full scan, default 0.2 second or 5 spectra per second}
 
 \item{pwidth}{peak width for the compound. If it's a single value, simulated peaks' width will use this number as the lambda of Poisson distribution. If it's a numeric vector, it will be used as the peak width for each compounds.}
 

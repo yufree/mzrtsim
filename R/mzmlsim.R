@@ -11,9 +11,11 @@
 #' @param inscutoff intensity cutoff for MS1 spectra, default 0.05
 #' @param mzrange m/z range for simulation, peaks out of the range will be removed, default c(100,1000)
 #' @param rtrange retention time range for simulation, default c(0,600)
-#' @param ppm m/z shift in ppm, default 5
+#' @param ppm m/z shift in ppm for input compounds, default 5
+#' @param sampleppm m/z shift in ppm within one sample, default 5
 #' @param mzdigit m/z digits, default 5
-#' @param scanrate time for each full scan, default 0.2 second or 5 spectra per secound
+#' @param noisesd standard deviation for normal distribution of m/z shift, default 0.5
+#' @param scanrate time for each full scan, default 0.2 second or 5 spectra per second
 #' @param pwidth peak width for the compound. If it's a single value, simulated peaks' width will use this number as the lambda of Poisson distribution. If it's a numeric vector, it will be used as the peak width for each compounds.
 #' @param baseline noise baseline, default 100
 #' @param baselinesd standard deviation for noise, default 30
@@ -39,7 +41,9 @@ simmzml <-
                  mzrange = c(100,1000),
                  rtrange = c(0, 600),
                  ppm = 5,
+                 sampleppm = 5,
                  mzdigit = 5,
+                 noisesd = 0.5,
                  scanrate = 0.2,
                  pwidth = 10,
                  baseline = 100,
@@ -141,7 +145,7 @@ simmzml <-
                 }
                 alld <- stats::aggregate(rem,by=list(mzc),FUN=sum)
                 mzpeak <- as.numeric(alld$Group.1)
-                mzpeak <- mzpeak+stats::rnorm(length(mzpeak),sd=0.5)*mzpeak*1e-6*ppm
+                mzpeak <- mzpeak+stats::rnorm(length(mzpeak),sd=noisesd)*mzpeak*1e-6*ppm
 
                 if(matrix){
                         mzm <- ifelse(is.null(matrixmz),mzm,matrixmz)
@@ -165,7 +169,9 @@ simmzml <-
                 for(i in 1:length(rtime0)){
                         ins <- allins[,i]
                         intensityl[[i]] <- ins[ins>0&mz>mzrange[1]&mz<mzrange[2]]
-                        mzl[[i]] <- mz[ins>0&mz>mzrange[1]&mz<mzrange[2]]
+                        mzt <- mz[ins>0&mz>mzrange[1]&mz<mzrange[2]]
+                        # add ppm shift for each scan
+                        mzl[[i]] <- mzt+stats::rnorm(length(mzt),sd=noisesd)*mzt*1e-6*sampleppm
                 }
 
                 spd$mz <- mzl

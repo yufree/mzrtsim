@@ -54,7 +54,7 @@ dir.create('control')
 # set different peak width for 100 compounds
 pw1 <- c(rep(5,30),rep(10,40),rep(15,30))
 pw2 <- c(rep(5,20),rep(10,30),rep(15,50))
-# set retention time for 100 compounds
+# set retention time for 100 compounds. When the peak width is set as a single value, the simulated base peak width will be from a poisson distribution with this value as lambda. 
 rt <- seq(10,590,length.out=100)
 set.seed(1)
 # select compounds from database
