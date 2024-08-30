@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Raw data (mzML) and peaks list simulation for LC/GC-MS based metabolomics data • mzrtsim</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -25,7 +25,7 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">mzrtsim</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.2</span>
       </span>
     </div>
 
@@ -53,7 +53,7 @@
 <li>
   <a href="https://github.com/yufree/mzrtsim/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -64,7 +64,7 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="contents col-md-9">
@@ -92,16 +92,76 @@
 <span><span class="fu"><a href="reference/simmzml.html">simmzml</a></span><span class="op">(</span>db<span class="op">=</span><span class="va">monams1</span>, name <span class="op">=</span> <span class="st">'test'</span><span class="op">)</span></span></code></pre></div>
 <p>You will find <code>test.mzML</code> and corresponding <code>test.csv</code> with m/z, retention time and compound name of the peaks. Here the <code>monams1</code> and <code>monahrms1</code> is from the MS1 data of MassBank of North America (MoNA) and could be downloaded from their <a href="https://mona.fiehnlab.ucdavis.edu/downloads" class="external-link">website</a>. You could also use <code>hmdbcms</code> to simulate EI source data extracted from <a href="https://hmdb.ca/downloads" class="external-link">HMDB</a>. Here we only use the MS1 full scan data for simulation.</p>
 <div class="section level3">
+<h3 id="data-extraction">Data extraction<a class="anchor" aria-label="anchor" href="#data-extraction"></a>
+</h3>
+<p>For HMDB, you need to download their “GC-MS Spectra Files (XML) - Experimental” data <a href="https://hmdb.ca/downloads" class="external-link">here</a>. Then you need the following R code to construct the database for this package.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">xmlpath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="st">'hmdb_experimental_cms_spectra/'</span>,full.names <span class="op">=</span> <span class="cn">T</span>,recursive <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://xml2.r-lib.org/" class="external-link">xml2</a></span><span class="op">)</span></span>
+<span><span class="va">getcms</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">tree</span> <span class="op">=</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html" class="external-link">read_xml</a></span><span class="op">(</span><span class="va">xmlpath</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="va">accession</span> <span class="op">=</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_all</a></span><span class="op">(</span><span class="va">tree</span>,<span class="st">'/c-ms/database-id'</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">rti</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_all</a></span><span class="op">(</span><span class="va">tree</span>,<span class="st">'/c-ms/retention-index'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">prec</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_all</a></span><span class="op">(</span><span class="va">tree</span>,<span class="st">'/c-ms/derivative-exact-mass'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">formula</span> <span class="op">=</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_all</a></span><span class="op">(</span><span class="va">tree</span>,<span class="st">'/c-ms/derivative-formula'</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">ins</span> <span class="op">=</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_all</a></span><span class="op">(</span><span class="va">tree</span>,<span class="st">'/c-ms/notes'</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">ins2</span> <span class="op">=</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_all</a></span><span class="op">(</span><span class="va">tree</span>,<span class="st">'/c-ms/instrument-type'</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">mode</span> <span class="op">=</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_all</a></span><span class="op">(</span><span class="va">tree</span>,<span class="st">'/c-ms/ionization-mode'</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">idms</span> <span class="op">=</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_all</a></span><span class="op">(</span><span class="va">tree</span>,<span class="st">'/c-ms/id'</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">instr</span> <span class="op">=</span> <span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_all</a></span><span class="op">(</span><span class="va">tree</span>,<span class="st">'instrument-type'</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">masscharge</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_all</a></span><span class="op">(</span><span class="va">tree</span>,<span class="st">'/c-ms/c-ms-peaks/c-ms-peak/mass-charge'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">intensity</span> <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_text.html" class="external-link">xml_text</a></span><span class="op">(</span><span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/xml_find_all.html" class="external-link">xml_find_all</a></span><span class="op">(</span><span class="va">tree</span>,<span class="st">'/c-ms/c-ms-peaks/c-ms-peak/intensity'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">idx</span> <span class="op">&lt;-</span> <span class="va">intensity</span><span class="op">!=</span><span class="fl">0</span></span>
+<span>  <span class="va">mz</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>name<span class="op">=</span><span class="va">accession</span>, idms<span class="op">=</span><span class="va">idms</span>, ionmode<span class="op">=</span><span class="va">mode</span>, prec <span class="op">=</span> <span class="va">prec</span>, formula <span class="op">=</span> <span class="va">formula</span>, np <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">masscharge</span><span class="op">[</span><span class="va">idx</span><span class="op">]</span><span class="op">)</span>, rti <span class="op">=</span> <span class="va">rti</span>, instr <span class="op">=</span> <span class="va">ins2</span>, msm <span class="op">=</span> <span class="va">ins</span>, spectra<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind.data.frame</a></span><span class="op">(</span>mz<span class="op">=</span><span class="va">masscharge</span><span class="op">[</span><span class="va">idx</span><span class="op">]</span>,ins<span class="op">=</span><span class="va">intensity</span><span class="op">[</span><span class="va">idx</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">mz</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">parallel</span><span class="op">)</span></span>
+<span><span class="va">hmdbcms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/mclapply.html" class="external-link">mcMap</a></span><span class="op">(</span><span class="va">getcms</span>,<span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">xmlpath</span><span class="op">)</span>, mc.cores <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">hmdbcms</span>,<span class="st">'hmdbcms.RDS'</span><span class="op">)</span></span></code></pre></div>
+<p>For MoNA, you can download the “LC-MS Spectra” data in format of “msp” from this <a href="https://mona.fiehnlab.ucdavis.edu/downloads" class="external-link">website</a>. Then we need to filter the MS1 data to generate database for LC-MS and subset data base for LC-HRMS.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># you need to install enviGCMS package by 'install.packages("enviGCMS")'.</span></span>
+<span><span class="va">msp</span> <span class="op">&lt;-</span> <span class="fu">enviGCMS</span><span class="fu">::</span><span class="fu">getMSP</span><span class="op">(</span><span class="st">'MoNA-export-LC-MS_Spectra.msp'</span><span class="op">)</span></span>
+<span><span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">msp</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">'MS1'</span>,<span class="va">x</span><span class="op">$</span><span class="va">msm</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">idx1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">idx</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">monams1</span> <span class="op">&lt;-</span> <span class="va">msp</span><span class="op">[</span><span class="va">idx1</span><span class="op">]</span></span>
+<span><span class="va">idx2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">monams1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">'MS1'</span>,<span class="va">x</span><span class="op">$</span><span class="va">msm</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">monams1</span> <span class="op">&lt;-</span> <span class="va">monams1</span><span class="op">[</span><span class="va">idx2</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">idx3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">monams1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">instr</span> <span class="op">)</span></span>
+<span><span class="va">idx4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">idx3</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">monams12</span> <span class="op">&lt;-</span> <span class="va">monams1</span><span class="op">[</span><span class="va">idx4</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">monams12</span>,<span class="st">'monams1.RDS'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">idx5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">monams12</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">instr</span> <span class="op">)</span></span>
+<span><span class="va">monams13</span> <span class="op">&lt;-</span> <span class="va">monams12</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">'FT|TOF'</span>,<span class="va">idx5</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">idx5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">monams13</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">instr</span> <span class="op">)</span></span>
+<span></span>
+<span><span class="va">nn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">monams13</span>,<span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">np</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">nn</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">nn</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">monams13</span>,<span class="st">'monahrms1.RDS'</span><span class="op">)</span></span></code></pre></div>
+<p>If you have your own database in “msp” format, you can generate the custom database by the following code:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">msp</span> <span class="op">&lt;-</span> <span class="fu">enviGCMS</span><span class="fu">::</span><span class="fu">getMSP</span><span class="op">(</span><span class="st">'MoNA-export-LC-MS_Spectra.msp'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">msp</span>,<span class="st">'custom.RDS'</span><span class="op">)</span></span></code></pre></div>
+<p>To use the “*.RDS” database, you need to load them and refer their name for ‘simmzml’ function.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">custom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">'custom.RDS'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/simmzml.html">simmzml</a></span><span class="op">(</span>db<span class="op">=</span><span class="va">custom</span>, name <span class="op">=</span> <span class="st">'test'</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
 <h3 id="multiple-files-with-experiment-design">Multiple files with experiment design<a class="anchor" aria-label="anchor" href="#multiple-files-with-experiment-design"></a>
 </h3>
 <p>You could stimulate two groups of raw data with different peak widths for the same compounds. Retention time could follow a uniform distribution. 100 compounds could be selected randomly and base peaks’ signal to noise ratio could be sample from 100 to 1000. Each group contain 10 samples and 30% compounds are changed between case and control groups.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">'case'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">'control'</span><span class="op">)</span></span>
 <span><span class="co"># set different peak width for 100 compounds</span></span>
 <span><span class="va">pw1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">30</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">40</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">30</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">pw2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">20</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">30</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co"># set retention time for 100 compounds</span></span>
+<span><span class="co"># set retention time for 100 compounds. When the peak width is set as a single value, the simulated base peak width will be from a poisson distribution with this value as lambda. </span></span>
 <span><span class="va">rt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">590</span>,length.out<span class="op">=</span><span class="fl">100</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co"># select compounds from database</span></span>
@@ -122,7 +182,7 @@
 <h3 id="chromatography-peaks">Chromatography peaks<a class="anchor" aria-label="anchor" href="#chromatography-peaks"></a>
 </h3>
 <p>You could also use <code>simmzml</code> to stimulate tailing/leading peaks by defining the tailing factor of the peaks. When the tailing factor is lower than 1, the peaks are leading peaks. When the tailing factor is larger than 1, the peaks are tailing peaks.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># leading peaks</span></span>
 <span><span class="fu"><a href="reference/simmzml.html">simmzml</a></span><span class="op">(</span>name<span class="op">=</span><span class="st">'test'</span>,db<span class="op">=</span><span class="va">monahrms1</span>,pwidth <span class="op">=</span> <span class="fl">10</span>,compound<span class="op">=</span><span class="fl">1</span>,rtime <span class="op">=</span> <span class="fl">100</span>, sn<span class="op">=</span><span class="fl">10</span>,tailingfactor <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
 <span><span class="co"># tailing peaks</span></span>
@@ -132,7 +192,7 @@
 <h3 id="matrix-stimulation">matrix stimulation<a class="anchor" aria-label="anchor" href="#matrix-stimulation"></a>
 </h3>
 <p>You could also input a m/z vector as matrix masses. Those masses will generate background baseline signals. By default, the mass vector is from matrix samples previous <a href="https://jcheminf.biomedcentral.com/articles/10.1186/s13321-022-00586-8" class="external-link">published</a>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mzm</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/simmzml.html">simmzml</a></span><span class="op">(</span>name<span class="op">=</span><span class="st">'test'</span>,db<span class="op">=</span><span class="va">monahrms1</span>,pwidth <span class="op">=</span> <span class="fl">10</span>,compound<span class="op">=</span><span class="fl">1</span>,rtime <span class="op">=</span> <span class="fl">100</span>, sn<span class="op">=</span><span class="fl">10</span>,matrixmz <span class="op">=</span> <span class="va">mzm</span>,matrix <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -142,13 +202,13 @@
 </h2>
 <p>You could also use <code>mzrtsim</code> to make simulation of peak list.</p>
 <p>Here we make a simulation of 100 compounds from selected database with two conditions and three batches. 5 percentage of the peaks were influenced by conditions and 10 percentage of the peaks were influenced by batch effects. Three different type could be simulated: monotonic, random and block. You could also bind batch type, for example, ‘mb’ means the simulation would contain both monotonic and block batch effects. ‘db’ means the spectra database to be used for simulation as metioned in raw data simulation section.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yufree/mzrtsim" class="external-link">mzrtsim</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"monams1"</span><span class="op">)</span></span>
 <span><span class="va">simdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/mzrtsim.html">mzrtsim</a></span><span class="op">(</span>ncomp <span class="op">=</span> <span class="fl">100</span>, ncond <span class="op">=</span> <span class="fl">2</span>, ncpeaks <span class="op">=</span> <span class="fl">0.05</span>,</span>
 <span>  nbatch <span class="op">=</span> <span class="fl">3</span>, nbpeaks <span class="op">=</span> <span class="fl">0.1</span>, npercond <span class="op">=</span> <span class="fl">10</span>, nperbatch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8</span>, <span class="fl">5</span>, <span class="fl">7</span><span class="op">)</span>, seed <span class="op">=</span> <span class="fl">42</span>, batchtype <span class="op">=</span> <span class="st">'mb'</span>, db<span class="op">=</span><span class="va">monams1</span><span class="op">)</span></span></code></pre></div>
 <p>You could save the simulated data into multiple csv files by <code>simdata</code> function. <code>simraw.csv</code> could be used for metaboanalyst. <code>simraw2.csv</code> show the raw peaks list. <code>simcon.csv</code> show peaks influenced by conditions only.<code>simbatchmatrix.csv</code> show peaks influnced by batch effects only. <code>simbat.csv</code> show peaks influenced by batch effects and conditions. <code>simcomp.csv</code> show independent peaks influenced by conditions and batch effects. <code>simcompchange.csv</code> show the conditions changes of each groups. <code>simblockbatchange.csv</code> show the block batch changes of each groups. <code>simmonobatchange.csv</code> show the monotonic batch changes of each group.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/simdata.html">simdata</a></span><span class="op">(</span><span class="va">sim</span>,name <span class="op">=</span> <span class="st">"sim"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
@@ -203,16 +263,16 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer>
 </div>
 
-  
 
 
-  
+
+
 
   </body>
 </html>
