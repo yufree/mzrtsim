@@ -27,7 +27,7 @@
 #' @param seed Random seed for reproducibility
 #' @param unique if TRUE, one compound will have one spectra. Default FALSE
 #' @param matrix if TRUE, m/z from experimental data will be used for background m/z simulation.Default FALSE
-#' @param matrixmz custom matrix m/z vector, default NULL and predefined list will be used.
+#' @param matrixmz custom matrix m/z vector, default NULL and predefined list from serum blank will be used.
 #' @return one mzML file for simulated data and one csv file the simulated compounds with retention time, m/z and name
 #' @export
 #' @examples
@@ -150,6 +150,7 @@ simmzml <-
                 if(matrix){
                         mzm <- ifelse(is.null(matrixmz),mzm,matrixmz)
                         mzm <- round(mzm,digits = mzdigit)
+                        mzm <- mzm+stats::rnorm(length(mzm),sd=noisesd)*mzm*1e-6*ppm
                         mzmatrix <- mzm[!mzm%in%mzpeak]
                         insmatrix <- matrix(stats::rnorm(length(rtime0)*length(mzmatrix), mean = baseline, sd= baselinesd),nrow = length(mzmatrix),ncol = length(rtime0))
                         noisepeak <- matrix(stats::rnorm(length(rtime0)*length(mzpeak), mean = baseline, sd= baselinesd),nrow = length(mzpeak),ncol = length(rtime0))
