@@ -158,11 +158,12 @@ simmzml <-
                         insmatrix <- matrix(stats::rnorm(length(rtime0)*length(mzmatrix), mean = baseline, sd= baselinesd),nrow = length(mzmatrix),ncol = length(rtime0))
                         noisepeak <- matrix(stats::rnorm(length(rtime0)*length(mzpeak), mean = baseline, sd= baselinesd),nrow = length(mzpeak),ncol = length(rtime0))
                         inspeak <- alld[,-1]+noisepeak
-                        allins <- rbind(inspeak,insmatrix)
+                        allins <- rbind(as.matrix(inspeak),insmatrix)
                         # order mz
                         mz <- c(mzpeak,mzmatrix)
-                        mz <- mz[order(mz)]
-                        allins <- allins[order(mz),]
+                        idx <- order(mz)
+                        mz <- mz[idx]
+                        allins <- allins[idx,]
                 }else{
                         mz <- mzpeak
                         noise <- matrix(stats::rnorm(length(rtime0)*length(mz), mean = baseline, sd= baselinesd),nrow = length(mz),ncol = length(rtime0))
