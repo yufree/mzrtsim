@@ -4,7 +4,7 @@
 \alias{mzmlviz}
 \title{Generate figure for mzml raw data}
 \usage{
-mzmlviz(mzml, mzrange = c(0, 600), rtrange = c(100, 1000))
+mzmlviz(mzml, mzrange = c(100, 1000), rtrange = c(0, 600))
 }
 \arguments{
 \item{mzml}{mzML file path}
