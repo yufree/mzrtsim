@@ -19,7 +19,7 @@
 #' @param pwidth peak width for the compound. If it's a single value, simulated peaks' width will use this number as the lambda of Poisson distribution. If it's a numeric vector, it will be used as the peak width for each compounds.
 #' @param baseline noise baseline, default 100
 #' @param baselinesd standard deviation for noise, default 30
-#' @param sn signal to noise ratio of each compound, default 100 for all compounds when baseline is 100
+#' @param SNR signal to noise ratio of each compound, default 100 for all compounds when baseline is 100
 #' @param tailingfactor tailing factor for peaks, larger means larger tailing, default 1.2
 #' @param compound numeric compound index in the database for targeted analysis, default NULL
 #' @param rtime retention time for the compounds, if NULL, retention time will be simulated. Default NULL
@@ -48,7 +48,7 @@ simmzml <-
                  pwidth = 10,
                  baseline = 100,
                  baselinesd = 30,
-                 sn = 100,
+                 SNR = 100,
                  tailingfactor = 1.2,
                  compound=NULL,
                  rtime=NULL,
@@ -84,22 +84,22 @@ simmzml <-
                 }else{
                         peakrange <- pwidth
                 }
-                if(length(sn)==1){
-                        sn <- rep(sn,100)
-                }else if(length(sn)!=n){
+                if(length(SNR)==1){
+                        SNR <- rep(SNR,100)
+                }else if(length(SNR)!=n){
                         set.seed(seed)
-                        sn <- sample(sn,n,replace = T)
+                        SNR <- sample(SNR,n,replace = T)
                 }
                 # chromotograghy simulation for the compound
                 re <- c()
                 for (i in c(1:n)) {
                         gaussian_peak <-
                                 stats::dnorm(rtime0, mean = rtime[i], sd = peakrange[i] / 4)
-                        gaussian_peak <- gaussian_peak/max(gaussian_peak)*100*sn[i]
+                        gaussian_peak <- gaussian_peak/max(gaussian_peak)*100*SNR[i]
                         # tailing simulation
                         tailing_peak <-
                                 stats::dnorm(rtime0, mean = rtime[i], sd = (2*tailingfactor-1)*peakrange[i] / 4)
-                        tailing_peak <- tailing_peak/max(tailing_peak)*100*sn[i]
+                        tailing_peak <- tailing_peak/max(tailing_peak)*100*SNR[i]
 
                         if(is.null(tailingindex)){
                                 # new peak with tailing

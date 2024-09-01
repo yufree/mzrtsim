@@ -19,7 +19,7 @@ simmzml(
   pwidth = 10,
   baseline = 100,
   baselinesd = 30,
-  sn = 100,
+  SNR = 100,
   tailingfactor = 1.2,
   compound = NULL,
   rtime = NULL,
@@ -59,7 +59,7 @@ simmzml(
 
 \item{baselinesd}{standard deviation for noise, default 30}
 
-\item{sn}{signal to noise ratio of each compound, default 100 for all compounds when baseline is 100}
+\item{SNR}{signal to noise ratio of each compound, default 100 for all compounds when baseline is 100}
 
 \item{tailingfactor}{tailing factor for peaks, larger means larger tailing, default 1.2}
 
