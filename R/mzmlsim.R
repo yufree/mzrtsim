@@ -204,7 +204,7 @@ mzmlviz <-
                 mz <- Spectra::mz(dt)
                 mzv <- unlist(mz)
                 rtimev <- rep(rt, times = sapply(mz, length))
-                intensityv <- unlist(ins)
+                intensityv <- log10(unlist(ins)+1)
                 norm <-
                         (intensityv - min(intensityv)) / (max(intensityv) - min(intensityv))
                 # png('test.png',width = diff(xlim),height = diff(ylim))
@@ -216,8 +216,8 @@ mzmlviz <-
                         mzv,
                         xlim = rtrange,
                         ylim = mzrange,
-                        pch = 19,
-                        cex = 0.01,
+                        pch = 15,
+                        cex = 0.1,
                         col = grDevices::gray(1 - norm),
                         xlab = 'retention time(s)',
                         ylab = 'm/z'
