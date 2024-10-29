@@ -25,6 +25,23 @@ remotes::install_github("yufree/mzrtsim")
 
 ## Raw Data simulation
 
+MS1 full scan data has been proved more complex than theoretical
+prediction. Recently study showed that soft ionization will also contain
+[fragment ions](https://www.nature.com/articles/s41596-023-00803-0) for
+structure identification and contain lots of [redundant
+peaks](https://pubs.acs.org/doi/10.1021/acs.analchem.7b02380). As shown
+in the following figure, MS1 full scan data could contain different
+types of ions from the same compound (red). Some peaks we could figure
+out the sources while some peaks might be hard to interpret. In this
+case, mzrtsim package will use experimental data instead of predicted
+peaks from the compound formula to show the complexity of MS1 spectra.
+
+<figure>
+<img src="https://yufree.github.io/presentation/figure/peakcom.png"
+alt="demo" />
+<figcaption aria-hidden="true">demo</figcaption>
+</figure>
+
 You could use `simmzml` to generate one mzML file.
 
 ``` r
@@ -140,7 +157,7 @@ set.seed(1)
 # select compounds from database
 compound <- sample(c(1:4000),100)
 set.seed(2)
-# select signal to noise ration
+# select signal to noise ratio for a larger dynamic range
 sn <- sample(c(100:10000),100)
 for(i in c(1:10)){
   simmzml(name=paste0('case/case',i),db=monahrms1,pwidth = pw1,compound=compound,rtime = rt, sn=sn)
@@ -154,6 +171,18 @@ for(i in c(1:10)){
 Then you could find 10 mzML files in case sub folder and another 10 mzML
 files in control sub folder, as well as corresponding csv files with
 m/z, retention time and compound name of the peaks.
+
+If you prefer to simulate retention time shifts for different samples,
+you could add a random number to the retention time of each compound.
+
+``` r
+rt0 <- rt
+set.seed(42)
+for(i in c(1:10)){
+        rt <- rt0 + rnorm(100) 
+        simmzml(name=paste0('case/case',i),db=monahrms1,pwidth = pw1,compound=compound,rtime = rt, sn=sn)
+}
+```
 
 ### Chromatography peaks
 
