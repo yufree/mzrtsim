@@ -120,14 +120,14 @@ simmzml(db=custom, name = 'test')
 
 ### Multiple files with experiment design
 
-You could stimulate two groups of raw data with different peak widths for the same compounds. Retention time could follow a uniform distribution. 100 compounds could be selected randomly and base peaks' signal to noise ratio could be sample from 100 to 1000. Each group contain 10 samples and 30% compounds are changed between case and control groups.
+You could stimulate two groups of raw data with different peak heights for the same compounds. Retention time will follow a uniform distribution. 100 compounds could be selected randomly and base peaks' signal to noise ratio could be sampled from 100 to 1000. When signal to noise ratio is fixed for all samples, the peaks height will still be the only changed parameters for both groups. Each group contain 10 samples and 30% compounds are changed between case and control groups.
 
 ```{r eval=FALSE}
 dir.create('case')
 dir.create('control')
 # set different peak width for 100 compounds
-pw1 <- c(rep(5,30),rep(10,40),rep(15,30))
-pw2 <- c(rep(5,20),rep(10,30),rep(15,50))
+ph1 <- c(rep(5,30),rep(10,40),rep(15,30))
+ph2 <- c(rep(5,20),rep(10,30),rep(15,50))
 # set retention time for 100 compounds. When the peak width is set as a single value, the simulated base peak width will be from a poisson distribution with this value as lambda. 
 rt <- seq(10,590,length.out=100)
 set.seed(1)
@@ -137,11 +137,11 @@ set.seed(2)
 # select signal to noise ratio for a larger dynamic range
 sn <- sample(c(100:10000),100)
 for(i in c(1:10)){
-  simmzml(name=paste0('case/case',i),db=monahrms1,pwidth = pw1,compound=compound,rtime = rt, sn=sn)
+  simmzml(name=paste0('case/case',i),db=monahrms1,pheight = ph1,compound=compound,rtime = rt, sn=sn)
 }
 
 for(i in c(1:10)){
-  simmzml(name=paste0('control/control',i),db=monahrms1,pwidth = pw2,compound=compound,rtime = rt, sn=sn)
+  simmzml(name=paste0('control/control',i),db=monahrms1,pheight = ph2,compound=compound,rtime = rt, sn=sn)
 }
 ```
 
