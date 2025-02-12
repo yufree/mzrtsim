@@ -16,7 +16,8 @@
 #' @param mzdigit m/z digits, default 5
 #' @param noisesd standard deviation for normal distribution of m/z shift, default 0.5
 #' @param scanrate time for each full scan, default 0.2 second or 5 spectra per second
-#' @param pwidth peak width for the compound. If it's a single value, simulated peaks' width will use this number as the lambda of Poisson distribution. If it's a numeric vector, it will be used as the peak width for each compounds.
+#' @param pwidth peak width for the compound. If it's a single value, simulated peaks' width will use this number as peak width for all compounds. If it's a numeric vector, it will be used as the peak widths for every compounds.
+#' @param pheight peak height for the compound. If it's a single value, simulated peaks' height will use this number as peak height for all compounds. If it's a numeric vector, it will be used as the peak heights for every compounds.
 #' @param baseline noise baseline, default 100
 #' @param baselinesd standard deviation for noise, default 30
 #' @param SNR signal to noise ratio of each compound, default 100 for all compounds when baseline is 100
@@ -46,6 +47,7 @@ simmzml <-
                  noisesd = 0.5,
                  scanrate = 0.2,
                  pwidth = 10,
+                 pheight = 10,
                  baseline = 100,
                  baselinesd = 30,
                  SNR = 100,
@@ -80,9 +82,16 @@ simmzml <-
                 if(length(pwidth)==1){
                         set.seed(seed)
                         # uniform distributed peak width
-                        peakrange <- stats::rpois(n, lambda = pwidth)
+                        peakrange <- rep(pwidth,100)
                 }else{
                         peakrange <- pwidth
+                }
+                if(length(pheight)==1){
+                        set.seed(seed)
+                        # uniform distributed peak width
+                        peakheight <- rep(pheight,100)
+                }else{
+                        peakheight <- pheight
                 }
                 if(length(SNR)==1){
                         SNR <- rep(SNR,100)
@@ -95,11 +104,11 @@ simmzml <-
                 for (i in c(1:n)) {
                         gaussian_peak <-
                                 stats::dnorm(rtime0, mean = rtime[i], sd = peakrange[i] / 4)
-                        gaussian_peak <- gaussian_peak/max(gaussian_peak)*100*SNR[i]
+                        gaussian_peak <- gaussian_peak/max(gaussian_peak)*100*SNR[i]*peakheight[i]
                         # tailing simulation
                         tailing_peak <-
                                 stats::dnorm(rtime0, mean = rtime[i], sd = (2*tailingfactor-1)*peakrange[i] / 4)
-                        tailing_peak <- tailing_peak/max(tailing_peak)*100*SNR[i]
+                        tailing_peak <- tailing_peak/max(tailing_peak)*100*SNR[i]*peakheight[i]
 
                         if(is.null(tailingindex)){
                                 # new peak with tailing

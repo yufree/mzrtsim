@@ -17,6 +17,7 @@ simmzml(
   noisesd = 0.5,
   scanrate = 0.2,
   pwidth = 10,
+  pheight = 10,
   baseline = 100,
   baselinesd = 30,
   SNR = 100,
@@ -53,7 +54,9 @@ simmzml(
 
 \item{scanrate}{time for each full scan, default 0.2 second or 5 spectra per second}
 
-\item{pwidth}{peak width for the compound. If it's a single value, simulated peaks' width will use this number as the lambda of Poisson distribution. If it's a numeric vector, it will be used as the peak width for each compounds.}
+\item{pwidth}{peak width for the compound. If it's a single value, simulated peaks' width will use this number as peak width for all compounds. If it's a numeric vector, it will be used as the peak widths for every compounds.}
+
+\item{pheight}{peak height for the compound. If it's a single value, simulated peaks' height will use this number as peak height for all compounds. If it's a numeric vector, it will be used as the peak heights for every compounds.}
 
 \item{baseline}{noise baseline, default 100}
 
