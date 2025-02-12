@@ -71,13 +71,8 @@ inputPanel(
         max = 1,
         value = 0.2
         ),
-        sliderInput(
-        "pwidth",
-        "peak width lambda for poisson distrution",
-        min = 0,
-        max = 30,
-        value = 10
-        ),
+        textInput("pwidth", "peak width for all peaks", value = "10"),
+        textInput("pheight", "peak height for all peaks", value = "12,9,16,13,10,9,5,11,7,11,13,9,7,18,11,12,9,15,10,13,16,13,10,9,5,11,7,11,13,9,9,15,10,13,16,13,10,9,5,11,13,9,7,18,11,12,9,15,10,13,12,9,16,13,10,9,5,11,7,11,13,9,7,18,11,12,9,15,10,13,16,13,10,9,5,11,7,11,13,9,9,15,10,13,16,13,10,9,5,11,13,9,7,18,11,12,9,15,10,13"),
         sliderInput(
         "baseline",
         "noise baseline",
@@ -92,13 +87,7 @@ inputPanel(
         max = 100,
         value = 30
         ),
-        sliderInput(
-        "sn",
-        "signal to noise ratio of all compound",
-        min = 3,
-        max = 1000,
-        value = 100
-        ),
+        textInput("sn", "signal to noise ratio of all compound", value = "100"),
         sliderInput(
         "tailingfactor",
         "tailing factor for peaks",
@@ -124,10 +113,11 @@ sim <- reactive({
                         ppm = input$ppm,
                         sampleppm = input$sampleppm,
                         scanrate = input$scanrate,
-                        pwidth = input$pwidth,
+                        pwidth = as.numeric(input$pwidth),
+                        pheight = as.numeric(trimws(unlist(strsplit(input$pheight, ",")))),
                         baseline = input$baseline,
                         baselinesd = input$baselinesd,
-                        sn = input$sn,
+                        SNR = as.numeric(input$sn),
                         tailingfactor = input$tailingfactor,
                         seed=input$seed,
                         unique=input$unique
@@ -147,10 +137,11 @@ sim <- reactive({
                         ppm = input$ppm,
                         sampleppm = input$sampleppm,
                         scanrate = input$scanrate,
-                        pwidth = input$pwidth,
+                        pwidth = as.numeric(input$pwidth),
+                        pheight = as.numeric(trimws(unlist(strsplit(input$pheight, ",")))),
                         baseline = input$baseline,
                         baselinesd = input$baselinesd,
-                        sn = input$sn,
+                        SNR = as.numeric(input$sn),
                         tailingfactor = input$tailingfactor,
                         seed=input$seed,
                         unique=input$unique
@@ -170,10 +161,11 @@ sim <- reactive({
                         ppm = input$ppm,
                         sampleppm = input$sampleppm,
                         scanrate = input$scanrate,
-                        pwidth = input$pwidth,
+                        pwidth = as.numeric(input$pwidth),
+                        pheight = as.numeric(trimws(unlist(strsplit(input$pheight, ",")))),
                         baseline = input$baseline,
                         baselinesd = input$baselinesd,
-                        sn = input$sn,
+                        SNR = as.numeric(input$sn),
                         tailingfactor = input$tailingfactor,
                         seed=input$seed,
                         unique=input$unique
@@ -191,7 +183,7 @@ sim <- reactive({
 
 ```{r}
 shiny::renderPlot({
-        sim <- sim()
+        sim <- suppressWarnings(sim())
         x <- mzmlviz(sim$file1)
 })
 ```
@@ -201,7 +193,7 @@ shiny::renderPlot({
 
 ```{r}
 DT::renderDataTable({
-                sim <- sim()
+                sim <- suppressWarnings(sim())
                 read.csv(sim$file2)
         })
 ```
@@ -220,7 +212,7 @@ downloadHandler(
 )
 ```
 
-### Pekas list csv data
+### Peaks list csv data
 
 ```{r}
 downloadHandler(
