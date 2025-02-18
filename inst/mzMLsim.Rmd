@@ -87,7 +87,7 @@ inputPanel(
         max = 100,
         value = 30
         ),
-        textInput("sn", "signal to noise ratio of all compound", value = "100"),
+        textInput("rf", "response factor of all compounds", value = "100"),
         sliderInput(
         "tailingfactor",
         "tailing factor for peaks",
@@ -117,7 +117,7 @@ sim <- reactive({
                         pheight = as.numeric(trimws(unlist(strsplit(input$pheight, ",")))),
                         baseline = input$baseline,
                         baselinesd = input$baselinesd,
-                        SNR = as.numeric(input$sn),
+                        rf = as.numeric(input$rf),
                         tailingfactor = input$tailingfactor,
                         seed=input$seed,
                         unique=input$unique
@@ -141,7 +141,7 @@ sim <- reactive({
                         pheight = as.numeric(trimws(unlist(strsplit(input$pheight, ",")))),
                         baseline = input$baseline,
                         baselinesd = input$baselinesd,
-                        SNR = as.numeric(input$sn),
+                        rf = as.numeric(input$rf),
                         tailingfactor = input$tailingfactor,
                         seed=input$seed,
                         unique=input$unique
@@ -165,7 +165,7 @@ sim <- reactive({
                         pheight = as.numeric(trimws(unlist(strsplit(input$pheight, ",")))),
                         baseline = input$baseline,
                         baselinesd = input$baselinesd,
-                        SNR = as.numeric(input$sn),
+                        rf = as.numeric(input$rf),
                         tailingfactor = input$tailingfactor,
                         seed=input$seed,
                         unique=input$unique
