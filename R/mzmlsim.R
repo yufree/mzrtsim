@@ -82,14 +82,14 @@ simmzml <-
                 if(length(pwidth)==1){
                         set.seed(seed)
                         # uniform distributed peak width
-                        peakrange <- rep(pwidth,100)
+                        peakrange <- rep(pwidth,n)
                 }else{
                         peakrange <- pwidth
                 }
                 if(length(pheight)==1){
                         set.seed(seed)
                         # uniform distributed peak width
-                        peakheight <- rep(pheight,100)
+                        peakheight <- rep(pheight,n)
                 }else{
                         peakheight <- pheight
                 }
