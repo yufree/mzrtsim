@@ -118,6 +118,26 @@ custom <- readRDS('custom.RDS')
 simmzml(db=custom, name = 'test')
 ```
 
+To select certain compound for review/simulation, you could use name or inchikey.
+
+```{r}
+data(monahrms1)
+# if you know the compound name
+compoundname <- 'Triacylglycerol 14:0-16:0-16:0'
+databasename <- sapply(monahrms1,function(x) x$name)
+compoundidx <- databasename%in%compoundname
+compound <- monahrms1[compoundidx]
+compound
+
+# if you know the inchikey
+compoundinchikey <- c('KQSFNXMDCOFFGW-GNDIVNLPSA-N','WRYJYFCCMSVEPQ-ORAXXRKOSA-N')
+databaseinchikey <- sapply(monahrms1,function(x) x$inchikey)
+compoundidx <- databaseinchikey%in%compoundinchikey
+compound <- monahrms1[compoundidx]
+compound
+```
+
+
 ### Multiple files with experiment design
 
 You could stimulate two groups of raw data with different peak heights for the same compounds. Retention time will follow a uniform distribution. 100 compounds could be selected randomly and base peaks' signal to noise ratio could be sampled from 100 to 1000. When signal to noise ratio is fixed for all samples, the peaks height will still be the only changed parameters for both groups. Each group contain 10 samples and 30% compounds are changed between case and control groups.
@@ -125,7 +145,7 @@ You could stimulate two groups of raw data with different peak heights for the s
 ```{r eval=FALSE}
 dir.create('case')
 dir.create('control')
-# set different peak width for 100 compounds
+# set different peak height for 100 compounds
 ph1 <- c(rep(5,30),rep(10,40),rep(15,30))
 ph2 <- c(rep(5,20),rep(10,30),rep(15,50))
 # set retention time for 100 compounds. When the peak width is set as a single value, the simulated base peak width will be from a poisson distribution with this value as lambda. 
@@ -177,6 +197,29 @@ You could also input a m/z vector as matrix masses. Those masses will generate b
 data(mzm)
 simmzml(name='test',db=monahrms1,pwidth = 10,compound=1,rtime = 100, sn=10,matrixmz = mzm,matrix = TRUE)
 ```
+
+### Retention time simulation
+
+We included column types and experimental retention time (in seconds) for LC-MS data and retention index for GC-MS data. You could use the following code to access such information.
+
+```{r}
+data(monahrms1)
+# select compound by their index
+compound <- c(1,2,3)
+column <- sapply(monahrms1[compound],function(x) x$column)
+# print column
+column
+retentiontime <- sapply(monahrms1[compound],function(x) x$rt)
+# print retention time
+retentiontime
+data("hmdbcms")
+# select compound by their index
+compound <- c(1,2,300)
+retentionindex <- sapply(hmdbcms[compound],function(x) x$rti)
+# print retention index
+retentionindex
+```
+
 
 ## Peaks list simulation
 
