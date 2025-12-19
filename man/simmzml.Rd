@@ -27,7 +27,8 @@ simmzml(
   seed = 42,
   unique = FALSE,
   matrix = FALSE,
-  matrixmz = NULL
+  matrixmz = NULL,
+  background = NULL
 )
 }
 \arguments{
@@ -76,6 +77,8 @@ simmzml(
 \item{matrix}{if TRUE, m/z from experimental data will be used for background m/z simulation.Default FALSE}
 
 \item{matrixmz}{custom matrix m/z vector, default NULL and predefined list from serum blank will be used.}
+
+\item{background}{mzML file path for background simulation, default NULL}
 }
 \value{
 one mzML file for simulated data and one csv file the simulated compounds with retention time, m/z and name

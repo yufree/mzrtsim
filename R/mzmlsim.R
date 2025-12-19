@@ -28,6 +28,7 @@
 #' @param unique if TRUE, one compound will have one spectra. Default FALSE
 #' @param matrix if TRUE, m/z from experimental data will be used for background m/z simulation.Default FALSE
 #' @param matrixmz custom matrix m/z vector, default NULL and predefined list from serum blank will be used.
+#' @param background mzML file path for background simulation, default NULL
 #' @return one mzML file for simulated data and one csv file the simulated compounds with retention time, m/z and name
 #' @export
 #' @examples
@@ -56,7 +57,8 @@ simmzml <-
                  seed=42,
                  unique=FALSE,
                  matrix=FALSE,
-                 matrixmz=NULL) {
+                 matrixmz=NULL,
+                 background=NULL) {
                 if(unique){
                         uniquecpidx <- sapply(db, function(x) x$name)
                         db <- db[!duplicated(uniquecpidx)]
@@ -69,7 +71,15 @@ simmzml <-
                         sub <- db[compound]
                         n <- length(compound)
                 }
-                rtime0 <- seq(rtrange[1], rtrange[2], scanrate)
+
+                if(!is.null(background)){
+                        raw <- Spectra::Spectra(background)
+                        raw <- Spectra::filterMsLevel(raw, 1L)
+                        rtime0 <- unique(Spectra::rtime(raw))
+                }else{
+                        rtime0 <- seq(rtrange[1], rtrange[2], scanrate)
+                }
+
                 if(is.null(rtime)){
                         set.seed(seed)
                         rtime <- sample(rtime0, n, replace = T)
@@ -146,40 +156,64 @@ simmzml <-
                 alld <- stats::aggregate(rem,by=list(mzc),FUN=sum)
                 mzpeak <- as.numeric(alld$Group.1)
                 mzpeak <- mzpeak+stats::rnorm(length(mzpeak),sd=noisesd)*mzpeak*1e-6*ppm
-
-                if(matrix){
-                        if(is.null(matrixmz)){
-                                mzm <- mzm
-                        }else{
-                                mzm <- matrixmz
-                        }
-                        mzm <- round(mzm,digits = mzdigit)
-                        mzmatrix <- mzm[!mzm%in%mzpeak]
-                        insmatrix <- matrix(stats::rnorm(length(rtime0)*length(mzmatrix), mean = baseline, sd= baselinesd),nrow = length(mzmatrix),ncol = length(rtime0))
-                        noisepeak <- matrix(stats::rnorm(length(rtime0)*length(mzpeak), mean = baseline, sd= baselinesd),nrow = length(mzpeak),ncol = length(rtime0))
-                        inspeak <- alld[,-1]+noisepeak
-                        allins <- rbind(as.matrix(inspeak),insmatrix)
-                        # order mz
-                        mz <- c(mzpeak,mzmatrix)
-                        idx <- order(mz)
-                        mz <- mz[idx]
-                        allins <- allins[idx,]
-                }else{
+                
+                if(!is.null(background)){
                         mz <- mzpeak
-                        noise <- matrix(stats::rnorm(length(rtime0)*length(mz), mean = baseline, sd= baselinesd),nrow = length(mz),ncol = length(rtime0))
-                        allins <- alld[,-1]+noise
-                }
-
-                mzl <- intensityl <- list()
-                for(i in 1:length(rtime0)){
-                        ins <- allins[,i]
-                        intensityl[[i]] <- ins[ins>0&mz>mzrange[1]&mz<mzrange[2]]
-                        mzt <- mz[ins>0&mz>mzrange[1]&mz<mzrange[2]]
-                        # add ppm shift for each scan
-                        mzl[[i]] <- mzt+stats::rnorm(length(mzt),sd=noisesd)*mzt*1e-6*sampleppm
+                        allins <- alld[,-1]
+                        mzl <- intensityl <- list()
+                        rawmz <- Spectra::mz(raw)
+                        rawint <- Spectra::intensity(raw)
+                        
+                        for(i in 1:length(rtime0)){
+                                ins <- allins[,i]
+                                intensityl[[i]] <- ins[ins>0&mz>mzrange[1]&mz<mzrange[2]]
+                                mzt <- mz[ins>0&mz>mzrange[1]&mz<mzrange[2]]
+                                # add ppm shift for each scan
+                                mzsim <- mzt+stats::rnorm(length(mzt),sd=noisesd)*mzt*1e-6*sampleppm
+                                intsim <- intensityl[[i]]
+                                
+                                mzt <- c(rawmz[[i]], mzsim)
+                                intt <- c(rawint[[i]], intsim)
+                                order <- order(mzt)
+                                mzl[[i]] <- mzt[order]
+                                intensityl[[i]] <- intt[order]
+                        }
+                }else{
+                        if(matrix){
+                                if(is.null(matrixmz)){
+                                        mzm <- mzm
+                                }else{
+                                        mzm <- matrixmz
+                                }
+                                mzm <- round(mzm,digits = mzdigit)
+                                mzmatrix <- mzm[!mzm%in%mzpeak]
+                                insmatrix <- matrix(stats::rnorm(length(rtime0)*length(mzmatrix), mean = baseline, sd= baselinesd),nrow = length(mzmatrix),ncol = length(rtime0))
+                                noisepeak <- matrix(stats::rnorm(length(rtime0)*length(mzpeak), mean = baseline, sd= baselinesd),nrow = length(mzpeak),ncol = length(rtime0))
+                                inspeak <- alld[,-1]+noisepeak
+                                allins <- rbind(as.matrix(inspeak),insmatrix)
+                                # order mz
+                                mz <- c(mzpeak,mzmatrix)
+                                idx <- order(mz)
+                                mz <- mz[idx]
+                                allins <- allins[idx,]
+                        }else{
+                                mz <- mzpeak
+                                noise <- matrix(stats::rnorm(length(rtime0)*length(mz), mean = baseline, sd= baselinesd),nrow = length(mz),ncol = length(rtime0))
+                                allins <- alld[,-1]+noise
+                        }
+                        
+                        mzl <- intensityl <- list()
+                        for(i in 1:length(rtime0)){
+                                ins <- allins[,i]
+                                intensityl[[i]] <- ins[ins>0&mz>mzrange[1]&mz<mzrange[2]]
+                                mzt <- mz[ins>0&mz>mzrange[1]&mz<mzrange[2]]
+                                # add ppm shift for each scan
+                                mzl[[i]] <- mzt+stats::rnorm(length(mzt),sd=noisesd)*mzt*1e-6*sampleppm
+                        }
                 }
 
                 spd$mz <- mzl
+
                 spd$intensity <- intensityl
 
                 sp0 <- Spectra::Spectra(spd)
