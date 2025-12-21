@@ -13,6 +13,13 @@ stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://
 The goal of mzrtsim is to make raw data and features table simulation
 for LC/GC-MS based data
 
+## Citation
+
+Yu, M.; Philip, V. Mzrtsim: Raw Data Simulation for Reproducible
+Gas/Liquid Chromatography–Mass Spectrometry-Based Nontargeted
+Metabolomics Data Analysis. Anal. Chem. 2025, 97 (32), 17309–17314.
+<https://doi.org/10.1021/acs.analchem.5c01213>.
+
 ## Installation
 
 You can install the development version from
