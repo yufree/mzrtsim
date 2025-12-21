@@ -53,8 +53,8 @@ inputPanel(
         sliderInput(
         "mzrange",
         "mass to charge ratio range",
-        min = 50,
-        max = 1500,
+        min = 100,
+        max = 1000,
         value = c(100,1000)
         ),
         sliderInput(

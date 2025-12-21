@@ -162,17 +162,22 @@ simmzml <-
                         mzc <- c(mzc,round(mz[[i]],digits = mzdigit))
                         rem <- rbind(rem,nret)
                 }
-                alld <- stats::aggregate(rem,by=list(mzc),FUN=sum)
-                mzpeak <- as.numeric(alld$Group.1)
-                mzpeak <- mzpeak+stats::rnorm(length(mzpeak),sd=noisesd)*mzpeak*1e-6*ppm
-                
+                if(length(mzc) > 0){
+                        alld <- stats::aggregate(rem,by=list(mzc),FUN=sum)
+                        mzpeak <- as.numeric(alld$Group.1)
+                        mzpeak <- mzpeak+stats::rnorm(length(mzpeak),sd=noisesd)*mzpeak*1e-6*ppm
+                }else{
+                        mzpeak <- numeric()
+                        alld <- matrix(nrow = 0, ncol = length(rtime0)+1)
+                }
+
                 if(!is.null(background)){
                         mz <- mzpeak
                         allins <- alld[,-1]
                         mzl <- intensityl <- list()
                         rawmz <- Spectra::mz(raw)
                         rawint <- Spectra::intensity(raw)
-                        
+
                         for(i in 1:length(rtime0)){
                                 ins <- allins[,i]
                                 intensityl[[i]] <- ins[ins>0&mz>mzrange[1]&mz<mzrange[2]]
@@ -180,7 +185,7 @@ simmzml <-
                                 # add ppm shift for each scan
                                 mzsim <- mzt+stats::rnorm(length(mzt),sd=noisesd)*mzt*1e-6*sampleppm
                                 intsim <- intensityl[[i]]
-                                
+
                                 mzt <- c(rawmz[[i]], mzsim)
                                 intt <- c(rawint[[i]], intsim)
                                 order <- order(mzt)
@@ -190,15 +195,21 @@ simmzml <-
                 }else{
                         if(matrix){
                                 if(is.null(matrixmz)){
-                                        mzm <- mzm
+                                        mzm_local <- mzm
                                 }else{
-                                        mzm <- matrixmz
+                                        mzm_local <- matrixmz
                                 }
-                                mzm <- round(mzm,digits = mzdigit)
-                                mzmatrix <- mzm[!mzm%in%mzpeak]
+                                mzm_local <- round(mzm_local,digits = mzdigit)
+                                mzmatrix <- mzm_local[!mzm_local%in%mzpeak]
                                 insmatrix <- matrix(stats::rnorm(length(rtime0)*length(mzmatrix), mean = baseline, sd= baselinesd),nrow = length(mzmatrix),ncol = length(rtime0))
-                                noisepeak <- matrix(stats::rnorm(length(rtime0)*length(mzpeak), mean = baseline, sd= baselinesd),nrow = length(mzpeak),ncol = length(rtime0))
-                                inspeak <- alld[,-1]+noisepeak
+
+                                if(length(mzpeak) > 0){
+                                        noisepeak <- matrix(stats::rnorm(length(rtime0)*length(mzpeak), mean = baseline, sd= baselinesd),nrow = length(mzpeak),ncol = length(rtime0))
+                                        inspeak <- alld[,-1]+noisepeak
+                                }else{
+                                        inspeak <- matrix(nrow = 0, ncol = length(rtime0))
+                                }
+
                                 allins <- rbind(as.matrix(inspeak),insmatrix)
                                 # order mz
                                 mz <- c(mzpeak,mzmatrix)
@@ -207,10 +218,14 @@ simmzml <-
                                 allins <- allins[idx,]
                         }else{
                                 mz <- mzpeak
-                                noise <- matrix(stats::rnorm(length(rtime0)*length(mz), mean = baseline, sd= baselinesd),nrow = length(mz),ncol = length(rtime0))
-                                allins <- alld[,-1]+noise
+                                if(length(mz) > 0){
+                                        noise <- matrix(stats::rnorm(length(rtime0)*length(mz), mean = baseline, sd= baselinesd),nrow = length(mz),ncol = length(rtime0))
+                                        allins <- alld[,-1]+noise
+                                }else{
+                                        allins <- matrix(nrow = 0, ncol = length(rtime0))
+                                }
                         }
-                        
+
                         mzl <- intensityl <- list()
                         for(i in 1:length(rtime0)){
                                 ins <- allins[,i]
