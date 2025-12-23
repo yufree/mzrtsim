@@ -111,23 +111,25 @@ simmzml <-
                 }
                 # chromotograghy simulation for the compound
                 re <- c()
-                for (i in c(1:n)) {
-                        gaussian_peak <-
-                                stats::dnorm(rtime0, mean = rtime[i], sd = peakrange[i] / 4)
-                        gaussian_peak <- gaussian_peak/max(gaussian_peak)*100*rf[i]*peakheight[i]
-                        # tailing simulation
-                        tailing_peak <-
-                                stats::dnorm(rtime0, mean = rtime[i], sd = (2*tailingfactor-1)*peakrange[i] / 4)
-                        tailing_peak <- tailing_peak/max(tailing_peak)*100*rf[i]*peakheight[i]
+                if(n>0){
+                        for (i in 1:n) {
+                                gaussian_peak <-
+                                        stats::dnorm(rtime0, mean = rtime[i], sd = peakrange[i] / 4)
+                                gaussian_peak <- gaussian_peak/max(gaussian_peak)*100*rf[i]*peakheight[i]
+                                # tailing simulation
+                                tailing_peak <-
+                                        stats::dnorm(rtime0, mean = rtime[i], sd = (2*tailingfactor-1)*peakrange[i] / 4)
+                                tailing_peak <- tailing_peak/max(tailing_peak)*100*rf[i]*peakheight[i]
 
-                        if(is.null(tailingindex)){
-                                # new peak with tailing
-                                peak <- c(gaussian_peak[1:which.max(gaussian_peak)],tailing_peak[(which.max(gaussian_peak)+1):length(rtime0)])
-                        }else{
-                                # indexed peaks tailing
-                                peak <- ifelse(i%in%tailingindex,c(gaussian_peak[1:which.max(gaussian_peak)],tailing_peak[(which.max(gaussian_peak)+1):length(rtime0)]),gaussian_peak)
+                                if(is.null(tailingindex)){
+                                        # new peak with tailing
+                                        peak <- c(gaussian_peak[1:which.max(gaussian_peak)],tailing_peak[(which.max(gaussian_peak)+1):length(rtime0)])
+                                }else{
+                                        # indexed peaks tailing
+                                        peak <- ifelse(i%in%tailingindex,c(gaussian_peak[1:which.max(gaussian_peak)],tailing_peak[(which.max(gaussian_peak)+1):length(rtime0)]),gaussian_peak)
+                                }
+                                re <- rbind(re,peak)
                         }
-                        re <- rbind(re,peak)
                 }
                 spd <-
                         S4Vectors::DataFrame(msLevel = 1L, rtime = rtime0)
@@ -151,16 +153,18 @@ simmzml <-
 
                 mzc <- rem <- c()
 
-                for (i in 1:nrow(re)) {
-                        if(length(mz[[i]])==1){
+                if(n>0){
+                        for (i in 1:nrow(re)) {
+                                if(length(mz[[i]])==1){
 
-                                nret <- intensity[[i]]*re[i,]
+                                        nret <- intensity[[i]]*re[i,]
 
-                        }else{
-                                nret <- matrix(intensity[[i]])%*%re[i,]
+                                }else{
+                                        nret <- matrix(intensity[[i]])%*%re[i,]
+                                }
+                                mzc <- c(mzc,round(mz[[i]],digits = mzdigit))
+                                rem <- rbind(rem,nret)
                         }
-                        mzc <- c(mzc,round(mz[[i]],digits = mzdigit))
-                        rem <- rbind(rem,nret)
                 }
                 if(length(mzc) > 0){
                         alld <- stats::aggregate(rem,by=list(mzc),FUN=sum)

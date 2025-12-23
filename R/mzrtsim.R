@@ -68,7 +68,7 @@ mzrtsim <- function(ncomp = 100,
     # generate the base peaks
     if(is.null(db)){
         stop("You need database to simulate.")
-    }else{
+    }else if(ncomp > 0){
         name <- sapply(db,function(x) x$name)
         nameli <- sample(unique(name),ncomp)
         z <- db[which(name %in% nameli)]
@@ -84,6 +84,12 @@ mzrtsim <- function(ncomp = 100,
         compname <- unlist(name)
         compmz <- unlist(mz)
         compins <- unlist(nins)
+    }else{
+        namelist <- character()
+        namelenth <- integer()
+        compname <- character()
+        compmz <- numeric()
+        compins <- numeric()
     }
     # get peak numbers
     npeaks <- length(compname)
@@ -94,7 +100,7 @@ mzrtsim <- function(ncomp = 100,
     colnames(matrix0) <- colnames(matrix) <- bc
     rownames(matrix0) <- rownames(matrix) <- compname
 
-    for (i in 1:npeaks) {
+    for (i in seq_len(npeaks)) {
         samplei <- abs(stats::rnorm(ncol, mean = compins[i],
                                     sd = compins[i] * samplersd[i]/100))
         matrix[i, ] <- samplei
@@ -110,7 +116,7 @@ mzrtsim <- function(ncomp = 100,
     ncompeak <- ncomp * ncpeaks
     nbpeak <- npeaks * nbpeaks
     # simulation of condition
-    index <- sample(1:ncomp, ncompeak)
+    index <- sample(seq_len(ncomp), ncompeak)
     compcon <- namelist[index]
     matrixc <- matrix[compname %in% compcon, ]
     ncpeak <- nrow(matrixc)
@@ -123,8 +129,8 @@ mzrtsim <- function(ncomp = 100,
     }
     matrix[compname %in% compcon, ] <- matrixc
     # simulation of batch
-    indexb <- sample(1:npeaks, nbpeak)
-    indexb <- 1:npeaks %in% indexb
+    indexb <- sample(seq_len(npeaks), nbpeak)
+    indexb <- seq_len(npeaks) %in% indexb
     matrixb <- matrix[indexb, ]
     matrixb0 <- matrix0[indexb, ]
     changeb <- changem <- changer <-  NULL
@@ -134,7 +140,7 @@ mzrtsim <- function(ncomp = 100,
     }
     # generate random batch effect
     if(grepl('r',batchtype)){
-        for (i in 1:nrow(matrixb)){
+        for (i in seq_len(nrow(matrixb))){
             change <- abs(stats::rnorm(ncol(matrixb)))
             matrixb[i,] <- matrixb[i,]*change
             matrixb0[i,] <- matrixb0[i,]*change
@@ -143,7 +149,7 @@ mzrtsim <- function(ncomp = 100,
     }
     # generate increasing/decreasing batch effect
     if(grepl('m',batchtype)){
-        for (i in 1:nrow(matrixb)){
+        for (i in seq_len(nrow(matrixb))){
             changet <- seq(1,ncol(matrixb),length.out = ncol(matrixb)) * exp(stats::rnorm(1))
             change <- if (sample(c(T,F),1)) changet else rev(changet)
             matrixb[i,] <- matrixb[i,]*change
