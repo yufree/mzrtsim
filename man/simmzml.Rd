@@ -59,7 +59,7 @@ simmzml(
 
 \item{pheight}{peak height for the compound. If it's a single value, simulated peaks' height will use this number as peak height for all compounds. If it's a numeric vector, it will be used as the peak heights for every compounds.}
 
-\item{baseline}{noise baseline, default 100}
+\item{baseline}{noise baseline, default 100. If it's a numeric vector, it will be used as the baseline for each scan.}
 
 \item{baselinesd}{standard deviation for noise, default 30}
 

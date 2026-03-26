@@ -18,7 +18,7 @@
 #' @param scanrate time for each full scan, default 0.2 second or 5 spectra per second
 #' @param pwidth peak width for the compound. If it's a single value, simulated peaks' width will use this number as peak width for all compounds. If it's a numeric vector, it will be used as the peak widths for every compounds.
 #' @param pheight peak height for the compound. If it's a single value, simulated peaks' height will use this number as peak height for all compounds. If it's a numeric vector, it will be used as the peak heights for every compounds.
-#' @param baseline noise baseline, default 100
+#' @param baseline noise baseline, default 100. If it's a numeric vector, it will be used as the baseline for each scan.
 #' @param baselinesd standard deviation for noise, default 30
 #' @param rf response factor of each compound, default 100 for all compounds
 #' @param tailingfactor tailing factor for peaks, larger means larger tailing, default 1.2
@@ -80,6 +80,10 @@ simmzml <-
                         rtime0 <- unique(Spectra::rtime(raw))
                 }else{
                         rtime0 <- seq(rtrange[1], rtrange[2], scanrate)
+                }
+
+                if(length(baseline) != 1 && length(baseline) != length(rtime0)){
+                        stop('Length of baseline must be 1 or equal to the number of scans (length of rtime0).')
                 }
 
                 if(is.null(rtime)){
@@ -148,7 +152,15 @@ simmzml <-
                 intensityv <- unlist(intensity)
                 rtimev <- rep(rtime,sapply(mz,length))
                 namev <- rep(subname,sapply(mz,length))
-                df2 <- cbind.data.frame(mz=mzv,rt=rtimev,ins=intensityv,name=namev)
+
+                # Calculate simulated total max intensities
+                if(n>0){
+                        sim_insv <- unlist(lapply(1:n, function(i) intensity[[i]] * max(re[i,])))
+                } else {
+                        sim_insv <- numeric(0)
+                }
+
+                df2 <- cbind.data.frame(mz=mzv,rt=rtimev,ins=intensityv,sim_ins=sim_insv,name=namev)
 
 
                 mzc <- rem <- c()
@@ -205,10 +217,10 @@ simmzml <-
                                 }
                                 mzm_local <- round(mzm_local,digits = mzdigit)
                                 mzmatrix <- mzm_local[!mzm_local%in%mzpeak]
-                                insmatrix <- matrix(stats::rnorm(length(rtime0)*length(mzmatrix), mean = baseline, sd= baselinesd),nrow = length(mzmatrix),ncol = length(rtime0))
+                                insmatrix <- matrix(stats::rnorm(length(rtime0)*length(mzmatrix), mean = rep(baseline, each=length(mzmatrix)), sd= baselinesd),nrow = length(mzmatrix),ncol = length(rtime0))
 
                                 if(length(mzpeak) > 0){
-                                        noisepeak <- matrix(stats::rnorm(length(rtime0)*length(mzpeak), mean = baseline, sd= baselinesd),nrow = length(mzpeak),ncol = length(rtime0))
+                                        noisepeak <- matrix(stats::rnorm(length(rtime0)*length(mzpeak), mean = rep(baseline, each=length(mzpeak)), sd= baselinesd),nrow = length(mzpeak),ncol = length(rtime0))
                                         inspeak <- alld[,-1]+noisepeak
                                 }else{
                                         inspeak <- matrix(nrow = 0, ncol = length(rtime0))
@@ -223,7 +235,7 @@ simmzml <-
                         }else{
                                 mz <- mzpeak
                                 if(length(mz) > 0){
-                                        noise <- matrix(stats::rnorm(length(rtime0)*length(mz), mean = baseline, sd= baselinesd),nrow = length(mz),ncol = length(rtime0))
+                                        noise <- matrix(stats::rnorm(length(rtime0)*length(mz), mean = rep(baseline, each=length(mz)), sd= baselinesd),nrow = length(mz),ncol = length(rtime0))
                                         allins <- alld[,-1]+noise
                                 }else{
                                         allins <- matrix(nrow = 0, ncol = length(rtime0))
@@ -286,3 +298,44 @@ mzmlviz <-
                 )
                 return(cbind.data.frame(mz=mzv,rt=rtimev,intensity=intensityv))
         }
+
+#' Generate simulated mzml data for blank sample
+#' @param name file name of mzml
+#' @param mzrange m/z range for simulation, peaks out of the range will be removed, default c(100,1000)
+#' @param rtrange retention time range for simulation, default c(0,600)
+#' @param scanrate time for each full scan, default 0.2 second or 5 spectra per second
+#' @param baseline noise baseline, default 100. If it's a numeric vector, it will be used as the baseline for each scan.
+#' @param baselinesd standard deviation for noise, default 30
+#' @param mzdigit m/z digits, default 5
+#' @param matrixmz custom matrix m/z vector, default NULL and predefined list from serum blank will be used.
+#' @return one mzML file for simulated blank data
+#' @export
+#' @examples
+#' \donttest{
+#' simmzml_blank(name = 'blank_test')
+#' }
+simmzml_blank <- function(name,
+                          mzrange = c(100,1000),
+                          rtrange = c(0, 600),
+                          scanrate = 0.2,
+                          baseline = 100,
+                          baselinesd = 30,
+                          mzdigit = 5,
+                          matrixmz = NULL) {
+    
+    # Create a dummy database with a single fake compound to bypass the required argument
+    dummy_db <- list(list(name="dummy", spectra=list(mz=c(100), ins=c(100))))
+    
+    # Call simmzml with 0 compounds and matrix=TRUE
+    simmzml(db = dummy_db,
+            name = name,
+            n = 0,
+            mzrange = mzrange,
+            rtrange = rtrange,
+            scanrate = scanrate,
+            baseline = baseline,
+            baselinesd = baselinesd,
+            mzdigit = mzdigit,
+            matrix = TRUE,
+            matrixmz = matrixmz)
+}

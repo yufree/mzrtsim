@@ -58,7 +58,8 @@ simmzml(db=monams1, name = 'test')
 ```
 
 You will find `test.mzML` and corresponding `test.csv` with m/z,
-retention time and compound name of the peaks. Here the `monams1` and
+retention time, compound name, and the simulated absolute ground-truth
+maximum intensity (`sim_ins`) of the peaks. Here the `monams1` and
 `monahrms1` is from the MS1 data of MassBank of North America (MoNA) and
 could be downloaded from their
 [website](https://mona.fiehnlab.ucdavis.edu/downloads). You could also
@@ -533,6 +534,25 @@ from matrix samples previous
 ``` r
 data(mzm)
 simmzml(name='test',db=monahrms1,pwidth = 10,compound=1,rtime = 100, sn=10,matrixmz = mzm,matrix = TRUE)
+```
+
+### Blank simulation
+
+You could easily generate blank matrix or solvent blank samples using
+`simmzml_blank`. You could also define a dynamic baseline to simulate
+gradient elution baseline shift.
+
+``` r
+# pure blank with constant baseline
+simmzml_blank("pure_blank", rtrange=c(0, 100), baseline=100)
+
+# blank with gradient baseline shift
+dynamic_baseline <- seq(100, 500, length.out=501)
+simmzml_blank("gradient_blank", rtrange=c(0, 100), baseline=dynamic_baseline)
+
+# blank with experimental matrix peaks
+data(mzm)
+simmzml_blank("serum_matrix", matrixmz = mzm)
 ```
 
 ### Retention time simulation
