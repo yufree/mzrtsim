@@ -26,7 +26,7 @@ jobs:
       CRAN: ${{ matrix.config.cran }}
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-r@master
         with:
@@ -38,7 +38,7 @@ jobs:
         if: contains(matrix.config.args, 'no-manual') == false
 
       - name: Cache R packages
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         if: runner.os != 'Windows'
         with:
           path: ${{ env.R_LIBS_USER }}
