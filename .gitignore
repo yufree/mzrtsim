@@ -6,3 +6,5 @@ RMTplot.pdf
 hmdbcms.RDS
 monahrms1.RDS
 monams1.RDS
+*.msp
+*Rplot*
