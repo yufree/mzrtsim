@@ -40,6 +40,6 @@ Generate simulated mzml data for blank sample
 }
 \examples{
 \donttest{
-simmzml_blank(name = 'blank_test')
+simmzml_blank(name = file.path(tempdir(), 'blank_test'))
 }
 }

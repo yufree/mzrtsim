@@ -91,5 +91,5 @@ Generate simulated mzml data and compounds list
 }
 \examples{
 data(monams1)
-simmzml(db=monams1, name = 'test')
+simmzml(db=monams1, name = file.path(tempdir(), 'test'))
 }

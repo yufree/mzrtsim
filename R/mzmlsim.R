@@ -34,7 +34,7 @@
 #' @export
 #' @examples
 #' data(monams1)
-#' simmzml(db=monams1, name = 'test')
+#' simmzml(db=monams1, name = file.path(tempdir(), 'test'))
 simmzml <-
         function(db,
                  name,
@@ -211,7 +211,9 @@ simmzml <-
                 }else{
                         if(matrix){
                                 if(is.null(matrixmz)){
-                                        mzm_local <- mzm
+                                        mzm_env <- new.env(parent = emptyenv())
+                                        utils::data("mzm", envir = mzm_env)
+                                        mzm_local <- mzm_env$mzm
                                 }else{
                                         mzm_local <- matrixmz
                                 }
@@ -312,7 +314,7 @@ mzmlviz <-
 #' @export
 #' @examples
 #' \donttest{
-#' simmzml_blank(name = 'blank_test')
+#' simmzml_blank(name = file.path(tempdir(), 'blank_test'))
 #' }
 simmzml_blank <- function(name,
                           mzrange = c(100,1000),

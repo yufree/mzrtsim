@@ -1,0 +1,153 @@
+---
+title: "mzrtsim: LC/GC-MS Raw Data and Peak List Simulation"
+author:
+  - name: Miao YU
+    affiliation: Department of Environmental Medicine and Climate Science, Icahn School of Medicine at Mount Sinai
+output:
+  BiocStyle::html_document:
+    toc: true
+    toc_depth: 2
+vignette: >
+  %\VignetteIndexEntry{mzrtsim: LC/GC-MS Raw Data and Peak List Simulation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction
+
+`mzrtsim` generates simulated LC/GC-MS data at two levels:
+
+1. **Raw data simulation** — produces `.mzML` files from real spectral
+   databases (MoNA, HMDB), with realistic chromatographic peak shapes,
+   tailing, noise, and matrix background.
+2. **Peak list simulation** — produces feature tables with configurable
+   condition effects and batch effects for benchmarking downstream
+   statistical workflows.
+
+# Installation
+
+```{r install, eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("mzrtsim")
+```
+
+# Raw Data Simulation
+
+## Basic Usage
+
+`simmzml()` generates one `.mzML` file and a companion `.csv` file
+containing ground-truth peak information (m/z, retention time, database
+intensity, simulated maximum intensity, compound name).
+
+```{r basic-sim, eval=FALSE}
+library(mzrtsim)
+data("monahrms1")
+simmzml(db = monahrms1, name = "test", n = 5,
+        rtrange = c(0, 60), scanrate = 0.5, seed = 42)
+```
+
+The output CSV now includes a `sim_ins` column — the absolute
+ground-truth maximum intensity of each simulated peak, accounting for
+response factor, peak height, and chromatographic profile. This is useful
+for evaluating peak detection algorithms.
+
+## Tailing and Leading Peaks
+
+Control chromatographic peak shape via `tailingfactor`:
+
+```{r tailing, eval=FALSE}
+# Tailing peaks (tailingfactor > 1)
+simmzml(db = monahrms1, name = "tailing", n = 3,
+        pwidth = 10, tailingfactor = 1.5, seed = 42)
+
+# Leading peaks (tailingfactor < 1)
+simmzml(db = monahrms1, name = "leading", n = 3,
+        pwidth = 10, tailingfactor = 0.8, seed = 42)
+```
+
+## Gradient Baseline Simulation
+
+The `baseline` parameter now accepts a numeric vector to simulate
+gradient elution baseline drift:
+```{r gradient, eval=FALSE}
+rtime0 <- seq(0, 600, 0.2)
+dynamic_baseline <- seq(100, 500, length.out = length(rtime0))
+simmzml(db = monahrms1, name = "gradient", n = 5,
+        baseline = dynamic_baseline, seed = 42)
+```
+
+## Blank / Matrix Simulation
+
+`simmzml_blank()` generates mzML files containing only background noise
+and optional matrix peaks — useful for generating blank controls or
+testing baseline correction algorithms:
+
+```{r blank, eval=FALSE}
+# Pure noise blank
+simmzml_blank("pure_blank", rtrange = c(0, 60))
+
+# Blank with serum matrix peaks
+data(mzm)
+simmzml_blank("serum_blank", matrixmz = mzm)
+```
+
+## Background Injection
+
+You can inject simulated peaks into a real blank mzML file using the
+`background` parameter in `simmzml()`:
+
+```{r background, eval=FALSE}
+simmzml(db = monahrms1, name = "injected", n = 10,
+        background = "real_blank.mzML", seed = 42)
+```
+
+# Peak List Simulation
+
+`mzrtsim()` generates feature tables with controlled condition and batch
+effects for benchmarking normalisation and batch correction methods.
+
+```{r peaklist}
+library(mzrtsim)
+data("hmdbcms")
+sim <- mzrtsim(ncomp = 20, ncond = 2, ncpeaks = 0.1,
+               nbatch = 2, nbpeaks = 0.1, npercond = 5,
+               nperbatch = c(5, 5), seed = 42,
+               batchtype = "mb", db = hmdbcms)
+str(sim, max.level = 1)
+```
+
+The returned list includes the data matrix, group assignments, and
+separate matrices for condition-only and batch-only effects. Use
+`simdata()` to export all components as CSV files.
+
+# Batch Correction Utilities
+
+The package provides several QC-based batch correction methods:
+
+```{r bc}
+peak <- c(100, 200, 300, 400, 500)
+qc <- c(150, 250, 350)
+
+# Centering
+bccenter(peak, qc, log = TRUE)
+
+# Pareto scaling
+bcpareto(peak, qc, log = FALSE)
+```
+
+Available methods: `bccenter`, `bcscaling`, `bcpareto`, `bcrange`,
+`bcvast`, `bclevel`.
+
+# Session Info
+
+```{r sessioninfo}
+sessionInfo()
+```

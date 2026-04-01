@@ -5,3 +5,5 @@ docs
 ^\.github/workflows$
 ^\.github$
 _pkgdown.yaml
+^MoNA-export-LC-MS_Spectra\.msp$
+.*\.RDS$
