@@ -23,6 +23,11 @@ test_that("simmzml generates mzML and CSV files", {
     expect_true(nrow(df) > 0)
     expect_true(all(df$sim_ins >= 0))
 
+    # Check mzML content
+    msdata <- RaMS::grabMSdata(mzml_file, grab_what = "MS1", verbosity = 0L)$MS1
+    expect_true(nrow(msdata) > 0)
+    expect_true(all(msdata$mz >= 100 & msdata$mz <= 1000))
+
     # Clean up
     unlink(c(mzml_file, csv_file))
 })

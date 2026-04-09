@@ -4,6 +4,228 @@
 #' @format A vector containing m/z from matrix blank for LC-HRMS simulation
 "mzm"
 
+# Internal mzML writer using base64enc (no mzR/Spectra dependency)
+# Supports mixed MS1/MS2/MSn spectra with precursor information.
+#
+# @param mz_list list of numeric vectors (m/z per scan)
+# @param intensity_list list of numeric vectors (intensity per scan)
+# @param rtime numeric vector of retention times in seconds
+# @param file output file path
+# @param ms_level integer vector of MS levels per scan, or scalar (default 1L)
+# @param precursor_mz numeric vector of precursor m/z per scan (NA for MS1)
+# @param precursor_charge integer vector of charge states (optional, NA ok)
+# @param precursor_intensity numeric vector of precursor intensities (optional)
+# @param collision_energy numeric vector of collision energies (optional, NA ok)
+# @param isolation_window numeric scalar or vector for half-width of
+#   isolation window in m/z (default 0.7)
+# @param activation character activation method: "CID", "HCD", "ETD",
+#   "ECD", "IRMPD", or "SID" (default "CID"). Can be a vector per scan.
+# @param centroided logical, label spectra as centroid (TRUE, default) or
+#   profile (FALSE). Can be a vector per scan.
+write_mzml <- function(mz_list, intensity_list, rtime, file,
+                       ms_level = 1L,
+                       precursor_mz = NULL,
+                       precursor_charge = NULL,
+                       precursor_intensity = NULL,
+                       collision_energy = NULL,
+                       isolation_window = 0.7,
+                       activation = "CID",
+                       centroided = TRUE) {
+    nscans <- length(rtime)
+
+    # Recycle scalars to per-scan vectors
+    ms_level <- rep_len(as.integer(ms_level), nscans)
+    centroided <- rep_len(centroided, nscans)
+    if (!is.null(precursor_mz))
+        precursor_mz <- rep_len(precursor_mz, nscans)
+    if (!is.null(precursor_charge))
+        precursor_charge <- rep_len(as.integer(precursor_charge), nscans)
+    if (!is.null(precursor_intensity))
+        precursor_intensity <- rep_len(precursor_intensity, nscans)
+    if (!is.null(collision_energy))
+        collision_energy <- rep_len(collision_energy, nscans)
+    isolation_window <- rep_len(isolation_window, nscans)
+    activation <- rep_len(activation, nscans)
+
+    # Activation CV lookup
+    act_cv <- c(
+        CID   = "MS:1000133", HCD   = "MS:1000422",
+        ETD   = "MS:1000598", ECD   = "MS:1000250",
+        IRMPD = "MS:1000262", SID   = "MS:1000136"
+    )
+    act_name <- c(
+        CID   = "collision-induced dissociation",
+        HCD   = "beam-type collision-induced dissociation",
+        ETD   = "electron transfer dissociation",
+        ECD   = "electron capture dissociation",
+        IRMPD = "infrared multiphoton dissociation",
+        SID   = "surface-induced dissociation"
+    )
+
+    encode_base64 <- function(x) {
+        base64enc::base64encode(
+            writeBin(as.double(x), raw(), size = 8, endian = "little")
+        )
+    }
+
+    has_ms1 <- any(ms_level == 1L)
+    has_msn <- any(ms_level >= 2L)
+
+    con <- file(file, "w")
+    on.exit(close(con))
+
+    # fileContent CV terms
+    fc_lines <- character()
+    if (has_ms1)
+        fc_lines <- c(fc_lines,
+            '      <cvParam cvRef="MS" accession="MS:1000579" name="MS1 spectrum" value=""/>')
+    if (has_msn)
+        fc_lines <- c(fc_lines,
+            '      <cvParam cvRef="MS" accession="MS:1000580" name="MSn spectrum" value=""/>')
+
+    # Header
+    writeLines(c(
+        '<?xml version="1.0" encoding="utf-8"?>',
+        '<mzML xmlns="http://psi.hupo.org/ms/mzml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://psi.hupo.org/ms/mzml http://psidev.info/files/ms/mzML/xsd/mzML1.1.0.xsd" id="mzrtsim_output" version="1.1.0">',
+        '  <cvList count="2">',
+        '    <cv id="MS" fullName="Proteomics Standards Initiative Mass Spectrometry Ontology" version="4.1.30" URI="https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo"/>',
+        '    <cv id="UO" fullName="Unit Ontology" version="09:04:2014" URI="https://raw.githubusercontent.com/bio-ontology-research-group/unit-ontology/master/unit.obo"/>',
+        '  </cvList>',
+        '  <fileDescription>',
+        '    <fileContent>',
+        fc_lines,
+        '    </fileContent>',
+        '  </fileDescription>',
+        '  <softwareList count="1">',
+        '    <software id="mzrtsim" version="0.99.0">',
+        '      <cvParam cvRef="MS" accession="MS:1000799" name="custom unreleased software tool" value="mzrtsim"/>',
+        '    </software>',
+        '  </softwareList>',
+        '  <instrumentConfigurationList count="1">',
+        '    <instrumentConfiguration id="IC">',
+        '      <cvParam cvRef="MS" accession="MS:1000031" name="instrument model" value=""/>',
+        '    </instrumentConfiguration>',
+        '  </instrumentConfigurationList>',
+        '  <dataProcessingList count="1">',
+        '    <dataProcessing id="dp">',
+        '      <processingMethod order="0" softwareRef="mzrtsim">',
+        '        <cvParam cvRef="MS" accession="MS:1000544" name="Conversion to mzML" value=""/>',
+        '      </processingMethod>',
+        '    </dataProcessing>',
+        '  </dataProcessingList>',
+        '  <run id="run1" defaultInstrumentConfigurationRef="IC">',
+        sprintf('    <spectrumList count="%d" defaultDataProcessingRef="dp">', nscans)
+    ), con)
+
+    # Spectra
+    for (i in seq_len(nscans)) {
+        mz <- mz_list[[i]]
+        int <- intensity_list[[i]]
+        n <- length(mz)
+        mz_b64 <- encode_base64(mz)
+        int_b64 <- encode_base64(int)
+        lvl <- ms_level[i]
+
+        # Spectrum type CV
+        if (lvl == 1L) {
+            type_cv <- '        <cvParam cvRef="MS" accession="MS:1000579" name="MS1 spectrum" value=""/>'
+        } else {
+            type_cv <- '        <cvParam cvRef="MS" accession="MS:1000580" name="MSn spectrum" value=""/>'
+        }
+        # Centroid / profile
+        if (centroided[i]) {
+            mode_cv <- '        <cvParam cvRef="MS" accession="MS:1000127" name="centroid spectrum" value=""/>'
+        } else {
+            mode_cv <- '        <cvParam cvRef="MS" accession="MS:1000128" name="profile spectrum" value=""/>'
+        }
+
+        spec_lines <- c(
+            sprintf('      <spectrum index="%d" id="scan=%d" defaultArrayLength="%d">', i - 1L, i, n),
+            sprintf('        <cvParam cvRef="MS" accession="MS:1000511" name="ms level" value="%d"/>', lvl),
+            type_cv,
+            mode_cv,
+            '        <scanList count="1">',
+            '          <cvParam cvRef="MS" accession="MS:1000795" name="no combination" value=""/>',
+            '          <scan>',
+            sprintf('            <cvParam cvRef="MS" accession="MS:1000016" name="scan start time" value="%f" unitCvRef="UO" unitAccession="UO:0000010" unitName="second"/>', rtime[i]),
+            '          </scan>',
+            '        </scanList>'
+        )
+
+        # Precursor list for MS2+
+        if (lvl >= 2L && !is.null(precursor_mz) && !is.na(precursor_mz[i])) {
+            pmz <- precursor_mz[i]
+            iw <- isolation_window[i]
+            act_key <- activation[i]
+            act_acc <- act_cv[act_key]
+            act_nm  <- act_name[act_key]
+
+            prec_lines <- c(
+                '        <precursorList count="1">',
+                '          <precursor>',
+                '            <isolationWindow>',
+                sprintf('              <cvParam cvRef="MS" accession="MS:1000827" name="isolation window target m/z" value="%f" unitCvRef="MS" unitAccession="MS:1000040" unitName="m/z"/>', pmz),
+                sprintf('              <cvParam cvRef="MS" accession="MS:1000828" name="isolation window lower offset" value="%f" unitCvRef="MS" unitAccession="MS:1000040" unitName="m/z"/>', iw),
+                sprintf('              <cvParam cvRef="MS" accession="MS:1000829" name="isolation window upper offset" value="%f" unitCvRef="MS" unitAccession="MS:1000040" unitName="m/z"/>', iw),
+                '            </isolationWindow>',
+                '            <selectedIonList count="1">',
+                '              <selectedIon>'
+            )
+            prec_lines <- c(prec_lines,
+                sprintf('                <cvParam cvRef="MS" accession="MS:1000744" name="selected ion m/z" value="%f" unitCvRef="MS" unitAccession="MS:1000040" unitName="m/z"/>', pmz))
+            if (!is.null(precursor_charge) && !is.na(precursor_charge[i]))
+                prec_lines <- c(prec_lines,
+                    sprintf('                <cvParam cvRef="MS" accession="MS:1000041" name="charge state" value="%d"/>', precursor_charge[i]))
+            if (!is.null(precursor_intensity) && !is.na(precursor_intensity[i]))
+                prec_lines <- c(prec_lines,
+                    sprintf('                <cvParam cvRef="MS" accession="MS:1000042" name="peak intensity" value="%f"/>', precursor_intensity[i]))
+            prec_lines <- c(prec_lines,
+                '              </selectedIon>',
+                '            </selectedIonList>',
+                '            <activation>',
+                sprintf('              <cvParam cvRef="MS" accession="%s" name="%s" value=""/>', act_acc, act_nm)
+            )
+            if (!is.null(collision_energy) && !is.na(collision_energy[i]))
+                prec_lines <- c(prec_lines,
+                    sprintf('              <cvParam cvRef="MS" accession="MS:1000045" name="collision energy" value="%f" unitCvRef="UO" unitAccession="UO:0000266" unitName="electronvolt"/>', collision_energy[i]))
+            prec_lines <- c(prec_lines,
+                '            </activation>',
+                '          </precursor>',
+                '        </precursorList>'
+            )
+            spec_lines <- c(spec_lines, prec_lines)
+        }
+
+        # Binary data arrays
+        spec_lines <- c(spec_lines,
+            '        <binaryDataArrayList count="2">',
+            sprintf('          <binaryDataArray encodedLength="%d">', nchar(mz_b64)),
+            '            <cvParam cvRef="MS" accession="MS:1000514" name="m/z array" value=""/>',
+            '            <cvParam cvRef="MS" accession="MS:1000523" name="64-bit float" value=""/>',
+            '            <cvParam cvRef="MS" accession="MS:1000576" name="no compression" value=""/>',
+            sprintf('            <binary>%s</binary>', mz_b64),
+            '          </binaryDataArray>',
+            sprintf('          <binaryDataArray encodedLength="%d">', nchar(int_b64)),
+            '            <cvParam cvRef="MS" accession="MS:1000515" name="intensity array" value=""/>',
+            '            <cvParam cvRef="MS" accession="MS:1000523" name="64-bit float" value=""/>',
+            '            <cvParam cvRef="MS" accession="MS:1000576" name="no compression" value=""/>',
+            sprintf('            <binary>%s</binary>', int_b64),
+            '          </binaryDataArray>',
+            '        </binaryDataArrayList>',
+            '      </spectrum>'
+        )
+
+        writeLines(spec_lines, con)
+    }
+
+    # Footer
+    writeLines(c(
+        '    </spectrumList>',
+        '  </run>',
+        '</mzML>'
+    ), con)
+}
+
 #' Generate simulated mzml data and compounds list
 #' @param db compound database with MS1 data. e.g. hmdbcms or monams1
 #' @param name file name of mzml
@@ -30,6 +252,15 @@
 #' @param matrix if TRUE, m/z from experimental data will be used for background m/z simulation.Default FALSE
 #' @param matrixmz custom matrix m/z vector, default NULL and predefined list from serum blank will be used.
 #' @param background mzML file path for background simulation, default NULL
+#' @param ms_level integer vector of MS levels per scan, or scalar (default 1L)
+#' @param precursor_mz numeric vector of precursor m/z per scan (NA for MS1)
+#' @param precursor_charge integer vector of charge states (optional, NA ok)
+#' @param precursor_intensity numeric vector of precursor intensities (optional)
+#' @param collision_energy numeric vector of collision energies (optional, NA ok)
+#' @param isolation_window numeric scalar or vector for half-width of
+#'   isolation window in m/z (default 0.7)
+#' @param activation character activation method: "CID", "HCD", "ETD",
+#'   "ECD", "IRMPD", or "SID" (default "CID"). Can be a vector per scan.
 #' @return one mzML file for simulated data and one csv file the simulated compounds with retention time, m/z and name
 #' @export
 #' @examples
@@ -60,7 +291,14 @@ simmzml <-
                  unique=FALSE,
                  matrix=FALSE,
                  matrixmz=NULL,
-                 background=NULL) {
+                 background=NULL,
+                 ms_level = 1L,
+                 precursor_mz = NULL,
+                 precursor_charge = NULL,
+                 precursor_intensity = NULL,
+                 collision_energy = NULL,
+                 isolation_window = 0.7,
+                 activation = "CID") {
                 if(unique){
                         uniquecpidx <- sapply(db, function(x) x$name)
                         db <- db[!duplicated(uniquecpidx)]
@@ -75,9 +313,9 @@ simmzml <-
                 }
 
                 if(!is.null(background)){
-                        raw <- Spectra::Spectra(background)
-                        raw <- Spectra::filterMsLevel(raw, 1L)
-                        rtime0 <- unique(Spectra::rtime(raw))
+                        rawdata <- RaMS::grabMSdata(background, grab_what = "MS1", verbosity = 0L)$MS1
+                        rawdata$rt <- rawdata$rt * 60
+                        rtime0 <- unique(rawdata$rt)
                 }else{
                         rtime0 <- seq(rtrange[1], rtrange[2], scanrate)
                 }
@@ -135,8 +373,6 @@ simmzml <-
                                 re <- rbind(re,peak)
                         }
                 }
-                spd <-
-                        S4Vectors::DataFrame(msLevel = 1L, rtime = rtime0)
                 mz <- lapply(sub, function(x)
                         x$spectra$mz)
                 intensity <- lapply(sub, function(x)
@@ -191,8 +427,10 @@ simmzml <-
                         mz <- mzpeak
                         allins <- alld[,-1]
                         mzl <- intensityl <- list()
-                        rawmz <- Spectra::mz(raw)
-                        rawint <- Spectra::intensity(raw)
+                        rt_factor <- factor(rawdata$rt, levels = rtime0)
+                        raw_by_scan <- split(seq_len(nrow(rawdata)), rt_factor)
+                        rawmz <- lapply(raw_by_scan, function(idx) rawdata$mz[idx])
+                        rawint <- lapply(raw_by_scan, function(idx) rawdata$int[idx])
 
                         for(i in 1:length(rtime0)){
                                 ins <- allins[,i]
@@ -254,13 +492,14 @@ simmzml <-
                         }
                 }
 
-                spd$mz <- mzl
-
-                spd$intensity <- intensityl
-
-                sp0 <- Spectra::Spectra(spd)
-                sp0$scanIndex <- seq_along(rtime0)
-                Spectra::export(sp0, Spectra::MsBackendMzR(), file = paste0(name, '.mzML'))
+                write_mzml(mzl, intensityl, rtime0, paste0(name, '.mzML'),
+                           ms_level = ms_level,
+                           precursor_mz = precursor_mz,
+                           precursor_charge = precursor_charge,
+                           precursor_intensity = precursor_intensity,
+                           collision_energy = collision_energy,
+                           isolation_window = isolation_window,
+                           activation = activation)
                 utils::write.csv(df2,file = paste0(name, '.csv'),row.names = F)
         }
 
@@ -274,13 +513,10 @@ mzmlviz <-
         function(mzml,
                  mzrange = c(100, 1000),
                  rtrange = c(0, 600)) {
-                dt <- Spectra::Spectra(mzml)
-                rt <- Spectra::rtime(dt)
-                ins <- Spectra::intensity(dt)
-                mz <- Spectra::mz(dt)
-                mzv <- unlist(mz)
-                rtimev <- rep(rt, times = sapply(mz, length))
-                intensityv <- log10(unlist(ins)+1)
+                msdata <- RaMS::grabMSdata(mzml, grab_what = "MS1", verbosity = 0L)$MS1
+                mzv <- msdata$mz
+                rtimev <- msdata$rt * 60
+                intensityv <- log10(msdata$int + 1)
                 norm <-
                         (intensityv - min(intensityv)) / (max(intensityv) - min(intensityv))
                 # png('test.png',width = diff(xlim),height = diff(ylim))

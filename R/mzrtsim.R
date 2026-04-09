@@ -222,3 +222,76 @@ simdata <- function(sim, name = "sim") {
     filename9 <- paste0(name, "monobatchange.csv")
     utils::write.csv(sim$changem, file = filename9)
 }
+
+#' Generate simulated peak list as a SummarizedExperiment
+#'
+#' A convenience wrapper around \code{\link{mzrtsim}} that returns the
+#' simulation result as a \code{SummarizedExperiment} object, ready for
+#' downstream analysis with Bioconductor tools such as \code{limma},
+#' \code{DESeq2}, or \code{QFeatures}.
+#'
+#' @inheritParams mzrtsim
+#' @return A \code{SummarizedExperiment} with:
+#' \describe{
+#'   \item{assays}{`counts` (observed data), `condition` (condition-effect
+#'     only), `batch` (batch-effect only)}
+#'   \item{rowData}{m/z, retention time, compound name, and logical flags
+#'     indicating whether each peak is influenced by condition or batch}
+#'   \item{colData}{sample condition and batch assignments}
+#' }
+#' @seealso \code{\link{mzrtsim}}, \code{\link[SummarizedExperiment]{SummarizedExperiment}}
+#' @export
+#' @examples
+#' data(hmdbcms)
+#' se <- mzrtsim_se(ncomp = 10, ncond = 2, ncpeaks = 0.1,
+#'                  nbatch = 2, nbpeaks = 0.1, npercond = 5,
+#'                  nperbatch = c(5, 5), seed = 42,
+#'                  batchtype = "mb", db = hmdbcms)
+#' se
+mzrtsim_se <- function(ncomp = 100,
+                        fc = NULL,
+                        ncond = 2,
+                        ncpeaks = 0.1,
+                        nbatch = 3,
+                        nbpeaks = 0.1,
+                        npercond = 10,
+                        nperbatch = c(8, 5, 7),
+                        batchtype = "mb",
+                        rtsim = TRUE,
+                        db = NULL,
+                        seed = 42) {
+
+    sim <- mzrtsim(ncomp = ncomp, fc = fc, ncond = ncond,
+                   ncpeaks = ncpeaks, nbatch = nbatch,
+                   nbpeaks = nbpeaks, npercond = npercond,
+                   nperbatch = nperbatch, batchtype = batchtype,
+                   rtsim = rtsim, db = db, seed = seed)
+
+    # Build assay list
+    counts_mat <- as.matrix(sim$data)
+    assay_list <- list(counts = counts_mat)
+
+    # rowData
+    rd <- S4Vectors::DataFrame(
+        mz = sim$mz,
+        rt = sim$rt,
+        name = rownames(counts_mat),
+        condition_peak = sim$conp,
+        batch_peak = sim$batchp
+    )
+
+    # colData
+    cd <- S4Vectors::DataFrame(
+        sample_name = sim$group$sample_name,
+        condition = sim$group$sample_group,
+        batch = sim$batch
+    )
+
+    se <- SummarizedExperiment::SummarizedExperiment(
+        assays = assay_list,
+        rowData = rd,
+        colData = cd
+    )
+
+    return(se)
+}

@@ -64,8 +64,21 @@ maximum intensity (`sim_ins`) of the peaks. Here the `monams1` and
 could be downloaded from their
 [website](https://mona.fiehnlab.ucdavis.edu/downloads). You could also
 use `hmdbcms` to simulate EI source data extracted from
-[HMDB](https://hmdb.ca/downloads). Here we only use the MS1 full scan
-data for simulation.
+[HMDB](https://hmdb.ca/downloads).
+
+### MS2 Simulation
+
+You can also simulate MS2 or mixed-mode data by providing precursor
+information.
+
+``` r
+# Simulate a targeted MS2 run
+simmzml(db=monahrms1, name = 'ms2_test', n = 1, 
+        ms_level = 2, precursor_mz = 250.5, collision_energy = 35)
+```
+
+The native mzML writer handles the binary encoding (Base64) internally
+without requiring external MS data libraries.
 
 ### Data extraction
 

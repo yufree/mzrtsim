@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style type="text/css">
+@font-face {
+font-family: octicons-link;
+src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+body {
+-webkit-text-size-adjust: 100%;
+text-size-adjust: 100%;
+color: #333;
+font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+font-size: 16px;
+line-height: 1.6;
+word-wrap: break-word;
+}
+a {
+background-color: transparent;
+}
+a:active,
+a:hover {
+outline: 0;
+}
+strong {
+font-weight: bold;
+}
+h1 {
+font-size: 2em;
+margin: 0.67em 0;
+}
+img {
+border: 0;
+}
+hr {
+box-sizing: content-box;
+height: 0;
+}
+pre {
+overflow: auto;
+}
+code,
+kbd,
+pre {
+font-family: monospace, monospace;
+font-size: 1em;
+}
+input {
+color: inherit;
+font: inherit;
+margin: 0;
+}
+html input[disabled] {
+cursor: default;
+}
+input {
+line-height: normal;
+}
+input[type="checkbox"] {
+box-sizing: border-box;
+padding: 0;
+}
+table {
+border-collapse: collapse;
+border-spacing: 0;
+}
+td,
+th {
+padding: 0;
+}
+* {
+box-sizing: border-box;
+}
+input {
+font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+a {
+color: #4078c0;
+text-decoration: none;
+}
+a:hover,
+a:active {
+text-decoration: underline;
+}
+hr {
+height: 0;
+margin: 15px 0;
+overflow: hidden;
+background: transparent;
+border: 0;
+border-bottom: 1px solid #ddd;
+}
+hr:before {
+display: table;
+content: "";
+}
+hr:after {
+display: table;
+clear: both;
+content: "";
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 15px;
+margin-bottom: 15px;
+line-height: 1.1;
+}
+h1 {
+font-size: 30px;
+}
+h2 {
+font-size: 21px;
+}
+h3 {
+font-size: 16px;
+}
+h4 {
+font-size: 14px;
+}
+h5 {
+font-size: 12px;
+}
+h6 {
+font-size: 11px;
+}
+blockquote {
+margin: 0;
+}
+ul,
+ol {
+padding: 0;
+margin-top: 0;
+margin-bottom: 0;
+}
+ol ol,
+ul ol {
+list-style-type: lower-roman;
+}
+ul ul ol,
+ul ol ol,
+ol ul ol,
+ol ol ol {
+list-style-type: lower-alpha;
+}
+dd {
+margin-left: 0;
+}
+code {
+font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+font-size: 12px;
+}
+pre {
+margin-top: 0;
+margin-bottom: 0;
+font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+}
+.select::-ms-expand {
+opacity: 0;
+}
+.octicon {
+font: normal normal normal 16px/1 octicons-link;
+display: inline-block;
+text-decoration: none;
+text-rendering: auto;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+.octicon-link:before {
+content: '\f05c';
+}
+.markdown-body:before {
+display: table;
+content: "";
+}
+.markdown-body:after {
+display: table;
+clear: both;
+content: "";
+}
+.markdown-body>*:first-child {
+margin-top: 0 !important;
+}
+.markdown-body>*:last-child {
+margin-bottom: 0 !important;
+}
+a:not([href]) {
+color: inherit;
+text-decoration: none;
+}
+.anchor {
+display: inline-block;
+padding-right: 2px;
+margin-left: -18px;
+}
+.anchor:focus {
+outline: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+margin-top: 1em;
+margin-bottom: 16px;
+font-weight: bold;
+line-height: 1.4;
+}
+h1 .octicon-link,
+h2 .octicon-link,
+h3 .octicon-link,
+h4 .octicon-link,
+h5 .octicon-link,
+h6 .octicon-link {
+color: #000;
+vertical-align: middle;
+visibility: hidden;
+}
+h1:hover .anchor,
+h2:hover .anchor,
+h3:hover .anchor,
+h4:hover .anchor,
+h5:hover .anchor,
+h6:hover .anchor {
+text-decoration: none;
+}
+h1:hover .anchor .octicon-link,
+h2:hover .anchor .octicon-link,
+h3:hover .anchor .octicon-link,
+h4:hover .anchor .octicon-link,
+h5:hover .anchor .octicon-link,
+h6:hover .anchor .octicon-link {
+visibility: visible;
+}
+h1 {
+padding-bottom: 0.3em;
+font-size: 2.25em;
+line-height: 1.2;
+border-bottom: 1px solid #eee;
+}
+h1 .anchor {
+line-height: 1;
+}
+h2 {
+padding-bottom: 0.3em;
+font-size: 1.75em;
+line-height: 1.225;
+border-bottom: 1px solid #eee;
+}
+h2 .anchor {
+line-height: 1;
+}
+h3 {
+font-size: 1.5em;
+line-height: 1.43;
+}
+h3 .anchor {
+line-height: 1.2;
+}
+h4 {
+font-size: 1.25em;
+}
+h4 .anchor {
+line-height: 1.2;
+}
+h5 {
+font-size: 1em;
+}
+h5 .anchor {
+line-height: 1.1;
+}
+h6 {
+font-size: 1em;
+color: #777;
+}
+h6 .anchor {
+line-height: 1.1;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table,
+pre {
+margin-top: 0;
+margin-bottom: 16px;
+}
+hr {
+height: 4px;
+padding: 0;
+margin: 16px 0;
+background-color: #e7e7e7;
+border: 0 none;
+}
+ul,
+ol {
+padding-left: 2em;
+}
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+margin-top: 0;
+margin-bottom: 0;
+}
+li>p {
+margin-top: 16px;
+}
+dl {
+padding: 0;
+}
+dl dt {
+padding: 0;
+margin-top: 16px;
+font-size: 1em;
+font-style: italic;
+font-weight: bold;
+}
+dl dd {
+padding: 0 16px;
+margin-bottom: 16px;
+}
+blockquote {
+padding: 0 15px;
+color: #777;
+border-left: 4px solid #ddd;
+}
+blockquote>:first-child {
+margin-top: 0;
+}
+blockquote>:last-child {
+margin-bottom: 0;
+}
+table {
+display: block;
+width: 100%;
+overflow: auto;
+word-break: normal;
+word-break: keep-all;
+}
+table th {
+font-weight: bold;
+}
+table th,
+table td {
+padding: 6px 13px;
+border: 1px solid #ddd;
+}
+table tr {
+background-color: #fff;
+border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+background-color: #f8f8f8;
+}
+img {
+max-width: 100%;
+box-sizing: content-box;
+background-color: #fff;
+}
+code {
+padding: 0;
+padding-top: 0.2em;
+padding-bottom: 0.2em;
+margin: 0;
+font-size: 85%;
+background-color: rgba(0,0,0,0.04);
+border-radius: 3px;
+}
+code:before,
+code:after {
+letter-spacing: -0.2em;
+content: "\00a0";
+}
+pre>code {
+padding: 0;
+margin: 0;
+font-size: 100%;
+word-break: normal;
+white-space: pre;
+background: transparent;
+border: 0;
+}
+.highlight {
+margin-bottom: 16px;
+}
+.highlight pre,
+pre {
+padding: 16px;
+overflow: auto;
+font-size: 85%;
+line-height: 1.45;
+background-color: #f7f7f7;
+border-radius: 3px;
+}
+.highlight pre {
+margin-bottom: 0;
+word-break: normal;
+}
+pre {
+word-wrap: normal;
+}
+pre code {
+display: inline;
+max-width: initial;
+padding: 0;
+margin: 0;
+overflow: initial;
+line-height: inherit;
+word-wrap: normal;
+background-color: transparent;
+border: 0;
+}
+pre code:before,
+pre code:after {
+content: normal;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font-size: 11px;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.pl-c {
+color: #969896;
+}
+.pl-c1,
+.pl-s .pl-v {
+color: #0086b3;
+}
+.pl-e,
+.pl-en {
+color: #795da3;
+}
+.pl-s .pl-s1,
+.pl-smi {
+color: #333;
+}
+.pl-ent {
+color: #63a35c;
+}
+.pl-k {
+color: #a71d5d;
+}
+.pl-pds,
+.pl-s,
+.pl-s .pl-pse .pl-s1,
+.pl-sr,
+.pl-sr .pl-cce,
+.pl-sr .pl-sra,
+.pl-sr .pl-sre {
+color: #183691;
+}
+.pl-v {
+color: #ed6a43;
+}
+.pl-id {
+color: #b52a1d;
+}
+.pl-ii {
+background-color: #b52a1d;
+color: #f8f8f8;
+}
+.pl-sr .pl-cce {
+color: #63a35c;
+font-weight: bold;
+}
+.pl-ml {
+color: #693a17;
+}
+.pl-mh,
+.pl-mh .pl-en,
+.pl-ms {
+color: #1d3e81;
+font-weight: bold;
+}
+.pl-mq {
+color: #008080;
+}
+.pl-mi {
+color: #333;
+font-style: italic;
+}
+.pl-mb {
+color: #333;
+font-weight: bold;
+}
+.pl-md {
+background-color: #ffecec;
+color: #bd2c00;
+}
+.pl-mi1 {
+background-color: #eaffea;
+color: #55a532;
+}
+.pl-mdr {
+color: #795da3;
+font-weight: bold;
+}
+.pl-mo {
+color: #1d3e81;
+}
+kbd {
+display: inline-block;
+padding: 3px 5px;
+font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+line-height: 10px;
+color: #555;
+vertical-align: middle;
+background-color: #fcfcfc;
+border: solid 1px #ccc;
+border-bottom-color: #bbb;
+border-radius: 3px;
+box-shadow: inset 0 -1px 0 #bbb;
+}
+.task-list-item {
+list-style-type: none;
+}
+.task-list-item+.task-list-item {
+margin-top: 3px;
+}
+.task-list-item input {
+margin: 0 0.35em 0.25em -1.6em;
+vertical-align: middle;
+}
+:checked+.radio-label {
+z-index: 1;
+position: relative;
+border-color: #4078c0;
+}
+.sourceLine {
+display: inline-block;
+}
+code .kw { color: #000000; }
+code .dt { color: #ed6a43; }
+code .dv { color: #009999; }
+code .bn { color: #009999; }
+code .fl { color: #009999; }
+code .ch { color: #009999; }
+code .st { color: #183691; }
+code .co { color: #969896; }
+code .ot { color: #0086b3; }
+code .al { color: #a61717; }
+code .fu { color: #63a35c; }
+code .er { color: #a61717; background-color: #e3d2d2; }
+code .wa { color: #000000; }
+code .cn { color: #008080; }
+code .sc { color: #008080; }
+code .vs { color: #183691; }
+code .ss { color: #183691; }
+code .im { color: #000000; }
+code .va {color: #008080; }
+code .cf { color: #000000; }
+code .op { color: #000000; }
+code .bu { color: #000000; }
+code .ex { color: #000000; }
+code .pp { color: #999999; }
+code .at { color: #008080; }
+code .do { color: #969896; }
+code .an { color: #008080; }
+code .cv { color: #008080; }
+code .in { color: #008080; }
+</style>
+<style>
+body {
+box-sizing: border-box;
+min-width: 200px;
+max-width: 980px;
+margin: 0 auto;
+padding: 45px;
+padding-top: 0px;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+<h1 id="mzrtsim">mzrtsim</h1>
+<!-- badges: start -->
+
+<p><a href="https://github.com/yufree/mzrtsim/actions/workflows/R-CMD-check.yaml"><img role="img" aria-label="R-CMD-check" src="data:image/svg+xml; charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDUiIGhlaWdodD0iMjAiPgogIDx0aXRsZT5SLUNNRC1jaGVjayAtIGZhaWxpbmc8L3RpdGxlPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJ3b3JrZmxvdy1maWxsIiB4MT0iNTAlIiB5MT0iMCUiIHgyPSI1MCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzQ0NEQ1NiIgb2Zmc2V0PSIwJSI+PC9zdG9wPgogICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjMjQyOTJFIiBvZmZzZXQ9IjEwMCUiPjwvc3RvcD4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InN0YXRlLWZpbGwiIHgxPSI1MCUiIHkxPSIwJSIgeDI9IjUwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBzdG9wLWNvbG9yPSIjRDczQTQ5IiBvZmZzZXQ9IjAlIj48L3N0b3A+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiNDQjI0MzEiIG9mZnNldD0iMTAwJSI+PC9zdG9wPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgIDxnIGZvbnQtZmFtaWx5PSImIzM5O0RlamFWdSBTYW5zJiMzOTssVmVyZGFuYSxHZW5ldmEsc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMSI+CiAgICAgIDxwYXRoIGlkPSJ3b3JrZmxvdy1iZyIgZD0iTTAsMyBDMCwxLjM0MzEgMS4zNTUyLDAgMy4wMjcwMjcwMywwIEwxMDIsMCBMMTAyLDIwIEwzLjAyNzAyNzAzLDIwIEMxLjM1NTIsMjAgMCwxOC42NTY5IDAsMTcgTDAsMyBaIiBmaWxsPSJ1cmwoI3dvcmtmbG93LWZpbGwpIiBmaWxsLXJ1bGU9Im5vbnplcm8iPjwvcGF0aD4KICAgICAgPHRleHQgZmlsbD0iIzAxMDEwMSIgZmlsbC1vcGFjaXR5PSIuMyI+CiAgICAgICAgPHRzcGFuIHg9IjIyLjE5ODE5ODIiIHk9IjE1IiBhcmlhLWhpZGRlbj0idHJ1ZSI+Ui1DTUQtY2hlY2s8L3RzcGFuPgogICAgICA8L3RleHQ+CiAgICAgIDx0ZXh0IGZpbGw9IiNGRkZGRkYiPgogICAgICAgIDx0c3BhbiB4PSIyMi4xOTgxOTgyIiB5PSIxNCI+Ui1DTUQtY2hlY2s8L3RzcGFuPgogICAgICA8L3RleHQ+CiAgICA8L2c+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMDIpIiBmb250LWZhbWlseT0iJiMzOTtEZWphVnUgU2FucyYjMzk7LFZlcmRhbmEsR2VuZXZhLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiPgogICAgICA8cGF0aCBkPSJNMCAwaDQwLjQ3QzQxLjg2OSAwIDQzIDEuMzQzIDQzIDN2MTRjMCAxLjY1Ny0xLjEzMiAzLTIuNTMgM0gwVjB6IiBpZD0ic3RhdGUtYmciIGZpbGw9InVybCgjc3RhdGUtZmlsbCkiIGZpbGwtcnVsZT0ibm9uemVybyI+PC9wYXRoPgogICAgICA8dGV4dCBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIiBhcmlhLWhpZGRlbj0idHJ1ZSI+CiAgICAgICAgPHRzcGFuIHg9IjUiIHk9IjE1Ij5mYWlsaW5nPC90c3Bhbj4KICAgICAgPC90ZXh0PgogICAgICA8dGV4dCBmaWxsPSIjRkZGRkZGIj4KICAgICAgICA8dHNwYW4geD0iNSIgeT0iMTQiPmZhaWxpbmc8L3RzcGFuPgogICAgICA8L3RleHQ+CiAgICA8L2c+CiAgICA8cGF0aCBmaWxsPSIjOTU5REE1IiBkPSJNMTEgM2MtMy44NjggMC03IDMuMTMyLTcgN2E2Ljk5NiA2Ljk5NiAwIDAgMCA0Ljc4NiA2LjY0MWMuMzUuMDYyLjQ4Mi0uMTQ4LjQ4Mi0uMzMyIDAtLjE2Ni0uMDEtLjcxOC0uMDEtMS4zMDQtMS43NTguMzI0LTIuMjEzLS40MjktMi4zNTMtLjgyMi0uMDc5LS4yMDItLjQyLS44MjMtLjcxNy0uOTktLjI0NS0uMTMtLjU5NS0uNDU0LS4wMS0uNDYzLjU1Mi0uMDA5Ljk0Ni41MDggMS4wNzcuNzE4LjYzIDEuMDU4IDEuNjM2Ljc2IDIuMDM5LjU3Ny4wNjEtLjQ1NS4yNDUtLjc2MS40NDYtLjkzNi0xLjU1Ny0uMTc1LTMuMTg1LS43NzktMy4xODUtMy40NTYgMC0uNzYyLjI3MS0xLjM5Mi43MTgtMS44ODItLjA3LS4xNzUtLjMxNS0uODkyLjA3LTEuODU1IDAgMCAuNTg2LS4xODMgMS45MjUuNzE4YTYuNSA2LjUgMCAwIDEgMS43NS0uMjM2IDYuNSA2LjUgMCAwIDEgMS43NS4yMzZjMS4zMzgtLjkxIDEuOTI1LS43MTggMS45MjUtLjcxOC4zODUuOTYzLjE0IDEuNjguMDcgMS44NTUuNDQ2LjQ5LjcxNyAxLjExMi43MTcgMS44ODIgMCAyLjY4Ni0xLjYzNiAzLjI4LTMuMTk0IDMuNDU2LjI1NC4yMTkuNDczLjYzOS40NzMgMS4yOTUgMCAuOTM2LS4wMDkgMS42ODktLjAwOSAxLjkyNSAwIC4xODQuMTMxLjQwMi40ODEuMzMyQTcuMDExIDcuMDExIDAgMCAwIDE4IDEwYzAtMy44NjctMy4xMzMtNy03LTd6Ij48L3BhdGg+CiAgPC9nPgo8L3N2Zz4KCg==" alt="R-CMD-check" /></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#stable"><img role="img" aria-label="Lifecycle: stable" src="data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5OCIgaGVpZ2h0PSIyMCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJsaWZlY3ljbGU6IHN0YWJsZSI+PHRpdGxlPmxpZmVjeWNsZTogc3RhYmxlPC90aXRsZT48bGluZWFyR3JhZGllbnQgaWQ9InMiIHgyPSIwIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjYmJiIiBzdG9wLW9wYWNpdHk9Ii4xIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLW9wYWNpdHk9Ii4xIi8+PC9saW5lYXJHcmFkaWVudD48Y2xpcFBhdGggaWQ9InIiPjxyZWN0IHdpZHRoPSI5OCIgaGVpZ2h0PSIyMCIgcng9IjMiIGZpbGw9IiNmZmYiLz48L2NsaXBQYXRoPjxnIGNsaXAtcGF0aD0idXJsKCNyKSI+PHJlY3Qgd2lkdGg9IjU1IiBoZWlnaHQ9IjIwIiBmaWxsPSIjNTU1Ii8+PHJlY3QgeD0iNTUiIHdpZHRoPSI0MyIgaGVpZ2h0PSIyMCIgZmlsbD0iIzRjMSIvPjxyZWN0IHdpZHRoPSI5OCIgaGVpZ2h0PSIyMCIgZmlsbD0idXJsKCNzKSIvPjwvZz48ZyBmaWxsPSIjZmZmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iVmVyZGFuYSxHZW5ldmEsRGVqYVZ1IFNhbnMsc2Fucy1zZXJpZiIgdGV4dC1yZW5kZXJpbmc9Imdlb21ldHJpY1ByZWNpc2lvbiIgZm9udC1zaXplPSIxMTAiPjx0ZXh0IGFyaWEtaGlkZGVuPSJ0cnVlIiB4PSIyODUiIHk9IjE1MCIgZmlsbD0iIzAxMDEwMSIgZmlsbC1vcGFjaXR5PSIuMyIgdHJhbnNmb3JtPSJzY2FsZSguMSkiIHRleHRMZW5ndGg9IjQ1MCI+bGlmZWN5Y2xlPC90ZXh0Pjx0ZXh0IHg9IjI4NSIgeT0iMTQwIiB0cmFuc2Zvcm09InNjYWxlKC4xKSIgZmlsbD0iI2ZmZiIgdGV4dExlbmd0aD0iNDUwIj5saWZlY3ljbGU8L3RleHQ+PHRleHQgYXJpYS1oaWRkZW49InRydWUiIHg9Ijc1NSIgeT0iMTUwIiBmaWxsPSIjMDEwMTAxIiBmaWxsLW9wYWNpdHk9Ii4zIiB0cmFuc2Zvcm09InNjYWxlKC4xKSIgdGV4dExlbmd0aD0iMzMwIj5zdGFibGU8L3RleHQ+PHRleHQgeD0iNzU1IiB5PSIxNDAiIHRyYW5zZm9ybT0ic2NhbGUoLjEpIiBmaWxsPSIjZmZmIiB0ZXh0TGVuZ3RoPSIzMzAiPnN0YWJsZTwvdGV4dD48L2c+PC9zdmc+" alt="Lifecycle: stable" /></a></p>
+<!-- badges: end -->
+
+<p>The goal of mzrtsim is to make raw data and features table simulation
+for LC/GC-MS based data</p>
+<h2 id="citation">Citation</h2>
+<p>Yu, M.; Philip, V. Mzrtsim: Raw Data Simulation for Reproducible
+Gas/Liquid Chromatography–Mass Spectrometry-Based Nontargeted
+Metabolomics Data Analysis. Anal. Chem. 2025, 97 (32), 17309–17314. <a href="https://doi.org/10.1021/acs.analchem.5c01213">https://doi.org/10.1021/acs.analchem.5c01213</a>.</p>
+<h2 id="installation">Installation</h2>
+<p>You can install the development version from <a href="https://github.com/">GitHub</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># install.packages(&quot;remotes&quot;)</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;yufree/mzrtsim&quot;</span>)</span></code></pre></div>
+<h2 id="raw-data-simulation">Raw Data simulation</h2>
+<p>MS1 full scan data has been proved more complex than theoretical
+prediction. Recently study showed that soft ionization will also contain
+<a href="https://www.nature.com/articles/s41596-023-00803-0">fragment
+ions</a> for structure identification and contain lots of <a href="https://pubs.acs.org/doi/10.1021/acs.analchem.7b02380">redundant
+peaks</a>. As shown in the following figure, MS1 full scan data could
+contain different types of ions from the same compound (red). Some peaks
+we could figure out the sources while some peaks might be hard to
+interpret. In this case, mzrtsim package will use experimental data
+instead of predicted peaks from the compound formula to show the
+complexity of MS1 spectra.</p>
+<figure>
+<img role="img" aria-label="demo" src="data:image/png;base64,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" alt="demo" />
+<figcaption aria-hidden="true">demo</figcaption>
+</figure>
+
+<p>You could use <code>simmzml</code> to generate one mzML file.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(mzrtsim)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;monams1&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">simmzml</span>(<span class="at">db=</span>monams1, <span class="at">name =</span> <span class="st">&#39;test&#39;</span>)</span></code></pre></div>
+<p>You will find <code>test.mzML</code> and corresponding
+<code>test.csv</code> with m/z, retention time, compound name, and the
+simulated absolute ground-truth maximum intensity (<code>sim_ins</code>)
+of the peaks. Here the <code>monams1</code> and <code>monahrms1</code>
+is from the MS1 data of MassBank of North America (MoNA) and could be
+downloaded from their <a href="https://mona.fiehnlab.ucdavis.edu/downloads">website</a>. You
+could also use <code>hmdbcms</code> to simulate EI source data extracted
+from <a href="https://hmdb.ca/downloads">HMDB</a>.</p>
+<h3 id="ms2-simulation">MS2 Simulation</h3>
+<p>You can also simulate MS2 or mixed-mode data by providing precursor
+information.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Simulate a targeted MS2 run</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">simmzml</span>(<span class="at">db=</span>monahrms1, <span class="at">name =</span> <span class="st">&#39;ms2_test&#39;</span>, <span class="at">n =</span> <span class="dv">1</span>, </span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>        <span class="at">ms_level =</span> <span class="dv">2</span>, <span class="at">precursor_mz =</span> <span class="fl">250.5</span>, <span class="at">collision_energy =</span> <span class="dv">35</span>)</span></code></pre></div>
+<p>The native mzML writer handles the binary encoding (Base64)
+internally without requiring external MS data libraries.</p>
+<h3 id="data-extraction">Data extraction</h3>
+<p>For HMDB, you need to download their “GC-MS Spectra Files (XML) -
+Experimental” data <a href="https://hmdb.ca/downloads">here</a>. Then
+you need the following R code to construct the database for this
+package.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>xmlpath <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">&#39;hmdb_experimental_cms_spectra/&#39;</span>,<span class="at">full.names =</span> T,<span class="at">recursive =</span> T)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">library</span>(xml2)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>getcms <span class="ot">&lt;-</span> <span class="cf">function</span>(i){</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  tree <span class="ot">=</span> xml2<span class="sc">::</span><span class="fu">read_xml</span>(xmlpath[i])</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  accession <span class="ot">=</span> <span class="fu">xml_text</span>(xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(tree,<span class="st">&#39;/c-ms/database-id&#39;</span>))</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  rti <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">xml_text</span>(xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(tree,<span class="st">&#39;/c-ms/retention-index&#39;</span>)))</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  prec <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">xml_text</span>(xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(tree,<span class="st">&#39;/c-ms/derivative-exact-mass&#39;</span>)))</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  formula <span class="ot">=</span> <span class="fu">xml_text</span>(xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(tree,<span class="st">&#39;/c-ms/derivative-formula&#39;</span>))</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>  ins <span class="ot">=</span> <span class="fu">xml_text</span>(xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(tree,<span class="st">&#39;/c-ms/notes&#39;</span>))</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  ins2 <span class="ot">=</span> <span class="fu">xml_text</span>(xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(tree,<span class="st">&#39;/c-ms/instrument-type&#39;</span>))</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  mode <span class="ot">=</span> <span class="fu">xml_text</span>(xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(tree,<span class="st">&#39;/c-ms/ionization-mode&#39;</span>))</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  idms <span class="ot">=</span> <span class="fu">xml_text</span>(xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(tree,<span class="st">&#39;/c-ms/id&#39;</span>))</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  instr <span class="ot">=</span> <span class="fu">xml_text</span>(xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(tree,<span class="st">&#39;instrument-type&#39;</span>))</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>  masscharge <span class="ot">=</span> <span class="fu">as.numeric</span>(<span class="fu">xml_text</span>(xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(tree,<span class="st">&#39;/c-ms/c-ms-peaks/c-ms-peak/mass-charge&#39;</span>)))</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>  intensity <span class="ot">=</span>  <span class="fu">as.numeric</span>(<span class="fu">xml_text</span>(xml2<span class="sc">::</span><span class="fu">xml_find_all</span>(tree,<span class="st">&#39;/c-ms/c-ms-peaks/c-ms-peak/intensity&#39;</span>)))</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>  idx <span class="ot">&lt;-</span> intensity<span class="sc">!=</span><span class="dv">0</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>  mz <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">name=</span>accession, <span class="at">idms=</span>idms, <span class="at">ionmode=</span>mode, <span class="at">prec =</span> prec, <span class="at">formula =</span> formula, <span class="at">np =</span> <span class="fu">length</span>(masscharge[idx]), <span class="at">rti =</span> rti, <span class="at">instr =</span> ins2, <span class="at">msm =</span> ins, <span class="at">spectra=</span><span class="fu">cbind.data.frame</span>(<span class="at">mz=</span>masscharge[idx],<span class="at">ins=</span>intensity[idx]))</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>  <span class="fu">return</span>(mz)</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>}</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="fu">library</span>(parallel)</span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>hmdbcms <span class="ot">&lt;-</span> <span class="fu">mcMap</span>(getcms,<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(xmlpath), <span class="at">mc.cores =</span> <span class="dv">4</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="fu">saveRDS</span>(hmdbcms,<span class="st">&#39;hmdbcms.RDS&#39;</span>)</span></code></pre></div>
+<p>For MoNA, you can download the “LC-MS Spectra” data in format of
+“msp” from this <a href="https://mona.fiehnlab.ucdavis.edu/downloads">website</a>. Then we
+need to filter the MS1 data to generate database for LC-MS and subset
+data base for LC-HRMS.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># you need to install enviGCMS package by &#39;install.packages(&quot;enviGCMS&quot;)&#39;.</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>msp <span class="ot">&lt;-</span> enviGCMS<span class="sc">::</span><span class="fu">getMSP</span>(<span class="st">&#39;MoNA-export-LC-MS_Spectra.msp&#39;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="fu">sapply</span>(msp, <span class="cf">function</span>(x) <span class="fu">grepl</span>(<span class="st">&#39;MS1&#39;</span>,x<span class="sc">$</span>msm))</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>idx1 <span class="ot">&lt;-</span> <span class="fu">sapply</span>(idx, <span class="cf">function</span>(x) <span class="fu">length</span>(x)<span class="sc">&gt;</span><span class="dv">0</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>monams1 <span class="ot">&lt;-</span> msp[idx1]</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>idx2 <span class="ot">&lt;-</span> <span class="fu">sapply</span>(monams1, <span class="cf">function</span>(x) <span class="fu">grepl</span>(<span class="st">&#39;MS1&#39;</span>,x<span class="sc">$</span>msm))</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>monams1 <span class="ot">&lt;-</span> monams1[idx2]</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>idx3 <span class="ot">&lt;-</span> <span class="fu">sapply</span>(monams1, <span class="cf">function</span>(x) x<span class="sc">$</span>instr )</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>idx4 <span class="ot">&lt;-</span> <span class="fu">sapply</span>(idx3, <span class="cf">function</span>(x) <span class="fu">length</span>(x)<span class="sc">&gt;</span><span class="dv">0</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>monams12 <span class="ot">&lt;-</span> monams1[idx4]</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="fu">saveRDS</span>(monams12,<span class="st">&#39;monams1.RDS&#39;</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>idx5 <span class="ot">&lt;-</span> <span class="fu">sapply</span>(monams12, <span class="cf">function</span>(x) x<span class="sc">$</span>instr )</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>monams13 <span class="ot">&lt;-</span> monams12[<span class="fu">grepl</span>(<span class="st">&#39;FT|TOF&#39;</span>,idx5)]</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>idx5 <span class="ot">&lt;-</span> <span class="fu">sapply</span>(monams13, <span class="cf">function</span>(x) x<span class="sc">$</span>instr )</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>nn <span class="ot">&lt;-</span> <span class="fu">sapply</span>(monams13,<span class="cf">function</span>(x) x<span class="sc">$</span>np)</span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="fu">median</span>(<span class="fu">as.numeric</span>(nn))</span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">as.numeric</span>(nn))</span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="fu">saveRDS</span>(monams13,<span class="st">&#39;monahrms1.RDS&#39;</span>)</span></code></pre></div>
+<p>If you have your own database in “msp” format, you can generate the
+custom database by the following code:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>msp <span class="ot">&lt;-</span> enviGCMS<span class="sc">::</span><span class="fu">getMSP</span>(<span class="st">&#39;MoNA-export-LC-MS_Spectra.msp&#39;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">saveRDS</span>(msp,<span class="st">&#39;custom.RDS&#39;</span>)</span></code></pre></div>
+<p>To use the “*.RDS” database, you need to load them and refer their
+name for ‘simmzml’ function.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>custom <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&#39;custom.RDS&#39;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">simmzml</span>(<span class="at">db=</span>custom, <span class="at">name =</span> <span class="st">&#39;test&#39;</span>)</span></code></pre></div>
+<p>To select certain compound for review/simulation, you could use name
+or inchikey.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">data</span>(monahrms1)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co"># if you know the compound name</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>compoundname <span class="ot">&lt;-</span> <span class="st">&#39;Triacylglycerol 14:0-16:0-16:0&#39;</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>databasename <span class="ot">&lt;-</span> <span class="fu">sapply</span>(monahrms1,<span class="cf">function</span>(x) x<span class="sc">$</span>name)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>compoundidx <span class="ot">&lt;-</span> databasename<span class="sc">%in%</span>compoundname</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>compound <span class="ot">&lt;-</span> monahrms1[compoundidx]</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>compound</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; $`50051`</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; $`50051`$name</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Triacylglycerol 14:0-16:0-16:0&quot;</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; $`50051`$charge</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;&quot;</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; $`50051`$ionmode</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; [1] &quot;P&quot;</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; $`50051`$prec</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; [1] 796.7</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; $`50051`$formula</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; [1] &quot;C49H94O6&quot;</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; $`50051`$exactmass</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; [1] 778.705</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt; $`50051`$inchikey</span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt; [1] &quot;JWVXCFSNEOMSHH-UHFFFAOYSA-N&quot;</span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a><span class="co">#&gt; $`50051`$np</span></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="co">#&gt; [1] &quot;77&quot;</span></span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a><span class="co">#&gt; $`50051`$ce</span></span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a><span class="co">#&gt; [1] &quot;30 V&quot;</span></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a><span class="co">#&gt; $`50051`$rt</span></span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a><span class="co">#&gt; [1] 3729.8</span></span>
+<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a><span class="co">#&gt; $`50051`$column</span></span>
+<span id="cb8-40"><a href="#cb8-40" tabindex="-1"></a><span class="co">#&gt; [1] &quot;ACQUITY UPLC BEH C18 column, Waters&quot;</span></span>
+<span id="cb8-41"><a href="#cb8-41" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-42"><a href="#cb8-42" tabindex="-1"></a><span class="co">#&gt; $`50051`$instr</span></span>
+<span id="cb8-43"><a href="#cb8-43" tabindex="-1"></a><span class="co">#&gt; [1] &quot;LC-ESI-QTOF&quot;</span></span>
+<span id="cb8-44"><a href="#cb8-44" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-45"><a href="#cb8-45" tabindex="-1"></a><span class="co">#&gt; $`50051`$msm</span></span>
+<span id="cb8-46"><a href="#cb8-46" tabindex="-1"></a><span class="co">#&gt; [1] &quot;MS1&quot;</span></span>
+<span id="cb8-47"><a href="#cb8-47" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-48"><a href="#cb8-48" tabindex="-1"></a><span class="co">#&gt; $`50051`$spectra</span></span>
+<span id="cb8-49"><a href="#cb8-49" tabindex="-1"></a><span class="co">#&gt;          mz        ins</span></span>
+<span id="cb8-50"><a href="#cb8-50" tabindex="-1"></a><span class="co">#&gt; 1  211.1904   1.550388</span></span>
+<span id="cb8-51"><a href="#cb8-51" tabindex="-1"></a><span class="co">#&gt; 2  221.2071   0.775194</span></span>
+<span id="cb8-52"><a href="#cb8-52" tabindex="-1"></a><span class="co">#&gt; 3  222.2356   0.387597</span></span>
+<span id="cb8-53"><a href="#cb8-53" tabindex="-1"></a><span class="co">#&gt; 4  239.2106   2.325581</span></span>
+<span id="cb8-54"><a href="#cb8-54" tabindex="-1"></a><span class="co">#&gt; 5  240.3326   1.550388</span></span>
+<span id="cb8-55"><a href="#cb8-55" tabindex="-1"></a><span class="co">#&gt; 6  245.4224   0.387597</span></span>
+<span id="cb8-56"><a href="#cb8-56" tabindex="-1"></a><span class="co">#&gt; 7  256.2933   0.387597</span></span>
+<span id="cb8-57"><a href="#cb8-57" tabindex="-1"></a><span class="co">#&gt; 8  257.2285   0.387597</span></span>
+<span id="cb8-58"><a href="#cb8-58" tabindex="-1"></a><span class="co">#&gt; 9  263.2312   0.387597</span></span>
+<span id="cb8-59"><a href="#cb8-59" tabindex="-1"></a><span class="co">#&gt; 10 264.1962   0.387597</span></span>
+<span id="cb8-60"><a href="#cb8-60" tabindex="-1"></a><span class="co">#&gt; 11 265.2154   0.387597</span></span>
+<span id="cb8-61"><a href="#cb8-61" tabindex="-1"></a><span class="co">#&gt; 12 285.2063   1.162791</span></span>
+<span id="cb8-62"><a href="#cb8-62" tabindex="-1"></a><span class="co">#&gt; 13 313.2623   0.775194</span></span>
+<span id="cb8-63"><a href="#cb8-63" tabindex="-1"></a><span class="co">#&gt; 14 488.2370   0.387597</span></span>
+<span id="cb8-64"><a href="#cb8-64" tabindex="-1"></a><span class="co">#&gt; 15 495.4385   2.325581</span></span>
+<span id="cb8-65"><a href="#cb8-65" tabindex="-1"></a><span class="co">#&gt; 16 496.4580   1.550388</span></span>
+<span id="cb8-66"><a href="#cb8-66" tabindex="-1"></a><span class="co">#&gt; 17 497.3890   0.775194</span></span>
+<span id="cb8-67"><a href="#cb8-67" tabindex="-1"></a><span class="co">#&gt; 18 497.7592   0.387597</span></span>
+<span id="cb8-68"><a href="#cb8-68" tabindex="-1"></a><span class="co">#&gt; 19 501.4811   0.387597</span></span>
+<span id="cb8-69"><a href="#cb8-69" tabindex="-1"></a><span class="co">#&gt; 20 517.1404   0.775194</span></span>
+<span id="cb8-70"><a href="#cb8-70" tabindex="-1"></a><span class="co">#&gt; 21 519.2001   0.775194</span></span>
+<span id="cb8-71"><a href="#cb8-71" tabindex="-1"></a><span class="co">#&gt; 22 519.8795   1.162791</span></span>
+<span id="cb8-72"><a href="#cb8-72" tabindex="-1"></a><span class="co">#&gt; 23 520.6265   2.325581</span></span>
+<span id="cb8-73"><a href="#cb8-73" tabindex="-1"></a><span class="co">#&gt; 24 522.2178   0.775194</span></span>
+<span id="cb8-74"><a href="#cb8-74" tabindex="-1"></a><span class="co">#&gt; 25 523.4456 100.000000</span></span>
+<span id="cb8-75"><a href="#cb8-75" tabindex="-1"></a><span class="co">#&gt; 26 523.7699   1.550388</span></span>
+<span id="cb8-76"><a href="#cb8-76" tabindex="-1"></a><span class="co">#&gt; 27 524.4470  41.860465</span></span>
+<span id="cb8-77"><a href="#cb8-77" tabindex="-1"></a><span class="co">#&gt; 28 525.4677   3.875969</span></span>
+<span id="cb8-78"><a href="#cb8-78" tabindex="-1"></a><span class="co">#&gt; 29 526.4229   0.775194</span></span>
+<span id="cb8-79"><a href="#cb8-79" tabindex="-1"></a><span class="co">#&gt; 30 527.4040   4.263566</span></span>
+<span id="cb8-80"><a href="#cb8-80" tabindex="-1"></a><span class="co">#&gt; 31 528.4025   0.387597</span></span>
+<span id="cb8-81"><a href="#cb8-81" tabindex="-1"></a><span class="co">#&gt; 32 529.1721   0.775194</span></span>
+<span id="cb8-82"><a href="#cb8-82" tabindex="-1"></a><span class="co">#&gt; 33 530.2812   0.775194</span></span>
+<span id="cb8-83"><a href="#cb8-83" tabindex="-1"></a><span class="co">#&gt; 34 530.9286   0.387597</span></span>
+<span id="cb8-84"><a href="#cb8-84" tabindex="-1"></a><span class="co">#&gt; 35 531.8790   0.387597</span></span>
+<span id="cb8-85"><a href="#cb8-85" tabindex="-1"></a><span class="co">#&gt; 36 532.3360   0.775194</span></span>
+<span id="cb8-86"><a href="#cb8-86" tabindex="-1"></a><span class="co">#&gt; 37 536.6188   0.387597</span></span>
+<span id="cb8-87"><a href="#cb8-87" tabindex="-1"></a><span class="co">#&gt; 38 538.9778   0.387597</span></span>
+<span id="cb8-88"><a href="#cb8-88" tabindex="-1"></a><span class="co">#&gt; 39 539.6244   0.387597</span></span>
+<span id="cb8-89"><a href="#cb8-89" tabindex="-1"></a><span class="co">#&gt; 40 541.8032   0.387597</span></span>
+<span id="cb8-90"><a href="#cb8-90" tabindex="-1"></a><span class="co">#&gt; 41 543.8115   0.387597</span></span>
+<span id="cb8-91"><a href="#cb8-91" tabindex="-1"></a><span class="co">#&gt; 42 545.5234   0.387597</span></span>
+<span id="cb8-92"><a href="#cb8-92" tabindex="-1"></a><span class="co">#&gt; 43 547.5812   1.937984</span></span>
+<span id="cb8-93"><a href="#cb8-93" tabindex="-1"></a><span class="co">#&gt; 44 548.4410   0.387597</span></span>
+<span id="cb8-94"><a href="#cb8-94" tabindex="-1"></a><span class="co">#&gt; 45 548.8799   0.387597</span></span>
+<span id="cb8-95"><a href="#cb8-95" tabindex="-1"></a><span class="co">#&gt; 46 549.5575   0.775194</span></span>
+<span id="cb8-96"><a href="#cb8-96" tabindex="-1"></a><span class="co">#&gt; 47 551.4700  38.759690</span></span>
+<span id="cb8-97"><a href="#cb8-97" tabindex="-1"></a><span class="co">#&gt; 48 552.5022  15.503876</span></span>
+<span id="cb8-98"><a href="#cb8-98" tabindex="-1"></a><span class="co">#&gt; 49 553.4861   6.976744</span></span>
+<span id="cb8-99"><a href="#cb8-99" tabindex="-1"></a><span class="co">#&gt; 50 554.8922   0.775194</span></span>
+<span id="cb8-100"><a href="#cb8-100" tabindex="-1"></a><span class="co">#&gt; 51 555.3589   0.387597</span></span>
+<span id="cb8-101"><a href="#cb8-101" tabindex="-1"></a><span class="co">#&gt; 52 555.7817   0.775194</span></span>
+<span id="cb8-102"><a href="#cb8-102" tabindex="-1"></a><span class="co">#&gt; 53 556.7309   1.162791</span></span>
+<span id="cb8-103"><a href="#cb8-103" tabindex="-1"></a><span class="co">#&gt; 54 557.2531   0.387597</span></span>
+<span id="cb8-104"><a href="#cb8-104" tabindex="-1"></a><span class="co">#&gt; 55 558.0118   0.387597</span></span>
+<span id="cb8-105"><a href="#cb8-105" tabindex="-1"></a><span class="co">#&gt; 56 559.4038   0.387597</span></span>
+<span id="cb8-106"><a href="#cb8-106" tabindex="-1"></a><span class="co">#&gt; 57 561.1909   0.387597</span></span>
+<span id="cb8-107"><a href="#cb8-107" tabindex="-1"></a><span class="co">#&gt; 58 561.7617   0.387597</span></span>
+<span id="cb8-108"><a href="#cb8-108" tabindex="-1"></a><span class="co">#&gt; 59 562.1678   0.387597</span></span>
+<span id="cb8-109"><a href="#cb8-109" tabindex="-1"></a><span class="co">#&gt; 60 562.6122   0.387597</span></span>
+<span id="cb8-110"><a href="#cb8-110" tabindex="-1"></a><span class="co">#&gt; 61 564.3788   0.387597</span></span>
+<span id="cb8-111"><a href="#cb8-111" tabindex="-1"></a><span class="co">#&gt; 62 565.3078   0.387597</span></span>
+<span id="cb8-112"><a href="#cb8-112" tabindex="-1"></a><span class="co">#&gt; 63 569.1461   0.387597</span></span>
+<span id="cb8-113"><a href="#cb8-113" tabindex="-1"></a><span class="co">#&gt; 64 572.5359   0.387597</span></span>
+<span id="cb8-114"><a href="#cb8-114" tabindex="-1"></a><span class="co">#&gt; 65 573.4073   0.387597</span></span>
+<span id="cb8-115"><a href="#cb8-115" tabindex="-1"></a><span class="co">#&gt; 66 575.5505   0.775194</span></span>
+<span id="cb8-116"><a href="#cb8-116" tabindex="-1"></a><span class="co">#&gt; 67 576.4756   0.775194</span></span>
+<span id="cb8-117"><a href="#cb8-117" tabindex="-1"></a><span class="co">#&gt; 68 577.4467   0.775194</span></span>
+<span id="cb8-118"><a href="#cb8-118" tabindex="-1"></a><span class="co">#&gt; 69 578.4893   0.775194</span></span>
+<span id="cb8-119"><a href="#cb8-119" tabindex="-1"></a><span class="co">#&gt; 70 579.5178   1.162791</span></span>
+<span id="cb8-120"><a href="#cb8-120" tabindex="-1"></a><span class="co">#&gt; 71 580.4246   1.162791</span></span>
+<span id="cb8-121"><a href="#cb8-121" tabindex="-1"></a><span class="co">#&gt; 72 595.8934   0.387597</span></span>
+<span id="cb8-122"><a href="#cb8-122" tabindex="-1"></a><span class="co">#&gt; 73 599.5848   0.387597</span></span>
+<span id="cb8-123"><a href="#cb8-123" tabindex="-1"></a><span class="co">#&gt; 74 601.4676   0.775194</span></span>
+<span id="cb8-124"><a href="#cb8-124" tabindex="-1"></a><span class="co">#&gt; 75 608.1764   0.387597</span></span>
+<span id="cb8-125"><a href="#cb8-125" tabindex="-1"></a><span class="co">#&gt; 76 661.2155   0.387597</span></span>
+<span id="cb8-126"><a href="#cb8-126" tabindex="-1"></a><span class="co">#&gt; 77 704.8252   0.387597</span></span>
+<span id="cb8-127"><a href="#cb8-127" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-128"><a href="#cb8-128" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-129"><a href="#cb8-129" tabindex="-1"></a><span class="co">#&gt; $`50067`</span></span>
+<span id="cb8-130"><a href="#cb8-130" tabindex="-1"></a><span class="co">#&gt; $`50067`$name</span></span>
+<span id="cb8-131"><a href="#cb8-131" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Triacylglycerol 14:0-16:0-16:0&quot;</span></span>
+<span id="cb8-132"><a href="#cb8-132" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-133"><a href="#cb8-133" tabindex="-1"></a><span class="co">#&gt; $`50067`$charge</span></span>
+<span id="cb8-134"><a href="#cb8-134" tabindex="-1"></a><span class="co">#&gt; [1] &quot;&quot;</span></span>
+<span id="cb8-135"><a href="#cb8-135" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-136"><a href="#cb8-136" tabindex="-1"></a><span class="co">#&gt; $`50067`$ionmode</span></span>
+<span id="cb8-137"><a href="#cb8-137" tabindex="-1"></a><span class="co">#&gt; [1] &quot;P&quot;</span></span>
+<span id="cb8-138"><a href="#cb8-138" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-139"><a href="#cb8-139" tabindex="-1"></a><span class="co">#&gt; $`50067`$prec</span></span>
+<span id="cb8-140"><a href="#cb8-140" tabindex="-1"></a><span class="co">#&gt; [1] 796.7</span></span>
+<span id="cb8-141"><a href="#cb8-141" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-142"><a href="#cb8-142" tabindex="-1"></a><span class="co">#&gt; $`50067`$formula</span></span>
+<span id="cb8-143"><a href="#cb8-143" tabindex="-1"></a><span class="co">#&gt; [1] &quot;C49H94O6&quot;</span></span>
+<span id="cb8-144"><a href="#cb8-144" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-145"><a href="#cb8-145" tabindex="-1"></a><span class="co">#&gt; $`50067`$exactmass</span></span>
+<span id="cb8-146"><a href="#cb8-146" tabindex="-1"></a><span class="co">#&gt; [1] 778.705</span></span>
+<span id="cb8-147"><a href="#cb8-147" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-148"><a href="#cb8-148" tabindex="-1"></a><span class="co">#&gt; $`50067`$inchikey</span></span>
+<span id="cb8-149"><a href="#cb8-149" tabindex="-1"></a><span class="co">#&gt; [1] &quot;JWVXCFSNEOMSHH-UHFFFAOYSA-N&quot;</span></span>
+<span id="cb8-150"><a href="#cb8-150" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-151"><a href="#cb8-151" tabindex="-1"></a><span class="co">#&gt; $`50067`$np</span></span>
+<span id="cb8-152"><a href="#cb8-152" tabindex="-1"></a><span class="co">#&gt; [1] &quot;11&quot;</span></span>
+<span id="cb8-153"><a href="#cb8-153" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-154"><a href="#cb8-154" tabindex="-1"></a><span class="co">#&gt; $`50067`$ce</span></span>
+<span id="cb8-155"><a href="#cb8-155" tabindex="-1"></a><span class="co">#&gt; [1] &quot;30 V&quot;</span></span>
+<span id="cb8-156"><a href="#cb8-156" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-157"><a href="#cb8-157" tabindex="-1"></a><span class="co">#&gt; $`50067`$rt</span></span>
+<span id="cb8-158"><a href="#cb8-158" tabindex="-1"></a><span class="co">#&gt; [1] 3727.02</span></span>
+<span id="cb8-159"><a href="#cb8-159" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-160"><a href="#cb8-160" tabindex="-1"></a><span class="co">#&gt; $`50067`$column</span></span>
+<span id="cb8-161"><a href="#cb8-161" tabindex="-1"></a><span class="co">#&gt; [1] &quot;ACQUITY UPLC BEH C18 column, Waters&quot;</span></span>
+<span id="cb8-162"><a href="#cb8-162" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-163"><a href="#cb8-163" tabindex="-1"></a><span class="co">#&gt; $`50067`$instr</span></span>
+<span id="cb8-164"><a href="#cb8-164" tabindex="-1"></a><span class="co">#&gt; [1] &quot;LC-ESI-QTOF&quot;</span></span>
+<span id="cb8-165"><a href="#cb8-165" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-166"><a href="#cb8-166" tabindex="-1"></a><span class="co">#&gt; $`50067`$msm</span></span>
+<span id="cb8-167"><a href="#cb8-167" tabindex="-1"></a><span class="co">#&gt; [1] &quot;MS1&quot;</span></span>
+<span id="cb8-168"><a href="#cb8-168" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-169"><a href="#cb8-169" tabindex="-1"></a><span class="co">#&gt; $`50067`$spectra</span></span>
+<span id="cb8-170"><a href="#cb8-170" tabindex="-1"></a><span class="co">#&gt;          mz   ins</span></span>
+<span id="cb8-171"><a href="#cb8-171" tabindex="-1"></a><span class="co">#&gt; 1  245.2631  12.5</span></span>
+<span id="cb8-172"><a href="#cb8-172" tabindex="-1"></a><span class="co">#&gt; 2  263.2137  12.5</span></span>
+<span id="cb8-173"><a href="#cb8-173" tabindex="-1"></a><span class="co">#&gt; 3  523.4880 100.0</span></span>
+<span id="cb8-174"><a href="#cb8-174" tabindex="-1"></a><span class="co">#&gt; 4  524.4532  75.0</span></span>
+<span id="cb8-175"><a href="#cb8-175" tabindex="-1"></a><span class="co">#&gt; 5  525.4467  25.0</span></span>
+<span id="cb8-176"><a href="#cb8-176" tabindex="-1"></a><span class="co">#&gt; 6  526.6809  12.5</span></span>
+<span id="cb8-177"><a href="#cb8-177" tabindex="-1"></a><span class="co">#&gt; 7  537.4563  25.0</span></span>
+<span id="cb8-178"><a href="#cb8-178" tabindex="-1"></a><span class="co">#&gt; 8  537.8970  12.5</span></span>
+<span id="cb8-179"><a href="#cb8-179" tabindex="-1"></a><span class="co">#&gt; 9  551.4921  37.5</span></span>
+<span id="cb8-180"><a href="#cb8-180" tabindex="-1"></a><span class="co">#&gt; 10 552.5740  12.5</span></span>
+<span id="cb8-181"><a href="#cb8-181" tabindex="-1"></a><span class="co">#&gt; 11 575.5162  37.5</span></span>
+<span id="cb8-182"><a href="#cb8-182" tabindex="-1"></a></span>
+<span id="cb8-183"><a href="#cb8-183" tabindex="-1"></a><span class="co"># if you know the inchikey</span></span>
+<span id="cb8-184"><a href="#cb8-184" tabindex="-1"></a>compoundinchikey <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;KQSFNXMDCOFFGW-GNDIVNLPSA-N&#39;</span>,<span class="st">&#39;WRYJYFCCMSVEPQ-ORAXXRKOSA-N&#39;</span>)</span>
+<span id="cb8-185"><a href="#cb8-185" tabindex="-1"></a>databaseinchikey <span class="ot">&lt;-</span> <span class="fu">sapply</span>(monahrms1,<span class="cf">function</span>(x) x<span class="sc">$</span>inchikey)</span>
+<span id="cb8-186"><a href="#cb8-186" tabindex="-1"></a>compoundidx <span class="ot">&lt;-</span> databaseinchikey<span class="sc">%in%</span>compoundinchikey</span>
+<span id="cb8-187"><a href="#cb8-187" tabindex="-1"></a>compound <span class="ot">&lt;-</span> monahrms1[compoundidx]</span>
+<span id="cb8-188"><a href="#cb8-188" tabindex="-1"></a>compound</span>
+<span id="cb8-189"><a href="#cb8-189" tabindex="-1"></a><span class="co">#&gt; $`51812`</span></span>
+<span id="cb8-190"><a href="#cb8-190" tabindex="-1"></a><span class="co">#&gt; $`51812`$name</span></span>
+<span id="cb8-191"><a href="#cb8-191" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Araloside A&quot;</span></span>
+<span id="cb8-192"><a href="#cb8-192" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-193"><a href="#cb8-193" tabindex="-1"></a><span class="co">#&gt; $`51812`$charge</span></span>
+<span id="cb8-194"><a href="#cb8-194" tabindex="-1"></a><span class="co">#&gt; [1] &quot;&quot;</span></span>
+<span id="cb8-195"><a href="#cb8-195" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-196"><a href="#cb8-196" tabindex="-1"></a><span class="co">#&gt; $`51812`$ionmode</span></span>
+<span id="cb8-197"><a href="#cb8-197" tabindex="-1"></a><span class="co">#&gt; [1] &quot;N&quot;</span></span>
+<span id="cb8-198"><a href="#cb8-198" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-199"><a href="#cb8-199" tabindex="-1"></a><span class="co">#&gt; $`51812`$prec</span></span>
+<span id="cb8-200"><a href="#cb8-200" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb8-201"><a href="#cb8-201" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-202"><a href="#cb8-202" tabindex="-1"></a><span class="co">#&gt; $`51812`$formula</span></span>
+<span id="cb8-203"><a href="#cb8-203" tabindex="-1"></a><span class="co">#&gt; [1] &quot;C47H74O18&quot;</span></span>
+<span id="cb8-204"><a href="#cb8-204" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-205"><a href="#cb8-205" tabindex="-1"></a><span class="co">#&gt; $`51812`$exactmass</span></span>
+<span id="cb8-206"><a href="#cb8-206" tabindex="-1"></a><span class="co">#&gt; [1] 926.4875</span></span>
+<span id="cb8-207"><a href="#cb8-207" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-208"><a href="#cb8-208" tabindex="-1"></a><span class="co">#&gt; $`51812`$inchikey</span></span>
+<span id="cb8-209"><a href="#cb8-209" tabindex="-1"></a><span class="co">#&gt; [1] &quot;KQSFNXMDCOFFGW-GNDIVNLPSA-N&quot;</span></span>
+<span id="cb8-210"><a href="#cb8-210" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-211"><a href="#cb8-211" tabindex="-1"></a><span class="co">#&gt; $`51812`$np</span></span>
+<span id="cb8-212"><a href="#cb8-212" tabindex="-1"></a><span class="co">#&gt; [1] &quot;34&quot;</span></span>
+<span id="cb8-213"><a href="#cb8-213" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-214"><a href="#cb8-214" tabindex="-1"></a><span class="co">#&gt; $`51812`$ce</span></span>
+<span id="cb8-215"><a href="#cb8-215" tabindex="-1"></a><span class="co">#&gt; [1] &quot;&quot;</span></span>
+<span id="cb8-216"><a href="#cb8-216" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-217"><a href="#cb8-217" tabindex="-1"></a><span class="co">#&gt; $`51812`$rt</span></span>
+<span id="cb8-218"><a href="#cb8-218" tabindex="-1"></a><span class="co">#&gt; [1] 912.347</span></span>
+<span id="cb8-219"><a href="#cb8-219" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-220"><a href="#cb8-220" tabindex="-1"></a><span class="co">#&gt; $`51812`$column</span></span>
+<span id="cb8-221"><a href="#cb8-221" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Waters Atlantis T3 (2.1 x 150 mm, 5 um)&quot;</span></span>
+<span id="cb8-222"><a href="#cb8-222" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-223"><a href="#cb8-223" tabindex="-1"></a><span class="co">#&gt; $`51812`$instr</span></span>
+<span id="cb8-224"><a href="#cb8-224" tabindex="-1"></a><span class="co">#&gt; [1] &quot;LC-ESI-ITTOF&quot;</span></span>
+<span id="cb8-225"><a href="#cb8-225" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-226"><a href="#cb8-226" tabindex="-1"></a><span class="co">#&gt; $`51812`$msm</span></span>
+<span id="cb8-227"><a href="#cb8-227" tabindex="-1"></a><span class="co">#&gt; [1] &quot;MS1&quot;</span></span>
+<span id="cb8-228"><a href="#cb8-228" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-229"><a href="#cb8-229" tabindex="-1"></a><span class="co">#&gt; $`51812`$spectra</span></span>
+<span id="cb8-230"><a href="#cb8-230" tabindex="-1"></a><span class="co">#&gt;           mz        ins</span></span>
+<span id="cb8-231"><a href="#cb8-231" tabindex="-1"></a><span class="co">#&gt; 1   215.2013   0.976541</span></span>
+<span id="cb8-232"><a href="#cb8-232" tabindex="-1"></a><span class="co">#&gt; 2   485.2377   4.109053</span></span>
+<span id="cb8-233"><a href="#cb8-233" tabindex="-1"></a><span class="co">#&gt; 3   485.7246   0.976541</span></span>
+<span id="cb8-234"><a href="#cb8-234" tabindex="-1"></a><span class="co">#&gt; 4   486.2331   0.774378</span></span>
+<span id="cb8-235"><a href="#cb8-235" tabindex="-1"></a><span class="co">#&gt; 5   492.2482  13.645963</span></span>
+<span id="cb8-236"><a href="#cb8-236" tabindex="-1"></a><span class="co">#&gt; 6   492.7386   7.021813</span></span>
+<span id="cb8-237"><a href="#cb8-237" tabindex="-1"></a><span class="co">#&gt; 7   493.2507   2.910515</span></span>
+<span id="cb8-238"><a href="#cb8-238" tabindex="-1"></a><span class="co">#&gt; 8   493.7417   1.174814</span></span>
+<span id="cb8-239"><a href="#cb8-239" tabindex="-1"></a><span class="co">#&gt; 9   508.2165   0.774378</span></span>
+<span id="cb8-240"><a href="#cb8-240" tabindex="-1"></a><span class="co">#&gt; 10  925.4726 100.000000</span></span>
+<span id="cb8-241"><a href="#cb8-241" tabindex="-1"></a><span class="co">#&gt; 11  925.9696  82.191145</span></span>
+<span id="cb8-242"><a href="#cb8-242" tabindex="-1"></a><span class="co">#&gt; 12  926.2328   1.491368</span></span>
+<span id="cb8-243"><a href="#cb8-243" tabindex="-1"></a><span class="co">#&gt; 13  926.4668  64.071599</span></span>
+<span id="cb8-244"><a href="#cb8-244" tabindex="-1"></a><span class="co">#&gt; 14  926.9934  21.107286</span></span>
+<span id="cb8-245"><a href="#cb8-245" tabindex="-1"></a><span class="co">#&gt; 15  927.4908  10.436486</span></span>
+<span id="cb8-246"><a href="#cb8-246" tabindex="-1"></a><span class="co">#&gt; 16  927.9884   2.291380</span></span>
+<span id="cb8-247"><a href="#cb8-247" tabindex="-1"></a><span class="co">#&gt; 17  928.4569   1.493936</span></span>
+<span id="cb8-248"><a href="#cb8-248" tabindex="-1"></a><span class="co">#&gt; 18  982.4831   2.493279</span></span>
+<span id="cb8-249"><a href="#cb8-249" tabindex="-1"></a><span class="co">#&gt; 19  982.9651   1.161569</span></span>
+<span id="cb8-250"><a href="#cb8-250" tabindex="-1"></a><span class="co">#&gt; 20  988.4561   1.812136</span></span>
+<span id="cb8-251"><a href="#cb8-251" tabindex="-1"></a><span class="co">#&gt; 21 1039.4615   2.945574</span></span>
+<span id="cb8-252"><a href="#cb8-252" tabindex="-1"></a><span class="co">#&gt; 22 1040.4841   1.914932</span></span>
+<span id="cb8-253"><a href="#cb8-253" tabindex="-1"></a><span class="co">#&gt; 23 1041.4763   0.774378</span></span>
+<span id="cb8-254"><a href="#cb8-254" tabindex="-1"></a><span class="co">#&gt; 24 1388.7144  16.350562</span></span>
+<span id="cb8-255"><a href="#cb8-255" tabindex="-1"></a><span class="co">#&gt; 25 1389.2157  28.941044</span></span>
+<span id="cb8-256"><a href="#cb8-256" tabindex="-1"></a><span class="co">#&gt; 26 1389.7172  21.982023</span></span>
+<span id="cb8-257"><a href="#cb8-257" tabindex="-1"></a><span class="co">#&gt; 27 1390.2188  15.618221</span></span>
+<span id="cb8-258"><a href="#cb8-258" tabindex="-1"></a><span class="co">#&gt; 28 1390.7563   8.083492</span></span>
+<span id="cb8-259"><a href="#cb8-259" tabindex="-1"></a><span class="co">#&gt; 29 1391.2222   3.260675</span></span>
+<span id="cb8-260"><a href="#cb8-260" tabindex="-1"></a><span class="co">#&gt; 30 1391.7957   0.740115</span></span>
+<span id="cb8-261"><a href="#cb8-261" tabindex="-1"></a><span class="co">#&gt; 31 1852.9233   1.678967</span></span>
+<span id="cb8-262"><a href="#cb8-262" tabindex="-1"></a><span class="co">#&gt; 32 1853.4610   0.774378</span></span>
+<span id="cb8-263"><a href="#cb8-263" tabindex="-1"></a><span class="co">#&gt; 33 1854.3713   0.637322</span></span>
+<span id="cb8-264"><a href="#cb8-264" tabindex="-1"></a><span class="co">#&gt; 34 1973.4138   0.740115</span></span>
+<span id="cb8-265"><a href="#cb8-265" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-266"><a href="#cb8-266" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-267"><a href="#cb8-267" tabindex="-1"></a><span class="co">#&gt; $`51940`</span></span>
+<span id="cb8-268"><a href="#cb8-268" tabindex="-1"></a><span class="co">#&gt; $`51940`$name</span></span>
+<span id="cb8-269"><a href="#cb8-269" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Saikosaponin B2&quot;</span></span>
+<span id="cb8-270"><a href="#cb8-270" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-271"><a href="#cb8-271" tabindex="-1"></a><span class="co">#&gt; $`51940`$charge</span></span>
+<span id="cb8-272"><a href="#cb8-272" tabindex="-1"></a><span class="co">#&gt; [1] &quot;&quot;</span></span>
+<span id="cb8-273"><a href="#cb8-273" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-274"><a href="#cb8-274" tabindex="-1"></a><span class="co">#&gt; $`51940`$ionmode</span></span>
+<span id="cb8-275"><a href="#cb8-275" tabindex="-1"></a><span class="co">#&gt; [1] &quot;N&quot;</span></span>
+<span id="cb8-276"><a href="#cb8-276" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-277"><a href="#cb8-277" tabindex="-1"></a><span class="co">#&gt; $`51940`$prec</span></span>
+<span id="cb8-278"><a href="#cb8-278" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb8-279"><a href="#cb8-279" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-280"><a href="#cb8-280" tabindex="-1"></a><span class="co">#&gt; $`51940`$formula</span></span>
+<span id="cb8-281"><a href="#cb8-281" tabindex="-1"></a><span class="co">#&gt; [1] &quot;C42H68O13&quot;</span></span>
+<span id="cb8-282"><a href="#cb8-282" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-283"><a href="#cb8-283" tabindex="-1"></a><span class="co">#&gt; $`51940`$exactmass</span></span>
+<span id="cb8-284"><a href="#cb8-284" tabindex="-1"></a><span class="co">#&gt; [1] 780.466</span></span>
+<span id="cb8-285"><a href="#cb8-285" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-286"><a href="#cb8-286" tabindex="-1"></a><span class="co">#&gt; $`51940`$inchikey</span></span>
+<span id="cb8-287"><a href="#cb8-287" tabindex="-1"></a><span class="co">#&gt; [1] &quot;WRYJYFCCMSVEPQ-ORAXXRKOSA-N&quot;</span></span>
+<span id="cb8-288"><a href="#cb8-288" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-289"><a href="#cb8-289" tabindex="-1"></a><span class="co">#&gt; $`51940`$np</span></span>
+<span id="cb8-290"><a href="#cb8-290" tabindex="-1"></a><span class="co">#&gt; [1] &quot;3&quot;</span></span>
+<span id="cb8-291"><a href="#cb8-291" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-292"><a href="#cb8-292" tabindex="-1"></a><span class="co">#&gt; $`51940`$ce</span></span>
+<span id="cb8-293"><a href="#cb8-293" tabindex="-1"></a><span class="co">#&gt; [1] &quot;&quot;</span></span>
+<span id="cb8-294"><a href="#cb8-294" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-295"><a href="#cb8-295" tabindex="-1"></a><span class="co">#&gt; $`51940`$rt</span></span>
+<span id="cb8-296"><a href="#cb8-296" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb8-297"><a href="#cb8-297" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-298"><a href="#cb8-298" tabindex="-1"></a><span class="co">#&gt; $`51940`$column</span></span>
+<span id="cb8-299"><a href="#cb8-299" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Waters Atlantis T3 (2.1 x 150 mm, 5 um)&quot;</span></span>
+<span id="cb8-300"><a href="#cb8-300" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-301"><a href="#cb8-301" tabindex="-1"></a><span class="co">#&gt; $`51940`$instr</span></span>
+<span id="cb8-302"><a href="#cb8-302" tabindex="-1"></a><span class="co">#&gt; [1] &quot;LC-ESI-ITTOF&quot;</span></span>
+<span id="cb8-303"><a href="#cb8-303" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-304"><a href="#cb8-304" tabindex="-1"></a><span class="co">#&gt; $`51940`$msm</span></span>
+<span id="cb8-305"><a href="#cb8-305" tabindex="-1"></a><span class="co">#&gt; [1] &quot;MS1&quot;</span></span>
+<span id="cb8-306"><a href="#cb8-306" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-307"><a href="#cb8-307" tabindex="-1"></a><span class="co">#&gt; $`51940`$spectra</span></span>
+<span id="cb8-308"><a href="#cb8-308" tabindex="-1"></a><span class="co">#&gt;         mz      ins</span></span>
+<span id="cb8-309"><a href="#cb8-309" tabindex="-1"></a><span class="co">#&gt; 1 112.9847  23.9250</span></span>
+<span id="cb8-310"><a href="#cb8-310" tabindex="-1"></a><span class="co">#&gt; 2 779.4593 100.0000</span></span>
+<span id="cb8-311"><a href="#cb8-311" tabindex="-1"></a><span class="co">#&gt; 3 780.4455  35.2949</span></span></code></pre></div>
+<h3 id="multiple-files-with-experiment-design">Multiple files with
+experiment design</h3>
+<p>You could stimulate two groups of raw data with different peak
+heights for the same compounds. Retention time will follow a uniform
+distribution. 100 compounds could be selected randomly and base peaks’
+signal to noise ratio could be sampled from 100 to 1000. When signal to
+noise ratio is fixed for all samples, the peaks height will still be the
+only changed parameters for both groups. Each group contain 10 samples
+and 30% compounds are changed between case and control groups.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&#39;case&#39;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&#39;control&#39;</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co"># set different peak height for 100 compounds</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>ph1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">5</span>,<span class="dv">30</span>),<span class="fu">rep</span>(<span class="dv">10</span>,<span class="dv">40</span>),<span class="fu">rep</span>(<span class="dv">15</span>,<span class="dv">30</span>))</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>ph2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">5</span>,<span class="dv">20</span>),<span class="fu">rep</span>(<span class="dv">10</span>,<span class="dv">30</span>),<span class="fu">rep</span>(<span class="dv">15</span>,<span class="dv">50</span>))</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co"># set retention time for 100 compounds. When the peak width is set as a single value, the simulated base peak width will be from a poisson distribution with this value as lambda. </span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>rt <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">10</span>,<span class="dv">590</span>,<span class="at">length.out=</span><span class="dv">100</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co"># select compounds from database</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>compound <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4000</span>),<span class="dv">100</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co"># select signal to noise ratio for a larger dynamic range</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>sn <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">100</span><span class="sc">:</span><span class="dv">10000</span>),<span class="dv">100</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)){</span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>  <span class="fu">simmzml</span>(<span class="at">name=</span><span class="fu">paste0</span>(<span class="st">&#39;case/case&#39;</span>,i),<span class="at">db=</span>monahrms1,<span class="at">pheight =</span> ph1,<span class="at">compound=</span>compound,<span class="at">rtime =</span> rt, <span class="at">sn=</span>sn)</span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>}</span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)){</span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>  <span class="fu">simmzml</span>(<span class="at">name=</span><span class="fu">paste0</span>(<span class="st">&#39;control/control&#39;</span>,i),<span class="at">db=</span>monahrms1,<span class="at">pheight =</span> ph2,<span class="at">compound=</span>compound,<span class="at">rtime =</span> rt, <span class="at">sn=</span>sn)</span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a>}</span></code></pre></div>
+<p>Then you could find 10 mzML files in case sub folder and another 10
+mzML files in control sub folder, as well as corresponding csv files
+with m/z, retention time and compound name of the peaks.</p>
+<p>If you prefer to simulate retention time shifts for different
+samples, you could add a random number to the retention time of each
+compound.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>rt0 <span class="ot">&lt;-</span> rt</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)){</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>        rt <span class="ot">&lt;-</span> rt0 <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">100</span>) </span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>        <span class="fu">simmzml</span>(<span class="at">name=</span><span class="fu">paste0</span>(<span class="st">&#39;case/case&#39;</span>,i),<span class="at">db=</span>monahrms1,<span class="at">pwidth =</span> pw1,<span class="at">compound=</span>compound,<span class="at">rtime =</span> rt, <span class="at">sn=</span>sn)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="chromatography-peaks">Chromatography peaks</h3>
+<p>You could also use <code>simmzml</code> to stimulate tailing/leading
+peaks by defining the tailing factor of the peaks. When the tailing
+factor is lower than 1, the peaks are leading peaks. When the tailing
+factor is larger than 1, the peaks are tailing peaks.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># leading peaks</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">simmzml</span>(<span class="at">name=</span><span class="st">&#39;test&#39;</span>,<span class="at">db=</span>monahrms1,<span class="at">pwidth =</span> <span class="dv">10</span>,<span class="at">compound=</span><span class="dv">1</span>,<span class="at">rtime =</span> <span class="dv">100</span>, <span class="at">sn=</span><span class="dv">10</span>,<span class="at">tailingfactor =</span> <span class="fl">0.8</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co"># tailing peaks</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="fu">simmzml</span>(<span class="at">name=</span><span class="st">&#39;test&#39;</span>,<span class="at">db=</span>monahrms1,<span class="at">pwidth =</span> <span class="dv">10</span>,<span class="at">compound=</span><span class="dv">1</span>,<span class="at">rtime =</span> <span class="dv">100</span>, <span class="at">sn=</span><span class="dv">10</span>,<span class="at">tailingfactor =</span> <span class="fl">1.5</span>)</span></code></pre></div>
+<h3 id="matrix-stimulation">matrix stimulation</h3>
+<p>You could also input a m/z vector as matrix masses. Those masses will
+generate background baseline signals. By default, the mass vector is
+from matrix samples previous <a href="https://jcheminf.biomedcentral.com/articles/10.1186/s13321-022-00586-8">published</a>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">data</span>(mzm)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">simmzml</span>(<span class="at">name=</span><span class="st">&#39;test&#39;</span>,<span class="at">db=</span>monahrms1,<span class="at">pwidth =</span> <span class="dv">10</span>,<span class="at">compound=</span><span class="dv">1</span>,<span class="at">rtime =</span> <span class="dv">100</span>, <span class="at">sn=</span><span class="dv">10</span>,<span class="at">matrixmz =</span> mzm,<span class="at">matrix =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<h3 id="blank-simulation">Blank simulation</h3>
+<p>You could easily generate blank matrix or solvent blank samples using
+<code>simmzml_blank</code>. You could also define a dynamic baseline to
+simulate gradient elution baseline shift.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># pure blank with constant baseline</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">simmzml_blank</span>(<span class="st">&quot;pure_blank&quot;</span>, <span class="at">rtrange=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">baseline=</span><span class="dv">100</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co"># blank with gradient baseline shift</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>dynamic_baseline <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">100</span>, <span class="dv">500</span>, <span class="at">length.out=</span><span class="dv">501</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="fu">simmzml_blank</span>(<span class="st">&quot;gradient_blank&quot;</span>, <span class="at">rtrange=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>), <span class="at">baseline=</span>dynamic_baseline)</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co"># blank with experimental matrix peaks</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="fu">data</span>(mzm)</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="fu">simmzml_blank</span>(<span class="st">&quot;serum_matrix&quot;</span>, <span class="at">matrixmz =</span> mzm)</span></code></pre></div>
+<h3 id="retention-time-simulation">Retention time simulation</h3>
+<p>We included column types and experimental retention time (in seconds)
+for LC-MS data and retention index for GC-MS data. You could use the
+following code to access such information.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">data</span>(monahrms1)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="co"># select compound by their index</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>compound <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>column <span class="ot">&lt;-</span> <span class="fu">sapply</span>(monahrms1[compound],<span class="cf">function</span>(x) x<span class="sc">$</span>column)</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co"># print column</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>column</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt;                                 50050                                 50051 </span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt; &quot;ACQUITY UPLC BEH C18 column, Waters&quot; &quot;ACQUITY UPLC BEH C18 column, Waters&quot; </span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co">#&gt;                                 50052 </span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co">#&gt; &quot;ACQUITY UPLC BEH C18 column, Waters&quot;</span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a>retentiontime <span class="ot">&lt;-</span> <span class="fu">sapply</span>(monahrms1[compound],<span class="cf">function</span>(x) x<span class="sc">$</span>rt)</span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co"># print retention time</span></span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a>retentiontime</span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="co">#&gt;   50050   50051   50052 </span></span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a><span class="co">#&gt; 3969.40 3729.80 3712.13</span></span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;hmdbcms&quot;</span>)</span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a><span class="co"># select compound by their index</span></span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a>compound <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">300</span>)</span>
+<span id="cb14-19"><a href="#cb14-19" tabindex="-1"></a>retentionindex <span class="ot">&lt;-</span> <span class="fu">sapply</span>(hmdbcms[compound],<span class="cf">function</span>(x) x<span class="sc">$</span>rti)</span>
+<span id="cb14-20"><a href="#cb14-20" tabindex="-1"></a><span class="co"># print retention index</span></span>
+<span id="cb14-21"><a href="#cb14-21" tabindex="-1"></a>retentionindex</span>
+<span id="cb14-22"><a href="#cb14-22" tabindex="-1"></a><span class="co">#&gt; [1] 1807.71 2048.73 2638.99</span></span></code></pre></div>
+<h2 id="peaks-list-simulation">Peaks list simulation</h2>
+<p>You could also use <code>mzrtsim</code> to make simulation of peak
+list.</p>
+<p>Here we make a simulation of 100 compounds from selected database
+with two conditions and three batches. 5 percentage of the peaks were
+influenced by conditions and 10 percentage of the peaks were influenced
+by batch effects. Three different type could be simulated: monotonic,
+random and block. You could also bind batch type, for example, ‘mb’
+means the simulation would contain both monotonic and block batch
+effects. ‘db’ means the spectra database to be used for simulation as
+metioned in raw data simulation section.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">library</span>(mzrtsim)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;monams1&quot;</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>simdata <span class="ot">&lt;-</span> <span class="fu">mzrtsim</span>(<span class="at">ncomp =</span> <span class="dv">100</span>, <span class="at">ncond =</span> <span class="dv">2</span>, <span class="at">ncpeaks =</span> <span class="fl">0.05</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="at">nbatch =</span> <span class="dv">3</span>, <span class="at">nbpeaks =</span> <span class="fl">0.1</span>, <span class="at">npercond =</span> <span class="dv">10</span>, <span class="at">nperbatch =</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">7</span>), <span class="at">seed =</span> <span class="dv">42</span>, <span class="at">batchtype =</span> <span class="st">&#39;mb&#39;</span>, <span class="at">db=</span>monams1)</span></code></pre></div>
+<p>You could save the simulated data into multiple csv files by
+<code>simdata</code> function. <code>simraw.csv</code> could be used for
+metaboanalyst. <code>simraw2.csv</code> show the raw peaks list.
+<code>simcon.csv</code> show peaks influenced by conditions
+only.<code>simbatchmatrix.csv</code> show peaks influnced by batch
+effects only. <code>simbat.csv</code> show peaks influenced by batch
+effects and conditions. <code>simcomp.csv</code> show independent peaks
+influenced by conditions and batch effects.
+<code>simcompchange.csv</code> show the conditions changes of each
+groups. <code>simblockbatchange.csv</code> show the block batch changes
+of each groups. <code>simmonobatchange.csv</code> show the monotonic
+batch changes of each group.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">simdata</span>(sim,<span class="at">name =</span> <span class="st">&quot;sim&quot;</span>)</span></code></pre></div>
+
+</body>
+</html>

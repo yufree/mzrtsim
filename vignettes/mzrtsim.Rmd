@@ -59,6 +59,19 @@ ground-truth maximum intensity of each simulated peak, accounting for
 response factor, peak height, and chromatographic profile. This is useful
 for evaluating peak detection algorithms.
 
+## MS2 Simulation
+
+Beyond MS1 full scans, `mzrtsim` supports MS2 and MSn simulation by providing precursor ion details:
+
+```{r ms2, eval=FALSE}
+# Simulate MS2 data for a precursor at m/z 425.2
+simmzml(db = monahrms1, name = "ms2_targeted", n = 1,
+        ms_level = 2, precursor_mz = 425.2, 
+        collision_energy = 30, isolation_window = 1.0)
+```
+
+The underlying engine handles binary data encoding via the `base64enc` package, removing the need for `mzR` or other heavy dependencies for file generation.
+
 ## Tailing and Leading Peaks
 
 Control chromatographic peak shape via `tailingfactor`:
@@ -127,6 +140,23 @@ str(sim, max.level = 1)
 The returned list includes the data matrix, group assignments, and
 separate matrices for condition-only and batch-only effects. Use
 `simdata()` to export all components as CSV files.
+
+## SummarizedExperiment Output
+
+For seamless integration with Bioconductor workflows, use `mzrtsim_se()`
+which wraps the simulation in a `SummarizedExperiment`:
+
+```{r se}
+se <- mzrtsim_se(ncomp = 20, ncond = 2, ncpeaks = 0.1,
+                 nbatch = 2, nbpeaks = 0.1, npercond = 5,
+                 nperbatch = c(5, 5), seed = 42,
+                 batchtype = "mb", db = hmdbcms)
+se
+
+# Access components via standard Bioconductor accessors
+head(SummarizedExperiment::assay(se, "counts")[, 1:3])
+SummarizedExperiment::colData(se)
+```
 
 # Batch Correction Utilities
 
