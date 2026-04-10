@@ -29,7 +29,14 @@ simmzml(
   unique = FALSE,
   matrix = FALSE,
   matrixmz = NULL,
-  background = NULL
+  background = NULL,
+  ms_level = 1L,
+  precursor_mz = NULL,
+  precursor_charge = NULL,
+  precursor_intensity = NULL,
+  collision_energy = NULL,
+  isolation_window = 0.7,
+  activation = "CID"
 )
 }
 \arguments{
@@ -82,6 +89,22 @@ simmzml(
 \item{matrixmz}{custom matrix m/z vector, default NULL and predefined list from serum blank will be used.}
 
 \item{background}{mzML file path for background simulation, default NULL}
+
+\item{ms_level}{integer vector of MS levels per scan, or scalar (default 1L)}
+
+\item{precursor_mz}{numeric vector of precursor m/z per scan (NA for MS1)}
+
+\item{precursor_charge}{integer vector of charge states (optional, NA ok)}
+
+\item{precursor_intensity}{numeric vector of precursor intensities (optional)}
+
+\item{collision_energy}{numeric vector of collision energies (optional, NA ok)}
+
+\item{isolation_window}{numeric scalar or vector for half-width of
+isolation window in m/z (default 0.7)}
+
+\item{activation}{character activation method: "CID", "HCD", "ETD",
+"ECD", "IRMPD", or "SID" (default "CID"). Can be a vector per scan.}
 }
 \value{
 one mzML file for simulated data and one csv file the simulated compounds with retention time, m/z and name
